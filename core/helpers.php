@@ -15,3 +15,12 @@ if (! function_exists('app')) {
         return $app->get($key);
     }
 }
+
+if (! function_exists('pre')) {
+    function pre($value) {
+        echo "<pre>"; 
+        print_r($value);
+        echo "</pre>";
+    }
+}
+

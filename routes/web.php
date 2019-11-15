@@ -8,4 +8,4 @@ app('router')->get('test', function(){
 
 app('router')->post('test', 'TestController@test');
 
-print_r(app('router')->list());
+pre(app('router')->list());
