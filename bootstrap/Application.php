@@ -16,8 +16,12 @@ class Application{
      * @return void
      */
     private function __construct(){
-    	// Register Core Classes
+    	
+        // Register Core Classes
     	$this->coreClasses();
+
+        // Load Routes
+        $this->loadWebRoutes();
     }
 
     public static function getInstance()
@@ -32,7 +36,7 @@ class Application{
     public function coreClasses()
     {
         return [
-            'session' => 'Core\Session\SessionManager'
+            'router' => 'Core\Router\RouterManager',
         ];
     }
 
@@ -75,10 +79,8 @@ class Application{
         $this->container[$key] = $value;
     }
 
-    public function run()
+    public function loadWebRoutes()
     {
-        return $this->session->get();
+        require_once '../routes/web.php';
     }
-
-
 }

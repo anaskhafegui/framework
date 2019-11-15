@@ -18,4 +18,4 @@ require "../vendor/autoload.php";
 
 $app = Bootstrap\Application::getInstance();
 
-echo $app->run();
+return $app;
