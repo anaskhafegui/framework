@@ -1,14 +1,13 @@
 <?php
-/**
- * View render
- *
- * @param string $path
- * @param array $data
- * @return mixed
- */
 
 use Core\Application;
 
+/**
+ * resolve a class from container
+ *
+ * @param string $key
+ * @return mixed
+ */
 if (! function_exists('app')) {
     function app($key) {
         $app = Application::getInstance();
@@ -16,6 +15,12 @@ if (! function_exists('app')) {
     }
 }
 
+/**
+ * display with print_r
+ *
+ * @param string $value
+ * @return mixed
+ */
 if (! function_exists('pre')) {
     function pre($value) {
         echo "<pre>"; 

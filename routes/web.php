@@ -1,5 +1,6 @@
 <?php 
 
+// Some test routes
 app('router')->get('/', 'HomeController@index');
 
 app('router')->get('test', function(){
