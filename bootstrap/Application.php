@@ -36,7 +36,7 @@ class Application{
     public function coreClasses()
     {
         return [
-            'router' => 'Core\Router\RouterManager',
+            'router' => 'Core\Router\Router',
         ];
     }
 
