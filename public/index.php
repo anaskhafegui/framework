@@ -16,5 +16,5 @@ require "../vendor/autoload.php";
 |---------------------------------------------- 
 */
 
-$app = Bootstrap\Application::getInstance();
+$app = Core\Application::getInstance();
 return $app;

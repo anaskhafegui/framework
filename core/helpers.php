@@ -7,7 +7,7 @@
  * @return mixed
  */
 
-use Bootstrap\Application;
+use Core\Application;
 
 if (! function_exists('app')) {
     function app($key) {

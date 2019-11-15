@@ -1,6 +1,6 @@
 <?php
 
-namespace Bootstrap;
+namespace Core;
 
 use Exception;
 

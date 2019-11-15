@@ -15,20 +15,12 @@ class ComposerStaticInitd20adc55c52f16c15183337cdfb3c0fc
         array (
             'Core\\' => 5,
         ),
-        'B' => 
-        array (
-            'Bootstrap\\' => 10,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/core',
-        ),
-        'Bootstrap\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/bootstrap',
         ),
     );
 

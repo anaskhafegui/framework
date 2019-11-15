@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Core\\' => array($baseDir . '/core'),
-    'Bootstrap\\' => array($baseDir . '/bootstrap'),
 );
