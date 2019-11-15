@@ -1,9 +1,11 @@
 <?php 
 
-$this->router->get('/', 'HomeController@index');
+app('router')->get('/', 'HomeController@index');
 
-$this->router->get('test', function(){
+app('router')->get('test', function(){
     return 'callback';
 });
 
-$this->router->post('test', 'TestController@test');
+app('router')->post('test', 'TestController@test');
+
+print_r(app('router')->list());

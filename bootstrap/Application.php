@@ -22,6 +22,9 @@ class Application{
 
         // Load Routes
         $this->loadWebRoutes();
+
+        // Load Helpers
+        $this->loadHelpers();
     }
 
     public static function getInstance()
@@ -82,5 +85,10 @@ class Application{
     public function loadWebRoutes()
     {
         require_once '../routes/web.php';
+    }
+
+    public function loadHelpers()
+    {
+        require_once '../core/helpers.php';
     }
 }
