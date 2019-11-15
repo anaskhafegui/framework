@@ -10,21 +10,18 @@ class Application{
 
     private static $instance;
 
+    private const CORE_CLASSES = [
+        'router' => 'Core\Router\Router',
+    ];
+
 	/**
      * Create a new application instance.
      *
      * @return void
      */
     private function __construct(){
-    	
-        // Register Core Classes
-    	$this->coreClasses();
-
         // Load Routes
         $this->loadWebRoutes();
-
-        // Load Helpers
-        $this->loadHelpers();
     }
 
     public static function getInstance()
@@ -36,22 +33,15 @@ class Application{
         return static::$instance;
     }
 
-    public function coreClasses()
-    {
-        return [
-            'router' => 'Core\Router\Router',
-        ];
-    }
-
     public function registerCoreClasses(){
 
-    	foreach ($this->coreClasses() as $key=>$class){
+    	foreach (self::CORE_CLASSES as $key=>$class){
     		$this->instantiate($key);
     	}
     }
 
     public function instantiate($key){
-    	$object = isset($this->coreClasses()[$key]) ? $this->coreClasses()[$key] : null;
+    	$object = isset(self::CORE_CLASSES[$key]) ? self::CORE_CLASSES[$key] : null;
 
     	return new $object;
     }
@@ -63,7 +53,7 @@ class Application{
 
     public function get($key)
     {
-        if (! isset($this->coreClasses()[$key])) throw new Exception("Class Not Found");
+        if (! isset(self::CORE_CLASSES[$key])) throw new Exception("Class Not Found");
         
         if(! $this->has($key)){
             $this->set($key, $this->instantiate($key));
@@ -85,10 +75,5 @@ class Application{
     public function loadWebRoutes()
     {
         require_once '../routes/web.php';
-    }
-
-    public function loadHelpers()
-    {
-        require_once '../core/helpers.php';
     }
 }
