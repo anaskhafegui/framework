@@ -39,11 +39,11 @@ class Application{
     public function registerCoreClasses(){
 
     	foreach ($this->coreClasses() as $key=>$class){
-    		$this->instanciate($key);
+    		$this->instantiate($key);
     	}
     }
 
-    public function instanciate($key){
+    public function instantiate($key){
     	$object = isset($this->coreClasses()[$key]) ? $this->coreClasses()[$key] : null;
 
     	return new $object;
@@ -59,7 +59,7 @@ class Application{
         if (! isset($this->coreClasses()[$key])) throw new Exception("Class Not Found");
         
         if(! $this->has($key)){
-            $this->set($key, $this->instanciate($key));
+            $this->set($key, $this->instantiate($key));
         }
 
         return $this->container[$key];
