@@ -8,16 +8,26 @@ class Application{
 
     private $container;
 
+    private static $instance;
+
 	/**
      * Create a new application instance.
      *
      * @return void
      */
-    public function __construct(){
+    private function __construct(){
     	// Register Core Classes
     	$this->coreClasses();
     }
 
+    public static function getInstance()
+    {
+        if(is_null(static::$instance)){
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
 
     public function coreClasses()
     {
