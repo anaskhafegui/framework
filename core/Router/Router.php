@@ -133,14 +133,19 @@ class Router{
         $action = $route['action'];
 
         if(is_callable($action)){
+            // call a callback method
             return call_user_func_array($action, $params);
         } elseif (strpos($action, '@')) {
+
+            // extract controller and method from action
             list($controller, $method) = explode('@', $action);
 
             $controller = 'App\Http\Controllers\\' . $controller;
 
+            // check if controller class and method exist
             if(class_exists($controller) && method_exists(new $controller, $method)){
                 
+                // call method from controller method
                 return call_user_func_array([new $controller, $method], $params);
             } else {
                 throw new \BadFunctionCallException("The method " . $method . " is not exists at " . $controller);
