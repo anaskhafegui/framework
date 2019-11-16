@@ -75,4 +75,47 @@ class Router{
         $this->add('POST', $uri, $action);
         $this->add('GET', $uri, $action);
     }
+    
+    /**
+     * Handle matched routes with current URI
+     *
+     * @param Type $var
+     * @return void
+     */
+    public function handle()
+    {
+        $uri = $_SERVER['REQUEST_URI'];
+        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+
+        // build regex with current uri
+        $currentURIRegex = preg_replace("#^" . $scriptName . '#', '', $uri);
+
+        foreach($this->list() as $route){
+            $matched = true;
+
+            // detect route parameter
+            $uriRouteRegex = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['uri']);
+        
+            // build regex to match current url with route
+            $uriRouteRegex = $currentURIRegex != '/' ? '#^/' . $uriRouteRegex . '$#' : '#^' . $route['uri'] . '$#';
+            
+            if (preg_match($uriRouteRegex, $currentURIRegex, $matches)) {
+                
+                // extract the matched route
+                array_shift($matches);
+
+                // extract params
+                $params = array_values($matches);
+
+                // check the current request method with route method
+                if($route['method'] != $_SERVER['REQUEST_METHOD']){
+                    $matched = false;
+                }
+
+                // if match invoke the action
+                if($matched) pre($route['action']) . pre($params);
+            }
+        }
+
+    }
 }
