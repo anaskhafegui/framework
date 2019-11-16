@@ -4,9 +4,9 @@
 app('router')->get('/', 'HomeController@index');
 
 app('router')->get('test', function(){
-    return 'callback';
+    echo 'execute from callback';
 });
 
-app('router')->post('test', 'TestController@test');
+app('router')->get('users/{id}', 'HomeController@users');
 
-pre(app('router')->list());
+app('router')->handle();

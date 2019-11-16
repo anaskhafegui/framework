@@ -113,9 +113,38 @@ class Router{
                 }
 
                 // if match invoke the action
-                if($matched) pre($route['action']) . pre($params);
-            }
+                if($matched) return $this->invoke($route, $params);
+            } 
         }
 
+        echo 'not found route';
+    }
+
+
+    /**
+     * Call the route action
+     *
+     * @param string $route
+     * @param array $params
+     * @return void
+     */
+    public function invoke($route, $params){
+
+        $action = $route['action'];
+
+        if(is_callable($action)){
+            return call_user_func_array($action, $params);
+        } elseif (strpos($action, '@')) {
+            list($controller, $method) = explode('@', $action);
+
+            $controller = 'App\Http\Controllers\\' . $controller;
+
+            if(class_exists($controller) && method_exists(new $controller, $method)){
+                
+                return call_user_func_array([new $controller, $method], $params);
+            } else {
+                throw new \BadFunctionCallException("The method " . $method . " is not exists at " . $controller);
+            }
+        }
     }
 }
