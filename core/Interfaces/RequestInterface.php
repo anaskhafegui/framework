@@ -9,7 +9,7 @@ interface RequestInterface extends ArrayAccess
      * Get value from the query parameters ie from _GET global variable
      * If not exists, return null
      * 
-     * @param   string $input
+     * @param  string $input
      * @return  mixed
      */
     public function get(string $input);
@@ -30,7 +30,7 @@ interface RequestInterface extends ArrayAccess
      * @param   string $key
      * @return  string
      */
-    public function server(string $key): string;
+    public function server(string $key):? string;
     
     /**
      * Get a request header value for the given header 
@@ -38,7 +38,7 @@ interface RequestInterface extends ArrayAccess
      * @param   string $header
      * @return  string
      */
-    public function header(string $header): string;
+    public function header(string $header):? string;
     
     /**
      * Get all request headers
@@ -46,7 +46,7 @@ interface RequestInterface extends ArrayAccess
      * @return  array
      */
     public function headers(): array;
-    
+
     /**
      * Check if the given input name is uploaded
      * 
