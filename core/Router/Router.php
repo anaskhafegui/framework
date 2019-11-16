@@ -2,8 +2,6 @@
 
 namespace Core\Router;
 
-use BadFunctionCallException;
-
 class Router{
 
     /**
