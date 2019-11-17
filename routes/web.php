@@ -14,7 +14,7 @@ app('router')->get('/', 'HomeController@index');
 // });
 
 
-app('router')->get('users/{id}', 'HomeController@users');
+app('router')->get('users/{id}', '');
 
 
 
@@ -25,4 +25,5 @@ app('router')->get('users/{id}', 'HomeController@users');
 */
 
 
-echo app('request')->key;
+
+echo request('key');

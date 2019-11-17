@@ -30,3 +30,14 @@ if (! function_exists('pre')) {
     }
 }
 
+/**
+ * handle request keys
+ *
+ * @param string $key
+ * @return mixed
+ */
+if (! function_exists('request')) {
+    function request($key) {
+        return app('request')->$key;
+    }
+}
