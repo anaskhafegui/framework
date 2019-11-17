@@ -7,6 +7,27 @@ use Core\Interfaces\RequestInterface;
 class Request implements RequestInterface {
 
     /**
+     * Singleton Instance
+     *
+     * @var mixed
+     */
+    private static $instance;
+
+    /**
+     * Get Request Instance
+     *
+     * @return mixed
+     */
+    public static function getInstance()
+    {
+        if(is_null(static::$instance)){
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function get(string $input){
@@ -46,7 +67,7 @@ class Request implements RequestInterface {
      * {@inheritDoc}
      */
     public function isFile(string $input): bool{
-        return true;
+        return isset($_FILES[$input]) ? $_FILES[$input] : null;
     }
         
     /**
@@ -60,7 +81,7 @@ class Request implements RequestInterface {
      * {@inheritDoc}
      */
     public function validate(array $rules) {
-
+        return '';
     }
 
     /**
@@ -115,41 +136,52 @@ class Request implements RequestInterface {
      * {@inheritDoc}
      */
     public function url(): string {
-        return '';
+        $host = $this->server('HTTP_HOST');
+        $uri = $this->server('REQUEST_URI');
+        $protocol = (isset($_SERVER['HTTPS']) ? "https" : "http");
+        
+        return "$protocol://$host$uri";
     }
 
     /**
      * {@inheritDoc}
      */
     public function __get(string $key){
-        echo "sfgsdfg";
+        // get from $_GET, $_POST, $_REQUEST, $_File
+        if($this->get($key)){
+            return $this->get($key);
+        }
+
+        if($this->post($key)){
+            return $this->post($key);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     public function offsetExists ($offset ) : bool{
-        return true;
+        return isset($this->$offset) ? true : false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetGet ( $offset ) : void {
-        
+    public function offsetGet ( $offset ) :? string {
+        return $this->$offset;
     }
 
     /**
      * {@inheritDoc}
      */
     public function offsetSet ( $offset , $value ) : void {
-
+        $this->$offset = $value;
     }
 
     /**
      * {@inheritDoc}
      */
     public function offsetUnset ( $offset ) : void {
-
+        $this->$offset = null;
     }
 }

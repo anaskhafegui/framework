@@ -4,7 +4,7 @@ namespace Core\Router;
 
 class Router{
 
-     /**
+    /**
      * Singleton Instance
      *
      * @var mixed
@@ -23,7 +23,7 @@ class Router{
     }
 
     /**
-     * Get Application Instance
+     * Get Router Instance
      *
      * @return mixed
      */
