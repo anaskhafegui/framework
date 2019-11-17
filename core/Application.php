@@ -38,8 +38,7 @@ class Application{
      * @return void
      */
     private function __construct(){
-        // Load Routes
-        $this->loadWebRoutes();
+        
     }
 
     /**
@@ -63,9 +62,9 @@ class Application{
      * @return mixed
      */
     public function instantiate($key){
-    	$object = isset(self::CORE_CLASSES[$key]) ? self::CORE_CLASSES[$key] : null;
-
-    	return new $object;
+        $object = isset(self::CORE_CLASSES[$key]) ? self::CORE_CLASSES[$key] : null;
+        
+    	return $object::getInstance();
     }
 
     /**
@@ -127,5 +126,14 @@ class Application{
     public function loadWebRoutes()
     {
         require_once '../routes/web.php';
+    }
+
+    public function run()
+    {
+        // Load Routes
+        $this->loadWebRoutes();
+
+        // Load Routes
+        $this->router->handle();
     }
 }

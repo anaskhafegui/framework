@@ -17,4 +17,4 @@ require "../vendor/autoload.php";
 */
 
 $app = Core\Application::getInstance();
-return $app;
+return $app->run();

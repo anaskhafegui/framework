@@ -10,8 +10,7 @@ use Core\Application;
  */
 if (! function_exists('app')) {
     function app($key) {
-        $app = Application::getInstance();
-        return $app->get($key);
+        return Application::getInstance()->get($key);
     }
 }
 
@@ -22,10 +21,12 @@ if (! function_exists('app')) {
  * @return mixed
  */
 if (! function_exists('pre')) {
-    function pre($value) {
+    function pre($value, $die=null) {
         echo "<pre>"; 
         print_r($value);
         echo "</pre>";
+
+        if($die) die();
     }
 }
 

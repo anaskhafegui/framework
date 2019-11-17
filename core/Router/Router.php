@@ -4,12 +4,37 @@ namespace Core\Router;
 
 class Router{
 
+     /**
+     * Singleton Instance
+     *
+     * @var mixed
+     */
+    private static $instance;
+
     /**
      * Routes List
      *
      * @var array
      */
     private $routes = [];
+
+    private function __construct() {
+        
+    }
+
+    /**
+     * Get Application Instance
+     *
+     * @return mixed
+     */
+    public static function getInstance()
+    {
+        if(is_null(static::$instance)){
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
 
     /**
      * Get Routes List
@@ -111,6 +136,7 @@ class Router{
                 if($route['method'] != $_SERVER['REQUEST_METHOD']){
                     $matched = false;
                 }
+
 
                 // if match invoke the action
                 if($matched) return $this->invoke($route, $params);
