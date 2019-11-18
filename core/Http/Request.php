@@ -118,6 +118,10 @@ class Request implements RequestInterface {
                     case 'required':
                         if(strlen($value) < 1 ) $errors[$input][$rule] = 'required error';
                         break;
+
+                    case 'number':
+                        if(! is_numeric($value)) $errors[$input][$rule] = 'number error';
+                        break;
                 }
             }
         }
