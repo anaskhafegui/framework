@@ -69,13 +69,6 @@ class Request implements RequestInterface {
     public function isFile(string $input): bool{
         return isset($_FILES[$input]) ? $_FILES[$input] : null;
     }
-        
-    /**
-     * {@inheritDoc}
-     */
-    public function route(): string {
-        return '';
-    }
     
     /**
      * {@inheritDoc}

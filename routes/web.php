@@ -25,5 +25,4 @@ app('router')->get('users/{id}', '');
 */
 
 
-
-echo request('key');
+echo app('request')->uri();

@@ -54,13 +54,6 @@ interface RequestInterface extends ArrayAccess
      * @return  mixed
      */
     public function isFile(string $input): bool;
-        
-    /**
-     * Get the current route
-     * 
-     * @return  string
-     */
-    public function route(): string;
     
     /**
      * Validate the given inputs by the given rules
