@@ -109,8 +109,8 @@ class Router{
      */
     public function handle()
     {
-        $uri = $_SERVER['REQUEST_URI'];
-        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+        $uri = app('request')->server('REQUEST_URI');
+        $scriptName = dirname(app('request')->server('SCRIPT_NAME'));
 
         // build regex with current uri
         $currentURIRegex = preg_replace("#^" . $scriptName . '#', '', $uri);
@@ -133,7 +133,7 @@ class Router{
                 $params = array_values($matches);
 
                 // check the current request method with route method
-                if($route['method'] != $_SERVER['REQUEST_METHOD']){
+                if($route['method'] != app('request')->server('REQUEST_METHOD')){
                     $matched = false;
                 }
 
