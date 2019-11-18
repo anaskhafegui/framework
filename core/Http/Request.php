@@ -74,11 +74,6 @@ class Request implements RequestInterface {
      * {@inheritDoc}
      */
     public function validate(array $rules) {
-        
-        
-        
-        
-
         $errors = [];
         
         // 1. loop through rules array
@@ -91,7 +86,13 @@ class Request implements RequestInterface {
             // 3. explode rules by |
             foreach(explode('|', $inputRules) as $rule){
 
-                // needs some refactoring!
+                
+                /*
+                |---------------------------------------------
+                | Needs some refactoring!
+                |---------------------------------------------- 
+                */
+               
                 // 4. apply each rule on input
 
                 // rule with parameter
