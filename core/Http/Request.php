@@ -74,8 +74,57 @@ class Request implements RequestInterface {
      * {@inheritDoc}
      */
     public function validate(array $rules) {
-        return '';
+        
+        
+        
+        
+
+        $errors = [];
+        
+        // 1. loop through rules array
+        foreach($rules as $input => $inputRules){
+            explode($input, $inputRules);
+
+            // 2. extract key (input) from request
+            $value = $this->{$input};
+
+            // 3. explode rules by |
+            foreach(explode('|', $inputRules) as $rule){
+
+                // needs some refactoring!
+                // 4. apply each rule on input
+
+                // rule with parameter
+                if (strpos($rule, ':')){
+                    list($rule, $parameter) = explode(':', $rule);
+                    switch($rule){
+                        case 'min':
+                            if(strlen($value) < $parameter  ) $errors[$input][$rule] = 'min error';
+                            break;
+
+                        case 'max':
+                            if(strlen($value) > $parameter  ) $errors[$input][$rule] = 'max error';
+                            break;
+
+                        case 'length':
+                            if(strlen($value) != $parameter  ) $errors[$input][$rule] = 'length error';
+                            break;
+                    }
+                }
+
+
+                // rule without parameter
+                switch($rule){
+                    case 'required':
+                        if(strlen($value) < 1 ) $errors[$input][$rule] = 'required error';
+                        break;
+                }
+            }
+        }
+
+        return isset($errors) ? $errors : true; 
     }
+
 
     /**
      * {@inheritDoc}

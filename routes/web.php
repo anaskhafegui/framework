@@ -25,4 +25,9 @@ app('router')->get('users/{id}', '');
 */
 
 
-echo app('request')->uri();
+$rules = [
+    'name' => 'required|min:3|max:4|length:4',
+    'username' => 'required'
+];
+
+(count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
