@@ -30,50 +30,57 @@ class Request implements RequestInterface {
     /**
      * {@inheritDoc}
      */
-    public function get(string $input){
+    public function get(string $input)
+    {
         return isset($_GET[$input]) ? $_GET[$input] : null;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function post(string $input){
+    public function post(string $input)
+    {
         return isset($_POST[$input]) ? $_POST[$input] : null;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function server(string $key ):? string  {
+    public function server(string $key ):? string 
+    {
         return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function header(string $header):? string {
+    public function header(string $header):? string
+    {
         $headers = getallheaders();
-        return isset($headers[$header]) ? $headers[$header] : null;
+        return isset($headers[$header]) ? $headers[$header] : null; 
     }
     
     /**
      * {@inheritDoc}
      */
-    public function headers(): array{
+    public function headers(): array
+    {
         return getallheaders();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isFile(string $input): bool{
+    public function isFile(string $input): bool
+    {
         return isset($_FILES[$input]) ? $_FILES[$input] : null;
     }
     
     /**
      * {@inheritDoc}
      */
-    public function validate(array $rules) {
+    public function validate(array $rules) 
+    {
         $errors = [];
         
         // 1. loop through rules array
@@ -98,7 +105,7 @@ class Request implements RequestInterface {
                 // rule with parameter
                 if (strpos($rule, ':')){
                     list($rule, $parameter) = explode(':', $rule);
-                    switch($rule){
+                    switch ($rule) {
                         case 'min':
                             if(strlen($value) < $parameter  ) $errors[$input][$rule] = 'min error';
                             break;
@@ -134,14 +141,16 @@ class Request implements RequestInterface {
     /**
      * {@inheritDoc}
      */
-    public function isSecure(): bool {
+    public function isSecure(): bool 
+    {
         return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
     }
     
     /**
      * {@inheritDoc}
      */
-    public function ip(): string {
+    public function ip(): string 
+    {
         
         // needs refactoring!
         
@@ -160,14 +169,16 @@ class Request implements RequestInterface {
     /**
      * {@inheritDoc}
      */
-    public function userAgent(): string {
+    public function userAgent(): string 
+    {
         return $this->server('HTTP_USER_AGENT');
     }
 
     /**
      * {@inheritDoc}
      */
-    public function uri(): string {
+    public function uri(): string 
+    {
         $uri = $_SERVER['REQUEST_URI'];
         $scriptName = dirname($_SERVER['SCRIPT_NAME']);
 
@@ -182,7 +193,8 @@ class Request implements RequestInterface {
     /**
      * {@inheritDoc}
      */
-    public function url(): string {
+    public function url(): string 
+    {
         $host = $this->server('HTTP_HOST');
         $uri = $this->server('REQUEST_URI');
         $protocol = (isset($_SERVER['HTTPS']) ? "https" : "http");
@@ -193,7 +205,8 @@ class Request implements RequestInterface {
     /**
      * {@inheritDoc}
      */
-    public function __get(string $key){
+    public function __get(string $key)
+    {
         // get from $_GET, $_POST, $_REQUEST, $_File
         if($this->get($key)){
             return $this->get($key);
@@ -207,28 +220,32 @@ class Request implements RequestInterface {
     /**
      * {@inheritDoc}
      */
-    public function offsetExists ($offset ) : bool{
+    public function offsetExists ($offset ): bool
+    {
         return isset($this->$offset) ? true : false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetGet ( $offset ) :? string {
+    public function offsetGet($offset):? string 
+    {
         return $this->$offset;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetSet ( $offset , $value ) : void {
+    public function offsetSet($offset, $value): void 
+    {
         $this->$offset = $value;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetUnset ( $offset ) : void {
+    public function offsetUnset($offset): void
+    {
         $this->$offset = null;
     }
 }
