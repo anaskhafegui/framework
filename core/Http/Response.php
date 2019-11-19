@@ -169,6 +169,6 @@ class Response implements ResponseInterface
      */
     public function __toString(): string 
     {
-        return sprintf('HTTP/%s %s', '1.1', $this->statusCode)." ". $this->content. " ". implode(" ", headers_list());
+        return sprintf('HTTP/%s %s', '1.1', $this->statusCode)."\n". $this->content. "\n header : ". implode("\n header : ",headers_list());
     }
 }

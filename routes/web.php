@@ -41,4 +41,4 @@ app('router')->get('users/{id}', '');
 */
 
 
-echo app('response')->send(['name' => 'mg'], 200, ['content-type' => 'application/json', 'X-Sample-Test' => 'foo']);
+echo app('response')->send('Plain Text', 200, ['content-type' => 'application/json', 'X-Sample-Test' => 'foo']);
