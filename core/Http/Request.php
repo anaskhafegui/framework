@@ -220,7 +220,7 @@ class Request implements RequestInterface
     /**
      * {@inheritDoc}
      */
-    public function offsetExists ($offset ): bool
+    public function offsetExists ($offset): bool
     {
         return isset($this->$offset);
     }
