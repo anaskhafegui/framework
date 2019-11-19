@@ -1,7 +1,6 @@
 <?php
 namespace Core\Interfaces;
 
-use Arrayable;
 
 interface ResponseInterface
 {
@@ -48,7 +47,7 @@ interface ResponseInterface
      * @param  array $headers
      * @return string
      */
-    public function sendJson(Arrayable $content, int $statusCode, array $headers): ResponseInterface;
+    public function sendJson(iterable $content, int $statusCode, array $headers): ResponseInterface;
 
     /**
      * Send json response

@@ -41,4 +41,4 @@ app('router')->get('users/{id}', '');
 */
 
 
-app('response')->test();
+echo app('response')->send('TexT', 200, []);

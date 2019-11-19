@@ -3,7 +3,6 @@
 namespace Core\Http;
 
 use Core\Interfaces\ResponseInterface;
-use Arrayable;
 
 class Response implements ResponseInterface
 {
@@ -110,21 +109,46 @@ class Response implements ResponseInterface
     }
 
     /**
+     * Send Response Headers
+     *
+     * @param [type] $headers
+     * @return void
+     */
+    public function sendHeaders($headers)
+    {
+        foreach ($headers as $key => $values) {
+            header($key.': '.$values);
+        }
+    }
+
+    /**
+     * * Send Response Content
+     *
+     * @param [type] $content
+     * @return void
+     */
+    public function sendContent($content)
+    {
+        if (is_array($content)) {
+            $this->content = json_encode($content);
+        } else {
+            $this->content = $content;
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function send($content, int $statusCode, array $headers): ResponseInterface 
     {
+        if (is_array($content)) {
+            return $this->sendJson($content, $statusCode, $headers);
+        }
+
         header('Status: '.$statusCode);
 
-        foreach ($headers as $key => $values) {
-            header($key.': '.$values);
-        }
-
-        if (! is_array($content)) {
-            echo $content;
-        } else {
-            json_encode($content);
-        }
+        $this->sendHeaders($headers);
+        $this->sendContent($content);
 
         return $this;
     }
@@ -132,8 +156,14 @@ class Response implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function sendJson(Arrayable $content, int $statusCode, array $headers): ResponseInterface 
+    public function sendJson(iterable $content, int $statusCode, array $headers): ResponseInterface 
     {
+        $this->sendContent($content);
+
+        header('Status: '.$statusCode);
+
+        $this->sendHeaders($headers);
+
         return $this;
     }
 
@@ -166,12 +196,6 @@ class Response implements ResponseInterface
             sprintf('HTTP/%s %s', '1.1', $this->statusCode)."\r\n".
             $this->headers."\r\n".
             $this->content;
-            
-        return '';
-    }
 
-    public function test()
-    {
-        echo "t";
     }
 }
