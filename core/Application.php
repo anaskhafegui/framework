@@ -6,7 +6,8 @@ use Core\Http\Request;
 use Core\Router\Router;
 use Exception;
 
-class Application{
+class Application
+{
 
     /**
      * Classes Container
@@ -37,7 +38,8 @@ class Application{
      *
      * @return void
      */
-    private function __construct(){
+    private function __construct()
+    {
         
     }
 
@@ -48,7 +50,7 @@ class Application{
      */
     public static function getInstance()
     {
-        if(is_null(static::$instance)){
+        if (is_null(static::$instance)) {
             static::$instance = new static;
         }
 
@@ -61,7 +63,8 @@ class Application{
      * @param string $key
      * @return mixed
      */
-    public function instantiate($key){
+    public function instantiate($key)
+    {
         $object = isset(self::CORE_CLASSES[$key]) ? self::CORE_CLASSES[$key] : null;
         
     	return $object::getInstance();
@@ -88,7 +91,7 @@ class Application{
     {
         if (! isset(self::CORE_CLASSES[$key])) throw new Exception("Class Not Found");
         
-        if(! $this->has($key)){
+        if (! $this->has($key)) {
             $this->set($key, $this->instantiate($key));
         }
 

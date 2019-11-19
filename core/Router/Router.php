@@ -2,7 +2,8 @@
 
 namespace Core\Router;
 
-class Router{
+class Router
+{
 
     /**
      * Singleton Instance
@@ -18,7 +19,8 @@ class Router{
      */
     private $routes = [];
 
-    private function __construct() {
+    private function __construct() 
+    {
         
     }
 
@@ -29,7 +31,7 @@ class Router{
      */
     public static function getInstance()
     {
-        if(is_null(static::$instance)){
+        if (is_null(static::$instance)) {
             static::$instance = new static;
         }
 
@@ -133,13 +135,13 @@ class Router{
                 $params = array_values($matches);
 
                 // check the current request method with route method
-                if($route['method'] != app('request')->server('REQUEST_METHOD')){
+                if ($route['method'] != app('request')->server('REQUEST_METHOD')) {
                     $matched = false;
                 }
 
 
                 // if match invoke the action
-                if($matched) return $this->invoke($route, $params);
+                if ($matched) return $this->invoke($route, $params);
             } 
         }
 
@@ -154,11 +156,12 @@ class Router{
      * @param array $params
      * @return void
      */
-    public function invoke($route, $params){
+    public function invoke($route, $params)
+    {
         
         $action = $route['action'];
 
-        if(is_callable($action)){
+        if (is_callable($action)) {
             // call a callback method
             return call_user_func_array($action, $params);
 

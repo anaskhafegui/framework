@@ -57,7 +57,7 @@ class Request implements RequestInterface
      */
     public function header(string $header):? string
     {
-        $headers = getallheaders();
+        $headers = $this->headers();
         return $headers[$header] ?? null; 
     }
     
@@ -195,7 +195,7 @@ class Request implements RequestInterface
     {
         $host = $this->server('HTTP_HOST');
         $uri = $this->server('REQUEST_URI');
-        $protocol = (! is_null($this->server('HTTPS')) ? "https" : "http");
+        $protocol = ! is_null($this->server('HTTPS')) ? "https" : "http";
         
         return "$protocol://$host$uri";
     }
@@ -213,6 +213,12 @@ class Request implements RequestInterface
         if ($this->post($key)) {
             return $this->post($key);
         }
+
+        if ($this->post($key)) {
+            return $this->post($key);
+        }
+
+        // use file() method
     }
 
     /**
