@@ -38,7 +38,7 @@ interface ResponseInterface
      * @param  array        $headers
      * @return string
      */
-    public function send($content, int $statusCode, array $headers): string;
+    public function send($content, int $statusCode, array $headers): ResponseInterface;
 
     /**
      * Send json response
@@ -48,7 +48,7 @@ interface ResponseInterface
      * @param  array $headers
      * @return string
      */
-    public function sendJson(Arrayable $content, int $statusCode, array $headers): string;
+    public function sendJson(Arrayable $content, int $statusCode, array $headers): ResponseInterface;
 
     /**
      * Send json response
@@ -58,7 +58,7 @@ interface ResponseInterface
      * @param  array $headers
      * @return string
      */
-    public function sendFIle(string $filePath, int $statusCode, array $headers): string;
+    public function sendFIle(string $filePath, int $statusCode, array $headers): ResponseInterface;
 
     /**
      * Convert Response object to string on string casting by returning response content
