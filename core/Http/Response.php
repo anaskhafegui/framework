@@ -158,11 +158,10 @@ class Response implements ResponseInterface
      */
     public function sendJson(iterable $content, int $statusCode, array $headers): ResponseInterface 
     {
-        $this->sendContent($content);
-
-        header('Status: '.$statusCode);
-
         $this->sendHeaders($headers);
+        $this->sendContent($content);
+        
+        header('Status: '.$statusCode);
 
         return $this;
     }
