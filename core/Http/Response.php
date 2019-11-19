@@ -81,6 +81,10 @@ class Response implements ResponseInterface
     {
         foreach ($headers as $key => $values) {
             $this->setHeader($key, $values);
+
+            foreach ($values as $value) {
+                header($key.': '.$value);   
+            }
         }
         
         return $this;
@@ -98,22 +102,16 @@ class Response implements ResponseInterface
         if (is_array($values)) {
             $values = array_values($values);
 
-            if (! isset($this->headers[$key])){
+            if (! isset($this->headers[$key])) {
                 $this->headers[$key] = $values;
             } else {
                 $this->headers[$key] = array_merge($this->headers[$key], $values);
             }
         } else {
-            if (! isset($this->headers[$key])){
+            if (! isset($this->headers[$key])) {
                 $this->headers[$key] = [$values];
             } else {
                 $this->headers[$key][] = $values;
-            }
-        }
-
-        foreach ($this->headers as $key => $values) {
-            foreach($values as $value) {
-                header($key.': '.$value);
             }
         }
     }
