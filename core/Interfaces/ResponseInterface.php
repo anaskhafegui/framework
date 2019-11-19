@@ -10,7 +10,7 @@ interface ResponseInterface
      * @param   string $content
      * @return  ResponseInterface
      */
-    public function setContent(string $content): ResponseInterface;    
+    public function setContent($content): ResponseInterface;    
 
     /**
      * Set the response status code

@@ -53,9 +53,13 @@ class Response implements ResponseInterface
     /**
      * {@inheritDoc}
      */
-    public function setContent(string $content): ResponseInterface 
+    public function setContent($content): ResponseInterface 
     {
-        $this->content = $content;
+        if (is_array($content)) {
+            $this->content = json_encode($content);
+        } else {
+            $this->content = $content;
+        }
 
         return $this;
     }
@@ -89,7 +93,7 @@ class Response implements ResponseInterface
      * @param string $value
      * @return void
      */
-    public function setHeader($key, $values)
+    private function setHeader($key, $values)
     {
         if (is_array($values)) {
             $values = array_values($values);
@@ -106,33 +110,11 @@ class Response implements ResponseInterface
                 $this->headers[$key][] = $values;
             }
         }
-    }
 
-    /**
-     * Send Response Headers
-     *
-     * @param string $headers
-     * @return void
-     */
-    public function sendHeaders($headers)
-    {
-        foreach ($headers as $key => $values) {
-            header($key.': '.$values);
-        }
-    }
-
-    /**
-     * * Send Response Content
-     *
-     * @param string $content
-     * @return void
-     */
-    public function sendContent($content)
-    {
-        if (is_array($content)) {
-            $this->content = json_encode($content);
-        } else {
-            $this->content = $content;
+        foreach ($this->headers as $key => $values) {
+            foreach($values as $value) {
+                header($key.': '.$value);
+            }
         }
     }
 
@@ -145,10 +127,9 @@ class Response implements ResponseInterface
             return $this->sendJson($content, $statusCode, $headers);
         }
 
-        header('Status: '.$statusCode);
-
-        $this->sendHeaders($headers);
-        $this->sendContent($content);
+        $this->setHeaders($headers);
+        $this->setContent($content);
+        $this->setStatusCode($statusCode);
 
         return $this;
     }
@@ -158,10 +139,10 @@ class Response implements ResponseInterface
      */
     public function sendJson(iterable $content, int $statusCode, array $headers): ResponseInterface 
     {
-        $this->sendHeaders($headers);
-        $this->sendContent($content);
-        
-        header('Status: '.$statusCode);
+
+        $this->setHeaders($headers);
+        $this->setContent($content);
+        $this->setStatusCode($statusCode);
 
         return $this;
     }
@@ -171,11 +152,8 @@ class Response implements ResponseInterface
      */
     public function sendFIle(string $filePath, int $statusCode, array $headers): ResponseInterface 
     {
-        header('Status: '.$statusCode);
-
-        foreach ($headers as $key => $values) {
-            header($key.': '.$values);
-        }
+        $this->setHeaders($headers);
+        $this->setStatusCode($statusCode);
 
         header("Content-Type: application/zip");
         header("Content-Transfer-Encoding: Binary");
@@ -191,10 +169,6 @@ class Response implements ResponseInterface
      */
     public function __toString(): string 
     {
-        return
-            sprintf('HTTP/%s %s', '1.1', $this->statusCode)."\r\n".
-            $this->headers."\r\n".
-            $this->content;
-
+        return sprintf('HTTP/%s %s', '1.1', $this->statusCode)." ". $this->content. " ". implode(" ", headers_list());
     }
 }
