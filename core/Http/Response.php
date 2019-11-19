@@ -111,7 +111,7 @@ class Response implements ResponseInterface
     /**
      * Send Response Headers
      *
-     * @param [type] $headers
+     * @param string $headers
      * @return void
      */
     public function sendHeaders($headers)
@@ -124,7 +124,7 @@ class Response implements ResponseInterface
     /**
      * * Send Response Content
      *
-     * @param [type] $content
+     * @param string $content
      * @return void
      */
     public function sendContent($content)
