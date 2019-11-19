@@ -86,8 +86,6 @@ class Request implements RequestInterface
         
         // 1. loop through rules array
         foreach ($rules as $input => $inputRules) {
-            explode($input, $inputRules);
-
             // 2. extract key (input) from request
             $value = $this->{$input};
 
