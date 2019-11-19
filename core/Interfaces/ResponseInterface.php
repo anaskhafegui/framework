@@ -1,5 +1,5 @@
 <?php
-namespace HZ\Contracts\Http;
+namespace Core\Interfaces;
 
 use Arrayable;
 
