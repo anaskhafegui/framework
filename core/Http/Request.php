@@ -195,7 +195,7 @@ class Request implements RequestInterface
     {
         $host = $this->server('HTTP_HOST');
         $uri = $this->server('REQUEST_URI');
-        $protocol = ! is_null($this->server('HTTPS')) ? "https" : "http";
+        $protocol = $this->isSecure() ? "https" : "http";
         
         return "$protocol://$host$uri";
     }
@@ -208,10 +208,6 @@ class Request implements RequestInterface
         // get from $_GET, $_POST, $_REQUEST, $_File
         if ($this->get($key)) {
             return $this->get($key);
-        }
-
-        if ($this->post($key)) {
-            return $this->post($key);
         }
 
         if ($this->post($key)) {
