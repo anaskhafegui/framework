@@ -33,7 +33,7 @@ class Request implements RequestInterface
      */
     public function get(string $input)
     {
-        return isset($_GET[$input]) ? $_GET[$input] : null;
+        return $_GET[$input] ?? null;
     }
     
     /**
@@ -41,7 +41,7 @@ class Request implements RequestInterface
      */
     public function post(string $input)
     {
-        return isset($_POST[$input]) ? $_POST[$input] : null;
+        return $_POST[$input] ?? null;
     }
     
     /**
@@ -49,7 +49,7 @@ class Request implements RequestInterface
      */
     public function server(string $key ):? string 
     {
-        return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
+        return $_SERVER[$key] ?? null;
     }
     
     /**
@@ -58,7 +58,7 @@ class Request implements RequestInterface
     public function header(string $header):? string
     {
         $headers = getallheaders();
-        return isset($headers[$header]) ? $headers[$header] : null; 
+        return $headers[$header] ?? null; 
     }
     
     /**
@@ -74,7 +74,7 @@ class Request implements RequestInterface
      */
     public function isFile(string $input): bool
     {
-        return isset($_FILES[$input]) ? $_FILES[$input] : null;
+        return $_FILES[$input] ?? null;
     }
     
     /**
@@ -132,7 +132,7 @@ class Request implements RequestInterface
             }
         }
 
-        return isset($errors) ? $errors : true; 
+        return $errors ?? true; 
     }
 
 
@@ -141,7 +141,7 @@ class Request implements RequestInterface
      */
     public function isSecure(): bool 
     {
-        return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+        return (!empty($this->server('HTTPS')) && $this->server('HTTPS') !== 'off');
     }
     
     /**
@@ -154,7 +154,7 @@ class Request implements RequestInterface
         
         if (!empty($this->server('HTTP_CLIENT_IP'))) {
             //ip from share internet
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
+            $ip = $this->server('HTTP_CLIENT_IP');
         } elseif (!empty($this->server('HTTP_X_FORWARDED_FOR'))) {
             //ip pass from proxy
             $ip = $this->server('HTTP_X_FORWARDED_FOR');
@@ -177,8 +177,8 @@ class Request implements RequestInterface
      */
     public function uri(): string 
     {
-        $uri = $_SERVER['REQUEST_URI'];
-        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+        $uri = $this->server('REQUEST_URI');
+        $scriptName = dirname($this->server('SCRIPT_NAME'));
 
         // remove script name from uri
         $uri = str_replace($scriptName, '', $uri);
@@ -195,7 +195,7 @@ class Request implements RequestInterface
     {
         $host = $this->server('HTTP_HOST');
         $uri = $this->server('REQUEST_URI');
-        $protocol = (isset($_SERVER['HTTPS']) ? "https" : "http");
+        $protocol = (! is_null($this->server('HTTPS')) ? "https" : "http");
         
         return "$protocol://$host$uri";
     }
@@ -220,7 +220,7 @@ class Request implements RequestInterface
      */
     public function offsetExists ($offset ): bool
     {
-        return isset($this->$offset) ? true : false;
+        return isset($this->$offset);
     }
 
     /**
