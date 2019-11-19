@@ -4,7 +4,8 @@ namespace Core\Http;
 
 use Core\Interfaces\RequestInterface;
 
-class Request implements RequestInterface {
+class Request implements RequestInterface
+{
 
     /**
      * Singleton Instance
@@ -20,7 +21,7 @@ class Request implements RequestInterface {
      */
     public static function getInstance()
     {
-        if(is_null(static::$instance)){
+        if (is_null(static::$instance)) {
             static::$instance = new static;
         }
 
@@ -84,16 +85,15 @@ class Request implements RequestInterface {
         $errors = [];
         
         // 1. loop through rules array
-        foreach($rules as $input => $inputRules){
+        foreach ($rules as $input => $inputRules) {
             explode($input, $inputRules);
 
             // 2. extract key (input) from request
             $value = $this->{$input};
 
             // 3. explode rules by |
-            foreach(explode('|', $inputRules) as $rule){
+            foreach (explode('|', $inputRules) as $rule) {
 
-                
                 /*
                 |---------------------------------------------
                 | Needs some refactoring!
@@ -103,19 +103,19 @@ class Request implements RequestInterface {
                 // 4. apply each rule on input
 
                 // rule with parameter
-                if (strpos($rule, ':')){
+                if (strpos($rule, ':')) {
                     list($rule, $parameter) = explode(':', $rule);
                     switch ($rule) {
                         case 'min':
-                            if(strlen($value) < $parameter  ) $errors[$input][$rule] = 'min error';
+                            if (strlen($value) < $parameter) $errors[$input][$rule] = 'min error';
                             break;
 
                         case 'max':
-                            if(strlen($value) > $parameter  ) $errors[$input][$rule] = 'max error';
+                            if (strlen($value) > $parameter) $errors[$input][$rule] = 'max error';
                             break;
 
                         case 'length':
-                            if(strlen($value) != $parameter  ) $errors[$input][$rule] = 'length error';
+                            if (strlen($value) != $parameter) $errors[$input][$rule] = 'length error';
                             break;
                     }
                 }
@@ -124,11 +124,11 @@ class Request implements RequestInterface {
                 // rule without parameter
                 switch($rule){
                     case 'required':
-                        if(strlen($value) < 1 ) $errors[$input][$rule] = 'required error';
+                        if (strlen($value) < 1) $errors[$input][$rule] = 'required error';
                         break;
 
                     case 'number':
-                        if(! is_numeric($value)) $errors[$input][$rule] = 'number error';
+                        if (! is_numeric($value)) $errors[$input][$rule] = 'number error';
                         break;
                 }
             }
@@ -154,13 +154,13 @@ class Request implements RequestInterface {
         
         // needs refactoring!
         
-        if(!empty($this->server('HTTP_CLIENT_IP'))){
+        if (!empty($this->server('HTTP_CLIENT_IP'))) {
             //ip from share internet
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        }elseif(!empty($this->server('HTTP_X_FORWARDED_FOR'))){
+        } elseif (!empty($this->server('HTTP_X_FORWARDED_FOR'))) {
             //ip pass from proxy
             $ip = $this->server('HTTP_X_FORWARDED_FOR');
-        }else{
+        } else {
             $ip = $this->server('REMOTE_ADDR');
         }
         return $ip;
@@ -208,11 +208,11 @@ class Request implements RequestInterface {
     public function __get(string $key)
     {
         // get from $_GET, $_POST, $_REQUEST, $_File
-        if($this->get($key)){
+        if ($this->get($key)) {
             return $this->get($key);
         }
 
-        if($this->post($key)){
+        if ($this->post($key)) {
             return $this->post($key);
         }
     }
