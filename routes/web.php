@@ -32,3 +32,13 @@ app('router')->get('users/{id}', '');
 // ];
 
 // (count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
+
+
+/*
+|---------------------------------------------
+| Response Testing
+|---------------------------------------------- 
+*/
+
+
+app('response')->test();

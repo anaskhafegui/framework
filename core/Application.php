@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\Http\Request;
+use Core\Http\Response;
 use Core\Router\Router;
 use Exception;
 
@@ -29,8 +30,9 @@ class Application
      * @var mixed
      */
     private const CORE_CLASSES = [
-        'router'    => Router::class,
-        'request'   => Request::class,
+        'router'        => Router::class,
+        'request'       => Request::class,
+        'response'      => Response::class,
     ];
 
 	/**

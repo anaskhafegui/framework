@@ -3,8 +3,9 @@
 namespace Core\Http;
 
 use Core\Interfaces\ResponseInterface;
+use Arrayable;
 
-class Request implements ResponseInterface
+class Response implements ResponseInterface
 {
     /**
      * Response Headers
@@ -23,6 +24,32 @@ class Request implements ResponseInterface
      * @var int
      */
     protected $statusCode;
+
+    /**
+     * Singleton Instance
+     *
+     * @var mixed
+     */
+    private static $instance;
+
+    private function __construct() 
+    {
+        
+    }
+
+    /**
+     * Get Router Instance
+     *
+     * @return mixed
+     */
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
 
     /**
      * {@inheritDoc}
@@ -141,5 +168,10 @@ class Request implements ResponseInterface
             $this->content;
             
         return '';
+    }
+
+    public function test()
+    {
+        echo "t";
     }
 }
