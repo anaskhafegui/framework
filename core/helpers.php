@@ -9,7 +9,8 @@ use Core\Application;
  * @return mixed
  */
 if (! function_exists('app')) {
-    function app($key) {
+    function app($key) 
+    {
         return Application::getInstance()->get($key);
     }
 }
@@ -21,7 +22,8 @@ if (! function_exists('app')) {
  * @return mixed
  */
 if (! function_exists('pre')) {
-    function pre($value, $die=null) {
+    function pre($value, $die=null) 
+    {
         echo "<pre>"; 
         print_r($value);
         echo "</pre>";
@@ -37,7 +39,8 @@ if (! function_exists('pre')) {
  * @return mixed
  */
 if (! function_exists('request')) {
-    function request($key) {
+    function request($key) 
+    {
         return app('request')->$key;
     }
 }
