@@ -2,7 +2,7 @@
 
 namespace Core\FileSystem;
 
-use Interfaces\FileSystemInterface;
+use Core\Interfaces\FileSystemInterface;
 
 class FileSystem implements FileSystemInterface
 {

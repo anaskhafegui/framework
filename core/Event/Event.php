@@ -2,7 +2,7 @@
 
 namespace Core\Event;
 
-use Interfaces\EventInterface;
+use Core\Interfaces\EventInterface;
 
 class Event implements EventInterface
 {
