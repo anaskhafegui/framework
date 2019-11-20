@@ -4,45 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "328d191db5eb5b932cf96c3349ac5454",
-    "packages": [
-        {
-            "name": "espresso-php/interfaces",
-            "version": "1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/espressoPHP/interfaces.git",
-                "reference": "844b00e5fced012cf380a8fcbe627a341efe258f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/espressoPHP/interfaces/zipball/844b00e5fced012cf380a8fcbe627a341efe258f",
-                "reference": "844b00e5fced012cf380a8fcbe627a341efe258f",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Interfaces\\": "/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mohamed Gamal",
-                    "email": "mg.dev1992@gmail.com"
-                }
-            ],
-            "description": "EspressoPHP Framework Interfaces",
-            "time": "2019-11-20T17:21:36+00:00"
-        }
-    ],
+    "content-hash": "e24321d525427d67fa32b19d9da66cad",
+    "packages": [],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
