@@ -11,6 +11,10 @@ class ComposerStaticInitd20adc55c52f16c15183337cdfb3c0fc
     );
 
     public static $prefixLengthsPsr4 = array (
+        'I' => 
+        array (
+            'Interfaces\\' => 11,
+        ),
         'C' => 
         array (
             'Core\\' => 5,
@@ -22,6 +26,10 @@ class ComposerStaticInitd20adc55c52f16c15183337cdfb3c0fc
     );
 
     public static $prefixDirsPsr4 = array (
+        'Interfaces\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/espresso-php/interfaces',
+        ),
         'Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/core',
