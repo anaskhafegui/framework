@@ -3,6 +3,7 @@
 namespace Core\FileSystem;
 
 use Core\Interfaces\FileSystemInterface;
+use RecursiveIteratorIterator;
 
 class FileSystem implements FileSystemInterface
 {
@@ -61,7 +62,9 @@ class FileSystem implements FileSystemInterface
      */
     public function cleanDirectory(string $path): bool
     {
-        return true;
+        array_map( 'unlink', array_filter((array) glob($path) ) );
+
+        return glob($path . "*") == 0;
     }
 
     /**
@@ -180,7 +183,12 @@ class FileSystem implements FileSystemInterface
      */
     public function delete(string $path): bool
     {
-        return true;
+        if ($this->isDirectory($path)) 
+        {
+            return rmdir($path);
+        }
+
+        return unlink($path);
     }
     
     /**
@@ -218,7 +226,7 @@ class FileSystem implements FileSystemInterface
      */
     public function move(string $target, string $destination): bool
     {
-        return true;
+        return $this->rename($target, $destination);
     }
 
     /**
@@ -256,7 +264,7 @@ class FileSystem implements FileSystemInterface
      */
     public function chmod(string $path, int $mode)
     {
-        return true;
+        return chmod($path, $mode);
     }
 
     /**
@@ -267,7 +275,7 @@ class FileSystem implements FileSystemInterface
      */
     public function name(string $path): string
     {
-        return '';
+        return basename($path);
     }
 
     /**
@@ -289,7 +297,7 @@ class FileSystem implements FileSystemInterface
      */
     public function dirname(string $path):? string
     {
-        return '';
+        return dirname($path);
     }
 
     /**
@@ -300,7 +308,8 @@ class FileSystem implements FileSystemInterface
      */
     public function extension(string $path):? string
     {
-        return '';
+        $info = phpinfo($path);
+        return $info['extension'];
     }
 
     /**
@@ -311,7 +320,7 @@ class FileSystem implements FileSystemInterface
      */
     public function type(string $path):? string
     {
-        return '';
+        return filetype($path);
     }
 
     /**
@@ -322,7 +331,7 @@ class FileSystem implements FileSystemInterface
      */
     public function mimeType(string $path):? string
     {
-        return '';
+        return mime_content_type($path);
     }
 
     /**
@@ -333,7 +342,7 @@ class FileSystem implements FileSystemInterface
      */
     public function lastModified(string $path): int
     {
-        return 1;
+        return filemtime($path);
     }
 
     /**
@@ -344,7 +353,7 @@ class FileSystem implements FileSystemInterface
      */
     public function isReadable(string $path): bool
     {
-        return true;
+        return is_readable($path);
     }
     
     /**
@@ -355,7 +364,7 @@ class FileSystem implements FileSystemInterface
      */
     public function isWritable(string $path): bool
     {
-        return true;
+        return is_writable($path);
     }
     
     /**
@@ -365,8 +374,11 @@ class FileSystem implements FileSystemInterface
      * @param  bool  $hidden
      */
     public function files(string $directory, bool $hidden = false): iterable
-    {
-        return [];
+    {        
+        // exclude hidden files
+        if (! $hidden) return preg_grep('/^([^.])/', scandir($directory));
+        
+        return scandir($directory);   
     }
     
     /**
@@ -377,7 +389,19 @@ class FileSystem implements FileSystemInterface
      */
     public function allFiles(string $directory, bool $hidden = false): iterable
     {
-        return [];
+        $files = [];
+        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+
+        if (is_array($tree)) {
+            foreach($tree as $file) {
+                // Recursively get files in directory
+                if ($this->isDirectory($file)) {
+                    $files = $this->allFiles($file);
+                }
+            }
+        }
+
+        return $files;
     }
     
     /**
@@ -388,7 +412,14 @@ class FileSystem implements FileSystemInterface
      */
     public function directories(string $directory, bool $hidden = false): iterable
     {
-        return [];
+        $directories = [];
+        foreach (scandir($directory) as $directory) {
+            if ($this->isDirectory($directory)) {
+                $directories[] = $directory;
+            }
+        }
+
+        return $directories;
     }
     
     /**
@@ -399,7 +430,19 @@ class FileSystem implements FileSystemInterface
      */
     public function allDirectories(string $directory, bool $hidden = false): iterable
     {
-        return [];
+        $directories = [];
+        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+
+        if (is_array($tree)) {
+            foreach($tree as $file) {
+                // Recursively get files in directory
+                if ($this->isDirectory($file)) {
+                    $directories[] = $file; 
+                }
+            }
+        }
+
+        return $directories;
     }
     
     /**
@@ -410,7 +453,10 @@ class FileSystem implements FileSystemInterface
      */
     public function list(string $directory, bool $hidden = false): iterable
     {
-        return [];
+        // exclude hidden files
+        if (! $hidden) return preg_grep('/^([^.])/', scandir($directory));
+        
+        return scandir($directory);   
     }
     
     /**
@@ -421,7 +467,20 @@ class FileSystem implements FileSystemInterface
      */
     public function listAll(string $directory, bool $hidden = false): iterable
     {
-        return [];
+        $files = [];
+        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+
+        if (is_array($tree)) {
+            foreach($tree as $file) {
+                if ($this->isDirectory($file)) {
+                    $files[] = $this->allFiles($file);
+                } else {
+                    $files[] = $file;
+                }
+            }
+        }
+
+        return $files;
     }
     
     /**
@@ -433,6 +492,6 @@ class FileSystem implements FileSystemInterface
      */
     public function glob(string $pattern, int $flags): iterable
     {
-        return [];
+        return glob($pattern, $flags);
     }
 }
