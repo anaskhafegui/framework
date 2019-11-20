@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\Event\Event;
+use Core\FileSystem\FileSystem;
 use Core\Http\Request;
 use Core\Http\Response;
 use Core\Router\Router;
@@ -35,6 +36,7 @@ class Application
         'request'       => Request::class,
         'response'      => Response::class,
         'event'         => Event::class,
+        'file'          => FileSystem::class,
     ];
 
 	/**

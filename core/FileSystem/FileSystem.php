@@ -8,6 +8,32 @@ use RecursiveIteratorIterator;
 class FileSystem implements FileSystemInterface
 {
     /**
+     * Singleton Instance
+     *
+     * @var mixed
+     */
+    private static $instance;
+
+    private function __construct() 
+    {
+        
+    }
+
+    /**
+     * Get Router Instance
+     *
+     * @return mixed
+     */
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
+    
+    /**
      * Check if the given path exists
      * 
      * @param string $path
@@ -62,7 +88,7 @@ class FileSystem implements FileSystemInterface
      */
     public function cleanDirectory(string $path): bool
     {
-        array_map( 'unlink', array_filter((array) glob($path) ) );
+        array_map('unlink', array_filter((array) glob($path) ) );
 
         return glob($path . "*") == 0;
     }

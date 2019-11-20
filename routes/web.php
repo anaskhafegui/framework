@@ -51,6 +51,7 @@ app('router')->get('/', 'HomeController@index');
 */
 
 
+pre(app('file')->delete('../app/Http/Controllers/Test/Test2/toClean.txt'));
 
 /*
 |---------------------------------------------
@@ -59,19 +60,19 @@ app('router')->get('/', 'HomeController@index');
 */
 
 
-app('event')->register('send-email');
+// app('event')->register('send-email');
 
-app('event')->subscribe('send-email', function($name, $date){
-    echo 'sending an email for ' . $name  .' @ ' . $date ."\n";
-});
+// app('event')->subscribe('send-email', function($name, $date){
+//     echo 'sending an email for ' . $name  .' @ ' . $date ."\n";
+// });
 
-app('event')->subscribe('send-email', function($name, $date, $email){
-    echo "<br> then activate an account ". $email;
-});
+// app('event')->subscribe('send-email', function($name, $date, $email){
+//     echo "<br> then activate an account ". $email;
+// });
 
-app('event')->subscribe('send-email', function(){
-    echo "<br> auto login with user";
-});
+// app('event')->subscribe('send-email', function(){
+//     echo "<br> auto login with user";
+// });
 
 
-app('event')->dispatch('send-email', ['Mohamed', 'Today', 'mg@gmail.com']);
+// app('event')->dispatch('send-email', ['Mohamed', 'Today', 'mg@gmail.com']);
