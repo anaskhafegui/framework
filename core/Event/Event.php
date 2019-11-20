@@ -98,9 +98,4 @@ class Event
         if (isset($this->map[$eventName]) || is_array($this->map[$eventName])) 
             return true;
     }
-
-    public function getMap()
-    {
-        return $this->map;
-    }
 }

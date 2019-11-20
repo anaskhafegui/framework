@@ -75,7 +75,3 @@ app('event')->subscribe('send-email', function(){
 
 
 app('event')->dispatch('send-email', ['Mohamed', 'Today', 'mg@gmail.com']);
-
-
-
-// pre(app('event')->getMap());
