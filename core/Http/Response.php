@@ -2,7 +2,7 @@
 
 namespace Core\Http;
 
-use Core\Interfaces\ResponseInterface;
+use Interfaces\ResponseInterface;
 
 class Response implements ResponseInterface
 {

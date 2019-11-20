@@ -6,11 +6,11 @@ class HomeController {
 
     public function index()
     {
-        // echo "Hello from index@HomeController";
+        echo "Hello from index@HomeController";
     }
 
     public function users()
     {
-        // echo "Hello from users@HomeController";
+        echo "Hello from users@HomeController";
     }
 }

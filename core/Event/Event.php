@@ -2,7 +2,9 @@
 
 namespace Core\Event;
 
-class Event
+use Interfaces\EventInterface;
+
+class Event implements EventInterface
 {
     /**
      * Event map

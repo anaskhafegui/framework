@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6476d0a2818dff5c818494c8bb6cd51d",
+    "packages": [
+        {
+            "name": "espresso-php/interfaces",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/espressoPHP/interfaces.git",
+                "reference": "998252024780947a38920232cb87d15ec403637f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/espressoPHP/interfaces/zipball/998252024780947a38920232cb87d15ec403637f",
+                "reference": "998252024780947a38920232cb87d15ec403637f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interfaces\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Mohamed Gamal",
+                    "email": "mg.dev1992@gmail.com"
+                }
+            ],
+            "description": "EspressoPHP Framework Interfaces",
+            "time": "2019-11-20T16:13:51+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "espresso-php/interfaces": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^7.1.3"
+    },
+    "platform-dev": []
+}

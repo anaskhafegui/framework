@@ -2,8 +2,7 @@
 
 namespace Core\FileSystem;
 
-use Core\Interfaces\FileSystemInterface;
-use RecursiveIteratorIterator;
+use Interfaces\FileSystemInterface;
 
 class FileSystem implements FileSystemInterface
 {

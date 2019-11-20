@@ -2,7 +2,7 @@
 
 namespace Core\Http;
 
-use Core\Interfaces\RequestInterface;
+use Interfaces\RequestInterface;
 
 class Request implements RequestInterface
 {

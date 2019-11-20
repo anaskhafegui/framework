@@ -14,7 +14,7 @@ app('router')->get('/', 'HomeController@index');
 // });
 
 
-// app('router')->get('users/{id}', '');
+app('router')->get('users/{id}', 'HomeController@users');
 
 
 
@@ -25,13 +25,13 @@ app('router')->get('/', 'HomeController@index');
 */
 
 
-// $rules = [
-//     'name' => 'required|min:3|max:4|length:4',
-//     'username' => 'required',
-//     'age' => 'required|number'
-// ];
+$rules = [
+    'name' => 'required|min:3|max:4|length:4',
+    'username' => 'required',
+    'age' => 'required|number'
+];
 
-// (count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
+(count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
 
 
 /*
@@ -51,7 +51,7 @@ app('router')->get('/', 'HomeController@index');
 */
 
 
-pre(app('file')->delete('../app/Http/Controllers/Test/Test2/toClean.txt'));
+// pre(app('file')->delete('../app/Http/Controllers/Test/Test2/toClean.txt'));
 
 /*
 |---------------------------------------------
