@@ -59,7 +59,6 @@ $rules = [
 |---------------------------------------------- 
 */
 
-
 // app('event')->register('send-email');
 
 // app('event')->subscribe('send-email', function($name, $date){
