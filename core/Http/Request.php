@@ -3,6 +3,7 @@
 namespace Core\Http;
 
 use Core\Interfaces\RequestInterface;
+use Core\Validator\Validator;
 
 class Request implements RequestInterface
 {
@@ -13,6 +14,18 @@ class Request implements RequestInterface
      * @var mixed
      */
     private static $instance;
+
+    /**
+     * validator object
+     *
+     * @var mixed
+     */
+    private $validator;
+
+    private function __construct()
+    {
+        $this->validator = new Validator;
+    }
 
     /**
      * Get Request Instance
@@ -82,55 +95,7 @@ class Request implements RequestInterface
      */
     public function validate(array $rules) 
     {
-        $errors = [];
-        
-        // 1. loop through rules array
-        foreach ($rules as $input => $inputRules) {
-            // 2. extract key (input) from request
-            $value = $this->{$input};
-
-            // 3. explode rules by |
-            foreach (explode('|', $inputRules) as $rule) {
-
-                /*
-                |---------------------------------------------
-                | Needs some refactoring!
-                |---------------------------------------------- 
-                */
-               
-                // 4. apply each rule on input
-
-                // rule with parameter
-                if (strpos($rule, ':')) {
-                    list($rule, $parameter) = explode(':', $rule);
-                    switch ($rule) {
-                        case 'min':
-                            if (strlen($value) < $parameter) $errors[$input][$rule] = 'min error';
-                            break;
-
-                        case 'max':
-                            if (strlen($value) > $parameter) $errors[$input][$rule] = 'max error';
-                            break;
-
-                        case 'length':
-                            if (strlen($value) != $parameter) $errors[$input][$rule] = 'length error';
-                            break;
-                    }
-                }
-
-
-                // rule without parameter
-                switch($rule){
-                    case 'required':
-                        if (strlen($value) < 1) $errors[$input][$rule] = 'required error';
-                        break;
-
-                    case 'number':
-                        if (! is_numeric($value)) $errors[$input][$rule] = 'number error';
-                        break;
-                }
-            }
-        }
+        $errors = $this->validator->validate($rules);
 
         return $errors ?? true; 
     }

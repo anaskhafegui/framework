@@ -25,13 +25,13 @@ app('router')->get('users/{id}', 'HomeController@users');
 */
 
 
-// $rules = [
-//     'name' => 'required|min:3|max:4|length:4',
-//     'username' => 'required',
-//     'age' => 'required|number'
-// ];
+$rules = [
+    'name' => 'required|min:3|max:4|length:4',
+    'username' => 'required',
+    'age' => 'required|number'
+];
 
-// (count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
+(count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
 
 
 /*
