@@ -51,7 +51,7 @@ $rules = [
 */
 
 
-// pre(app('file')->delete('../app/Http/Controllers/Test/Test2/toClean.txt'));
+pre(app('file')->allFiles('../app/Http/Controllers/Test'));
 
 /*
 |---------------------------------------------

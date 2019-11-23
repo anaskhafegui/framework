@@ -85,11 +85,22 @@ class FileSystem implements FileSystemInterface
      * @param  string $path
      * @return bool
      */
-    public function cleanDirectory(string $path): bool
+    public function cleanDirectory(string $path):bool
     {
-        array_map('unlink', array_filter((array) glob($path) ) );
+        $structure = $this->glob(rtrim($path, "/").'/*', 0);
+        if (is_array($structure)) {
+            foreach($structure as $file) {
+                if (is_dir($file) && $path != $file) {
+                    $this->cleanDirectory($file);
+                    rmdir($file);
 
-        return glob($path . "*") == 0;
+                } else if (is_file($file)) {
+                    unlink($file);
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -199,7 +210,7 @@ class FileSystem implements FileSystemInterface
         $this->put($path, $appendContent, 0);
     }
     
-    /**
+    /**test
      * Delete the given path
      * This works with files and directories as well
      * 
@@ -208,15 +219,23 @@ class FileSystem implements FileSystemInterface
      */
     public function delete(string $path): bool
     {
-        if ($this->isDirectory($path)) 
-        {
-            return rmdir($path);
-        }
+        $structure = $this->glob(rtrim($path, "/").'/*', 0);
+        if (is_array($structure)) {
+            foreach($structure as $file) {
+                if ($this->isDirectory($file)) {
+                    $this->cleanDirectory($file);
+                    rmdir($file);
+                } else if ($this->isFile($file)) {
+                    unlink($file);
+                }
+            }
 
-        return unlink($path);
+            rmdir($path);
+            return true;
+        }
     }
     
-    /**
+    /**tst
      * Rename the given path to the new path
      * 
      * @param string $oldPath
@@ -304,17 +323,6 @@ class FileSystem implements FileSystemInterface
     }
 
     /**
-     * Extract the trailing name component from a file path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function basename(string $path): string
-    {
-        return '';
-    }
-
-    /**
      * Extract the parent directory from a file path.
      *
      * @param  string  $path
@@ -333,8 +341,7 @@ class FileSystem implements FileSystemInterface
      */
     public function extension(string $path):? string
     {
-        $info = phpinfo($path);
-        return $info['extension'];
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**
@@ -400,10 +407,16 @@ class FileSystem implements FileSystemInterface
      */
     public function files(string $directory, bool $hidden = false): iterable
     {        
-        // exclude hidden files
-        if (! $hidden) return preg_grep('/^([^.])/', scandir($directory));
-        
-        return scandir($directory);   
+        $files = [];
+        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+
+        if (is_array($tree)) {
+            foreach($tree as $file) {
+                if( ! $this->isDirectory($file)) $files[] = $this->name($file);
+            }
+        }
+
+        return $files;
     }
     
     /**
@@ -415,13 +428,14 @@ class FileSystem implements FileSystemInterface
     public function allFiles(string $directory, bool $hidden = false): iterable
     {
         $files = [];
-        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+        $tree = $this->glob(rtrim($directory, '/') . '/*', GLOB_BRACE);
 
         if (is_array($tree)) {
             foreach($tree as $file) {
-                // Recursively get files in directory
-                if ($this->isDirectory($file)) {
+                if($this->isDirectory($file)) {
                     $files = $this->allFiles($file);
+                } else {
+                    $files[] = $this->name($file);
                 }
             }
         }
@@ -437,14 +451,16 @@ class FileSystem implements FileSystemInterface
      */
     public function directories(string $directory, bool $hidden = false): iterable
     {
-        $directories = [];
-        foreach (scandir($directory) as $directory) {
-            if ($this->isDirectory($directory)) {
-                $directories[] = $directory;
+        $dirs = [];
+        $tree =  $this->glob($directory . '/*' , GLOB_ONLYDIR);
+
+        if (is_array($tree)) {
+            foreach($tree as $dir) {
+                $dirs[] = $dir;
             }
         }
 
-        return $directories;
+        return $dirs;
     }
     
     /**
@@ -455,19 +471,17 @@ class FileSystem implements FileSystemInterface
      */
     public function allDirectories(string $directory, bool $hidden = false): iterable
     {
-        $directories = [];
-        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+        $dirs = [];
+        $tree =  $this->glob($directory . '/*' , GLOB_ONLYDIR);
 
         if (is_array($tree)) {
             foreach($tree as $file) {
-                // Recursively get files in directory
-                if ($this->isDirectory($file)) {
-                    $directories[] = $file; 
-                }
+                $dirs[] = $file;
+                $dirs = array_merge($dirs, (array)$this->allDirectories($file));
             }
         }
 
-        return $directories;
+        return $dirs;
     }
     
     /**
@@ -478,10 +492,12 @@ class FileSystem implements FileSystemInterface
      */
     public function list(string $directory, bool $hidden = false): iterable
     {
-        // exclude hidden files
-        if (! $hidden) return preg_grep('/^([^.])/', scandir($directory));
-        
-        return scandir($directory);   
+        $list = [];
+
+        $list['directories'] = $this->directories($directory);
+        $list['files'] = $this->files($directory);
+
+        return $list;
     }
     
     /**
@@ -492,20 +508,12 @@ class FileSystem implements FileSystemInterface
      */
     public function listAll(string $directory, bool $hidden = false): iterable
     {
-        $files = [];
-        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+        $list = [];
 
-        if (is_array($tree)) {
-            foreach($tree as $file) {
-                if ($this->isDirectory($file)) {
-                    $files[] = $this->allFiles($file);
-                } else {
-                    $files[] = $file;
-                }
-            }
-        }
+        $list['directories'] = $this->allDirectories($directory);
+        $list['files'] = $this->allFiles($directory);
 
-        return $files;
+        return $list;
     }
     
     /**

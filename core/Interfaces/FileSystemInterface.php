@@ -196,14 +196,6 @@ interface FileSystemInterface
     public function name(string $path): string;
 
     /**
-     * Extract the trailing name component from a file path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function basename(string $path): string;
-
-    /**
      * Extract the parent directory from a file path.
      *
      * @param  string  $path
