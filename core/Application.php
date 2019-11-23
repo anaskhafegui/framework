@@ -7,6 +7,7 @@ use Core\FileSystem\FileSystem;
 use Core\Http\Request;
 use Core\Http\Response;
 use Core\Router\Router;
+use Core\Session\Session;
 use Exception;
 
 class Application
@@ -37,6 +38,7 @@ class Application
         'response'      => Response::class,
         'event'         => Event::class,
         'file'          => FileSystem::class,
+        'session'       => Session::class,
     ];
 
 	/**
