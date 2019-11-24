@@ -31,7 +31,11 @@ $rules = [
     'age' => 'required|number|min:9|max:50'
 ];
 
-(count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));
+if ($errors = validate($rules)) {
+    pre($errors);
+} else {
+    echo 'Passed! <br>';
+}
 
 
 /*

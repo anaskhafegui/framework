@@ -57,3 +57,17 @@ if (! function_exists('response')) {
         return app('response');
     }
 }
+
+
+/**
+ * handle validation
+ *
+ * @param string $key
+ * @return mixed
+ */
+if (! function_exists('validate')) {
+    function validate($rules) 
+    {
+        return app('request')->validate($rules);
+    }
+}
