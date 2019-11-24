@@ -26,9 +26,9 @@ app('router')->get('users/{id}', 'HomeController@users');
 
 
 $rules = [
-    'name' => 'required|min:3|max:4|length:4',
+    'name' => 'required|min:3|max:4',
     'username' => 'required',
-    'age' => 'required|number'
+    'age' => 'required|number|min:9|max:50'
 ];
 
 (count(app('request')->validate($rules)) == 0) ? pre('passed!') : pre(app('request')->validate($rules));

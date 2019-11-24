@@ -11,7 +11,6 @@ class Validator
         foreach ($rules as $input => $inputRules) {
             // 2. extract key (input) from request
             
-
             // 3. explode rules by |
             foreach (explode('|', $inputRules) as $rule) {
                 // 4. apply each rule on input
@@ -22,6 +21,9 @@ class Validator
                 $parameter = $parsingRules[1] ?? null;
                 
                 $errors[$input] = $this->applyRule($input, $rule, $parameter);
+
+                if (count($errors[$input]) == 0 )
+                    unset($errors[$input]);
 
             }
         }
@@ -38,11 +40,19 @@ class Validator
 
         switch ($rule) {
             case 'min':
-                if (strlen($value) < $parameter) $errors[$rule] = 'min error';
+                if (is_numeric($value) && $value < $parameter) {
+                    $errors[$rule] = 'min value error';
+                } else if(! is_numeric($value) && strlen($value) < $parameter) {
+                    $errors[$rule] = 'min length error';
+                }
                 break;
 
             case 'max':
-                if (strlen($value) > $parameter) $errors[$rule] = 'max error';
+            if (is_numeric($value) && $value > $parameter) {
+                $errors[$rule] = 'max value error';
+            } else if(! is_numeric($value) && strlen($value) > $parameter) {
+                $errors[$rule] = 'max length error';
+            }
                 break;
 
             case 'length':
