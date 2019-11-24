@@ -15,7 +15,7 @@ class Session implements SessionInterface
 
     private function __construct() 
     {
-        
+        $this->start();
     }
 
     /**
@@ -27,7 +27,6 @@ class Session implements SessionInterface
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
-            (new self)->start();
         }
 
         return static::$instance;

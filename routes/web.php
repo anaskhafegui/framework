@@ -97,4 +97,4 @@ echo app('session')->flash('forget');
 // echo app('session')->get('forget');
 
 
-// pre(app('session')->all());
+pre(app('session')->all());
