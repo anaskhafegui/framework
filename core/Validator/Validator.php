@@ -7,6 +7,8 @@ class Validator
 
     public function validate($rules)
     {
+        $errors = [];
+
         // 1. loop through rules array
         foreach ($rules as $input => $inputRules) {
             // 2. extract key (input) from request
@@ -16,59 +18,59 @@ class Validator
                 // 4. apply each rule on input
 
                 // rule with parameter
-                $parsingRules = explode(':', $rule);
-                $rule = $parsingRules[0];
-                $parameter = $parsingRules[1] ?? null;
+                list($rule, $parameter) = $this->parseRule($rule);
                 
-                $errors[$input] = $this->applyRule($input, $rule, $parameter);
+                // get value
+                $value = $this->extractValueFromInputRequest($input);
 
-                if (count($errors[$input]) == 0 )
-                    unset($errors[$input]);
+                // get a new rule object
+                $ruleObject = $this->generateRuleObject($rule);
 
-            }
-        }
-
-        return $errors;
-    }
-
-
-    public function applyRule($input, $rule, $parameter)
-    {
-        $errors = [];
-
-        $value = app('request')->{$input};
-
-        switch ($rule) {
-            case 'min':
-                if (is_numeric($value) && $value < $parameter) {
-                    $errors[$rule] = 'min value error';
-                } else if(! is_numeric($value) && strlen($value) < $parameter) {
-                    $errors[$rule] = 'min length error';
+                // fill errors array if exists
+                if ($error = $ruleObject->apply($value, $parameter)) {
+                    $errors[$input][$rule] = $error;
                 }
-                break;
-
-            case 'max':
-            if (is_numeric($value) && $value > $parameter) {
-                $errors[$rule] = 'max value error';
-            } else if(! is_numeric($value) && strlen($value) > $parameter) {
-                $errors[$rule] = 'max length error';
             }
-                break;
-
-            case 'length':
-                if (strlen($value) != $parameter) $errors[$rule] = 'length error';
-                break;
-
-            case 'required':
-                if (strlen($value) < 1) $errors[$rule] = 'required error';
-                break;
-
-            case 'number':
-                if (! is_numeric($value)) $errors[$rule] = 'number error';
-                break;
         }
 
         return $errors;
     }
 
+    /**
+     * Get value of input
+     *
+     * @param string $input
+     * @return string
+     */
+    private function extractValueFromInputRequest($input): string
+    {
+        return app('request')->{$input};
+    }
+
+    /**
+     * Generate a new object based on current rule
+     *
+     * @param string $rule
+     * @return object
+     */
+    private function generateRuleObject($rule): object
+    {
+        $className = 'Core\\Validator\\Rules\\'.ucfirst($rule);
+        return new $className();
+    }
+
+    /**
+     * Parse rule with its parameters
+     *
+     * @param string $rule
+     * @return array
+     */
+    public function parseRule($rule): array
+    {
+        $parsingRules = explode(':', $rule);
+        $rule = $parsingRules[0];
+        $parameter = $parsingRules[1] ?? null;
+
+        return [$rule, $parameter];
+    }
 }
