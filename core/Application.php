@@ -143,8 +143,6 @@ class Application
     {
         // Load Routes
         $this->loadWebRoutes();
-
-        // Load Routes
         $this->router->handle();
     }
 }
