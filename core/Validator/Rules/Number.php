@@ -2,7 +2,9 @@
 
 namespace Core\Validator\Rules;
 
-class Number extends Rule
+use Core\Validator\AbstractRule;
+
+class Number extends AbstractRule
 {
     public function apply($value, $parameter)
     {

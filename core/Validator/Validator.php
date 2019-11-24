@@ -2,8 +2,21 @@
 
 namespace Core\Validator;
 
+use Core\Validator\Rules\Length;
+use Core\Validator\Rules\Max;
+use Core\Validator\Rules\Min;
+use Core\Validator\Rules\Number;
+use Core\Validator\Rules\Required;
+
 class Validator
 {
+    private const RULES = [
+        'length'    => Length::class,
+        'max'       => Max::class,
+        'min'       => Min::class,
+        'number'    => Number::class,
+        'required'  => Required::class,
+    ];
 
     public function validate($rules)
     {
@@ -40,9 +53,9 @@ class Validator
      * Get value of input
      *
      * @param string $input
-     * @return string
+     * @return string|null
      */
-    private function extractValueFromInputRequest($input): string
+    private function extractValueFromInputRequest($input):? string
     {
         return app('request')->{$input};
     }
@@ -55,8 +68,8 @@ class Validator
      */
     private function generateRuleObject($rule): object
     {
-        $className = 'Core\\Validator\\Rules\\'.ucfirst($rule);
-        return new $className();
+        $ruleName = self::RULES[$rule];
+        return new $ruleName;
     }
 
     /**

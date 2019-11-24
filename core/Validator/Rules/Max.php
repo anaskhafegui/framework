@@ -2,7 +2,9 @@
 
 namespace Core\Validator\Rules;
 
-class Max extends Rule
+use Core\Validator\AbstractRule;
+
+class Max extends AbstractRule
 {
     public function apply($value, $parameter)
     {

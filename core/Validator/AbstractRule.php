@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Validator\Rules;
+namespace Core\Validator;
 
-abstract class Rule
+abstract class AbstractRule
 {
     public abstract function apply($value, $parameter);
 }

@@ -2,7 +2,9 @@
 
 namespace Core\Validator\Rules;
 
-class Min extends Rule
+use Core\Validator\AbstractRule;
+
+class Min extends AbstractRule
 {
     public function apply($value, $parameter)
     {

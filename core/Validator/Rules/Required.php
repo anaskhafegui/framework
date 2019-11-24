@@ -2,7 +2,9 @@
 
 namespace Core\Validator\Rules;
 
-class Required extends Rule
+use Core\Validator\AbstractRule;
+
+class Required extends AbstractRule
 {
     public function apply($value, $parameter)
     {
