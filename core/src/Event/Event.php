@@ -83,7 +83,7 @@ class Event implements EventInterface
             if (is_array($params)) {
                 call_user_func_array($callback, $params);
             } else {
-                call_user_func($callback, $params);
+                call_user_func($callback);
             }
         }
     }
