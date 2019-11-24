@@ -2,9 +2,9 @@
 
 namespace Core\Validator\Rules;
 
-use Core\Validator\AbstractRule;
+use Core\Validator\RuleInterface;
 
-class Max extends AbstractRule
+class Max implements RuleInterface
 {
     public function apply($value, $parameter)
     {
