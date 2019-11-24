@@ -2,11 +2,7 @@
 
 namespace Core\Validator;
 
-use Core\Validator\Rules\Length;
-use Core\Validator\Rules\Max;
-use Core\Validator\Rules\Min;
-use Core\Validator\Rules\Number;
-use Core\Validator\Rules\Required;
+use Core\Validator\Rules\{Max, Min, Number, Required};
 
 class Validator
 {
