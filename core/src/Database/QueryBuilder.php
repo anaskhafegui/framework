@@ -49,6 +49,13 @@ class QueryBuilder implements QueryBuilderInterface
     private $having;
 
     /**
+     * OrderBy
+     *
+     * @var string
+     */
+    private $orderBy;
+
+    /**
      * Set Table
      *
      * @param string $table
@@ -122,7 +129,22 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function orderBy($column, $type=null){}
+    public function orderBy($column, $type=null)
+    {
+        $type = $type ?? "ASC";
+        $orderBy = $column ." ". $type;
+        
+        if (is_null($this->orderBy)) {
+            // if orderBy not exists before
+            $statement = " ORDER BY ". $orderBy;
+        } else {
+            $statement = ", ". $orderBy;
+        }
+
+        $this->orderBy .= $statement;
+    
+        return $this;
+    }
 
     public function limit($limit){}
 
@@ -151,6 +173,7 @@ class QueryBuilder implements QueryBuilderInterface
         $query .= $this->where;
         $query .= $this->groupBy;
         $query .= $this->having;
+        $query .= $this->orderBy;
 
         $this->query = $query;
 

@@ -114,6 +114,8 @@ echo $query->table('users')
 ->orWhere('age', '>', 30)
 ->groupBy('id')
 ->having('rate', '>', 90)
+->orderBy('id', 'ASC')
+->orderBy('created_at', 'DESC')
 ->renderQuery();
 
 
