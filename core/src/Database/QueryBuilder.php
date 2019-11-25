@@ -80,7 +80,7 @@ class QueryBuilder implements QueryBuilderInterface
      * Set Table
      *
      * @param string $table
-     * @return void
+     * @return object
      */
     public function table($table)
     {
@@ -89,7 +89,13 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function select()
+    /**
+     * Select Statement
+     *
+     * @param string $table
+     * @return object
+     */
+    public function select(): QueryBuilderInterface
     {
         $columns = func_get_args();
         $columns = implode(', ', $columns);
@@ -99,7 +105,17 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function where($column, $operator, $value, $type=null)
+    /**
+     * Where Condition
+     *
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * @param string $type
+     * 
+     * @return QueryBuilderInterface
+     */
+    public function where($column, $operator, $value, $type=null): QueryBuilderInterface
     {
         $where = $column . $operator . $value;
         
@@ -118,36 +134,74 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function orWhere($column, $operator, $value)
+    /**
+     * orWhere Condition
+     *
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * 
+     * @return QueryBuilderInterface
+     */
+    public function orWhere($column, $operator, $value): QueryBuilderInterface
     {
         $this->where($column, $operator, $value, 'OR');
 
         return $this;
     }
 
-    // INNER JOIN table2 ON table1.column_name = table2.column_name;
-    public function join($table, $firstColumn, $secondColumn, $type = 'INNER')
+    /**
+     * Join Table
+     *
+     * @param string $table
+     * @param string $firstColumn
+     * @param string $secondColumn
+     * @param string $type
+     * @return QueryBuilderInterface
+     */
+    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryBuilderInterface
     {
         $this->join = " " .$type ." JOIN " . $table . " ON ". $firstColumn . " = ". $secondColumn;
 
         return $this;
     }
 
-    public function rightJoin($table, $firstColumn, $secondColumn)
+    /**
+     * Right Join Table
+     *
+     * @param string $table
+     * @param string $firstColumn
+     * @param string $secondColumn
+     * @return QueryBuilderInterface
+     */
+    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
     {
         $this->join = $this->join($table, $firstColumn, $secondColumn, 'RIGHT');
 
         return $this;
     }
 
-    public function leftJoin($table, $firstColumn, $secondColumn)
+    /**
+     * Left Join Table
+     *
+     * @param string $table
+     * @param string $firstColumn
+     * @param string $secondColumn
+     * @return QueryBuilderInterface
+     */
+    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
     {
         $this->join = $this->join($table, $firstColumn, $secondColumn, 'LEFT');
 
         return $this;
     }    
 
-    public function groupBy()
+    /**
+     * GroupBy Statement
+     * 
+     * @return QueryBuilderInterface
+     */
+    public function groupBy(): QueryBuilderInterface
     {
         $groupBy = func_get_args();
         $groupBy = " GROUP BY ". implode (', ', $groupBy) . " ";
@@ -157,7 +211,15 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function having($column, $operator, $value)
+    /**
+     * Having Condition
+     *
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * @return QueryBuilderInterface
+     */
+    public function having($column, $operator, $value): QueryBuilderInterface
     {
         $having = " HAVING ". $column . $operator . $value;
 
@@ -166,7 +228,14 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function orderBy($column, $type=null)
+    /**
+     * OrderBy Statement
+     *
+     * @param string $column
+     * @param string $type
+     * @return QueryBuilderInterface
+     */
+    public function orderBy($column, $type=null): QueryBuilderInterface
     {
         $type = $type ?? "ASC";
         $orderBy = $column ." ". $type;
@@ -183,37 +252,108 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function limit($limit)
+    /**
+     * Limit Condition
+     *
+     * @param string $limit
+     * @return QueryBuilderInterface
+     */
+    public function limit($limit): QueryBuilderInterface
     {
         $this->limit = " LIMIT ". $limit;
 
         return $this;
     }
 
-    public function offset($offset)
+    /**
+     * Offset Statement
+     *
+     * @param string $offset
+     * @return QueryBuilderInterface
+     */
+    public function offset($offset): QueryBuilderInterface
     {
         $this->offset = " OFFSET ". $offset;
 
         return $this;
     }
 
+    /**
+     * Fetch results from the compiled query
+     *
+     * @return mixed
+     */
     public function get(){}
 
+    /**
+     * Fetch single row from the compiled query
+     *
+     * @return mixed
+     */
     public function first(){}
 
+    /**
+     * Execute the complied query
+     *
+     * @return mixed
+     */
     public function execute(){}
 
-    public function insert($data){}
+    /**
+     * Insert Records
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function insert($data): bool
+    {
+        return true;
+    }
 
-    public function update($data){}
+    /**
+     * Update Record
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function update($data): bool
+    {
+        return true;
+    }
 
-    public function delete(){}
+    /**
+     * Delete Record
+     *
+     * @return bool
+     */
+    public function delete(): bool
+    {
+        return true;
+    }
 
+    /**
+     * Paginate Results
+     *
+     * @param int $itemPerPage
+     * @return mixed
+     */
     public function paginate($itemPerPage){}
 
+    /**
+     * Get Pagination Links
+     *
+     * @param int $currentPage
+     * @param int $pages
+     * @return mixed
+     */
     public function links($currentPage, $pages){}
 
-    public function renderQuery()
+    /**
+     * Render Compiled Query
+     *
+     * @return string
+     */
+    public function renderQuery(): string
     {
         $query = $this->select;
         $query .= $this->table;
@@ -230,6 +370,11 @@ class QueryBuilder implements QueryBuilderInterface
         return $this->query;
     }
 
+    /**
+     * Convert Object to String
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->query ?? "use <strong> renderQuery() </strong> to render display complied query";
