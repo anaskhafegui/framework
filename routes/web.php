@@ -112,7 +112,7 @@ echo $query->table('users')
 ->select('*')
 ->join('grade', 'users.id', '=', 'grade.user_id')
 ->where('users.id', '=', '1')
-->join('grades', 'users.id', 'grade.user_id')
+->join('grades', 'users.id', 'grade.user_id');
 // ->orWhere('age', '>', 30)
 // // ->groupBy('id')
 // // ->having('rate', '>', 90)
@@ -120,7 +120,7 @@ echo $query->table('users')
 // ->orderBy('created_at', 'DESC')
 // ->limit(10)
 // ->offset(1)
-->renderQuery();
+// ->renderQuery();
 
 
 /*

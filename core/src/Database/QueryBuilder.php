@@ -232,6 +232,6 @@ class QueryBuilder implements QueryBuilderInterface
 
     public function __toString()
     {
-        return $this->query ?? "No Query";
+        return $this->query ?? "use <strong> renderQuery() </strong> to render display complied query";
     }
 }
