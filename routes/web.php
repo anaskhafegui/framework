@@ -112,10 +112,12 @@ echo $query->table('users')
 ->select('*')
 ->where('id', '=', '1')
 ->orWhere('age', '>', 30)
-->groupBy('id')
-->having('rate', '>', 90)
-->orderBy('id', 'ASC')
-->orderBy('created_at', 'DESC')
+// // ->groupBy('id')
+// // ->having('rate', '>', 90)
+// // ->orderBy('id', 'ASC')
+// ->orderBy('created_at', 'DESC')
+// ->limit(10)
+// ->offset(1)
 ->renderQuery();
 
 

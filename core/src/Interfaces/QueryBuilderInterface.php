@@ -45,4 +45,6 @@ interface QueryBuilderInterface
     public function links($currentPage, $pages);
 
     public function renderQuery();
+
+    public function __toString();
 }

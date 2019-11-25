@@ -56,6 +56,20 @@ class QueryBuilder implements QueryBuilderInterface
     private $orderBy;
 
     /**
+     * Limit
+     *
+     * @var string
+     */
+    private $limit;
+
+    /**
+     * Offset
+     *
+     * @var stringoff
+     */
+    private $offset;
+
+    /**
      * Set Table
      *
      * @param string $table
@@ -146,9 +160,19 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function limit($limit){}
+    public function limit($limit)
+    {
+        $this->limit = " LIMIT ". $limit;
 
-    public function offset($offset){}
+        return $this;
+    }
+
+    public function offset($offset)
+    {
+        $this->offset = " OFFSET ". $offset;
+
+        return $this;
+    }
 
     public function get(){}
 
@@ -174,9 +198,16 @@ class QueryBuilder implements QueryBuilderInterface
         $query .= $this->groupBy;
         $query .= $this->having;
         $query .= $this->orderBy;
+        $query .= $this->limit;
+        $query .= $this->offset;
 
         $this->query = $query;
 
         return $this->query;
+    }
+
+    public function __toString()
+    {
+        return $this->query ?? "No Query";
     }
 }
