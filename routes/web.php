@@ -109,9 +109,11 @@ app('router')->get('/', 'HomeController@index');
 $query = new QueryBuilder;
 
 echo $query->table('users')
-->select('id', 'name', 'age')
+->select('*')
 ->where('id', '=', '1')
 ->orWhere('age', '>', 30)
+->groupBy('id')
+->having('rate', '>', 90)
 ->renderQuery();
 
 

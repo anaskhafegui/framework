@@ -32,8 +32,21 @@ class QueryBuilder implements QueryBuilderInterface
      *
      * @var string
      */
-    private $select = [];
+    private $select;
 
+    /**
+     * Group By Condition
+     *
+     * @var string
+     */
+    private $groupBy;
+
+    /**
+     * Having Condition
+     *
+     * @var string
+     */
+    private $having;
 
     /**
      * Set Table
@@ -53,14 +66,14 @@ class QueryBuilder implements QueryBuilderInterface
         $columns = func_get_args();
         $columns = implode(', ', $columns);
 
-        $this->select = $columns;
+        $this->select = "SELECT ". $columns . " FROM ";
 
         return $this;
     }
 
     public function where($column, $operator, $value, $type=null)
     {
-        $where = '`'. $column . '`'. $operator . $value;
+        $where = $column . $operator . $value;
         
         if (is_null($this->where)) {
             // if where not exists before
@@ -84,28 +97,30 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function renderQuery()
-    {
-        $query  = "SELECT ";
-        $query .= $this->select ?? '*'; 
-        $query .= " FROM ";
-        $query .= $this->table;
-        $query .= $this->where;
-
-        $this->query = $query;
-
-        return $this->query;
-    }
-
     public function join($table, $firstColumn, $secondColumn, $type = 'INNER'){}
 
     public function rightJoin($table, $firstColumn, $secondColumn){}
 
     public function leftJoin($table, $firstColumn, $secondColumn){}    
 
-    public function groupBy(){}
+    public function groupBy()
+    {
+        $groupBy = func_get_args();
+        $groupBy = " GROUP BY ". implode (', ', $groupBy) . " ";
 
-    public function having($column, $operator, $value){}
+        $this->groupBy = $groupBy;
+
+        return $this;
+    }
+
+    public function having($column, $operator, $value)
+    {
+        $having = " HAVING ". $column . $operator . $value;
+
+        $this->having = $having;
+
+        return $this;
+    }
 
     public function orderBy($column, $type=null){}
 
@@ -128,4 +143,17 @@ class QueryBuilder implements QueryBuilderInterface
     public function paginate($itemPerPage){}
 
     public function links($currentPage, $pages){}
+
+    public function renderQuery()
+    {
+        $query = $this->select;
+        $query .= $this->table;
+        $query .= $this->where;
+        $query .= $this->groupBy;
+        $query .= $this->having;
+
+        $this->query = $query;
+
+        return $this->query;
+    }
 }
