@@ -117,7 +117,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function where($column, $operator, $value, $type=null): QueryBuilderInterface
     {
-        $where = $column . $operator . $value;
+        $where = new Where($column, $operator, $value, $type);
         
         if (is_null($this->where)) {
             // if where not exists before
