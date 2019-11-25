@@ -110,8 +110,10 @@ $query = new QueryBuilder;
 
 echo $query->table('users')
 ->select('*')
-->where('id', '=', '1')
-->orWhere('age', '>', 30)
+->join('grade', 'users.id', '=', 'grade.user_id')
+->where('users.id', '=', '1')
+->join('grades', 'users.id', 'grade.user_id')
+// ->orWhere('age', '>', 30)
 // // ->groupBy('id')
 // // ->having('rate', '>', 90)
 // // ->orderBy('id', 'ASC')

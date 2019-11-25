@@ -35,6 +35,13 @@ class QueryBuilder implements QueryBuilderInterface
     private $select;
 
     /**
+     * Join
+     *
+     * @var string
+     */
+    private $join;
+
+    /**
      * Group By Condition
      *
      * @var string
@@ -65,7 +72,7 @@ class QueryBuilder implements QueryBuilderInterface
     /**
      * Offset
      *
-     * @var stringoff
+     * @var string
      */
     private $offset;
 
@@ -118,11 +125,27 @@ class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'){}
+    // INNER JOIN table2 ON table1.column_name = table2.column_name;
+    public function join($table, $firstColumn, $secondColumn, $type = 'INNER')
+    {
+        $this->join = " " .$type ." JOIN " . $table . " ON ". $firstColumn . " = ". $secondColumn;
 
-    public function rightJoin($table, $firstColumn, $secondColumn){}
+        return $this;
+    }
 
-    public function leftJoin($table, $firstColumn, $secondColumn){}    
+    public function rightJoin($table, $firstColumn, $secondColumn)
+    {
+        $this->join = $this->join($table, $firstColumn, $secondColumn, 'RIGHT');
+
+        return $this;
+    }
+
+    public function leftJoin($table, $firstColumn, $secondColumn)
+    {
+        $this->join = $this->join($table, $firstColumn, $secondColumn, 'LEFT');
+
+        return $this;
+    }    
 
     public function groupBy()
     {
@@ -194,6 +217,7 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $query = $this->select;
         $query .= $this->table;
+        $query .= $this->join;
         $query .= $this->where;
         $query .= $this->groupBy;
         $query .= $this->having;
