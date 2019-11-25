@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Database\QueryBuilder;
 use Core\Event\Event;
 use Core\FileSystem\FileSystem;
 use Core\Http\Request;
@@ -39,6 +40,7 @@ class Application
         'event'         => Event::class,
         'file'          => FileSystem::class,
         'session'       => Session::class,
+        'query_builder' => QueryBuilder::class,
     ];
 
 	/**

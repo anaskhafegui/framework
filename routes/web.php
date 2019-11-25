@@ -6,6 +6,8 @@
 |---------------------------------------------- 
 */
 
+use Core\Database\QueryBuilder;
+
 app('router')->get('/', 'HomeController@index');
 
 
@@ -14,7 +16,7 @@ app('router')->get('/', 'HomeController@index');
 // });
 
 
-app('router')->get('users/{id}', 'HomeController@users');
+// app('router')->get('users/{id}', 'HomeController@users');
 
 
 
@@ -25,17 +27,17 @@ app('router')->get('users/{id}', 'HomeController@users');
 */
 
 
-$rules = [
-    'name' => 'required|min:3|max:4',
-    'username' => 'required',
-    'age' => 'required|number|min:9|max:50'
-];
+// $rules = [
+//     'name' => 'required|min:3|max:4',
+//     'username' => 'required',
+//     'age' => 'required|number|min:9|max:50'
+// ];
 
-if ($errors = validate($rules)) {
-    pre($errors);
-} else {
-    echo 'Passed! <br>';
-}
+// if ($errors = validate($rules)) {
+//     pre($errors);
+// } else {
+//     echo 'Passed! <br>';
+// }
 
 
 /*
@@ -92,13 +94,25 @@ if ($errors = validate($rules)) {
 // app('session')->set('age', '10');
 // app('session')->set('forget', 'yes');
 
-echo app('session')->flash('forget');
+// echo app('session')->flash('forget');
 
 // echo app('session')->get('forget');
 
 
-pre(app('session')->all());
+// pre(app('session')->all());
 
+/*
+|---------------------------------------------
+| Database Testing
+|---------------------------------------------- 
+*/
+$query = new QueryBuilder;
+
+echo $query->table('users')
+->select('id', 'name', 'age')
+->where('id', '=', '1')
+->orWhere('age', '>', 30)
+->renderQuery();
 
 
 /*

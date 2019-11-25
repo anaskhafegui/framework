@@ -14,7 +14,9 @@ interface QueryBuilderInterface
 
     public function leftJoin($table, $firstColumn, $secondColumn);
 
-    public function where($column, $operator, $value);
+    public function where($column, $operator, $value, $type=null);
+
+    public function orWhere($column, $operator, $value);
 
     public function groupBy();
 
@@ -41,4 +43,6 @@ interface QueryBuilderInterface
     public function paginate($itemPerPage);
 
     public function links($currentPage, $pages);
+
+    public function renderQuery();
 }
