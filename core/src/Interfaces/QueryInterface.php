@@ -2,7 +2,7 @@
 
 namespace Core\Interfaces;
 
-interface QueryBuilderInterface
+interface QueryInterface
 {
     /**
      * Set table
@@ -18,7 +18,7 @@ interface QueryBuilderInterface
      * @param string $table
      * @return object
      */
-    public function select(): QueryBuilderInterface ;
+    public function select(): QueryInterface ;
 
     /**
      * Join Table
@@ -27,9 +27,9 @@ interface QueryBuilderInterface
      * @param string $firstColumn
      * @param string $secondColumn
      * @param string $type
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryBuilderInterface;
+    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryInterface;
 
     /**
      * Right Join Table
@@ -37,9 +37,9 @@ interface QueryBuilderInterface
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface;
+    public function rightJoin($table, $firstColumn, $secondColumn): QueryInterface;
 
     /**
      * Left Join Table
@@ -47,9 +47,9 @@ interface QueryBuilderInterface
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface;
+    public function leftJoin($table, $firstColumn, $secondColumn): QueryInterface;
 
     /**
      * Where Condition
@@ -59,9 +59,9 @@ interface QueryBuilderInterface
      * @param string $value
      * @param string $type
      * 
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function where($column, $operator, $value, $type=null): QueryBuilderInterface;
+    public function where($column, $operator, $value, $type=null): QueryInterface;
 
     /**
      * orWhere Condition
@@ -70,16 +70,16 @@ interface QueryBuilderInterface
      * @param string $operator
      * @param string $value
      * 
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function orWhere($column, $operator, $value): QueryBuilderInterface;
+    public function orWhere($column, $operator, $value): QueryInterface;
 
     /**
      * GroupBy Statement
      * 
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function groupBy(): QueryBuilderInterface;
+    public function groupBy(): QueryInterface;
 
     /**
      * Having Condition
@@ -87,34 +87,34 @@ interface QueryBuilderInterface
      * @param string $column
      * @param string $operator
      * @param string $value
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function having($column, $operator, $value): QueryBuilderInterface;
+    public function having($column, $operator, $value): QueryInterface;
 
     /**
      * OrderBy Statement
      *
      * @param string $column
      * @param string $type
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function orderBy($column, $type=null): QueryBuilderInterface;
+    public function orderBy($column, $type=null): QueryInterface;
 
     /**
      * Limit Condition
      *
      * @param string $limit
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function limit($limit): QueryBuilderInterface;
+    public function limit($limit): QueryInterface;
 
     /**
      * Offset Statement
      *
      * @param string $offset
-     * @return QueryBuilderInterface
+     * @return QueryInterface
      */
-    public function offset($offset): QueryBuilderInterface;
+    public function offset($offset): QueryInterface;
 
     /**
      * Fetch results from the compiled query
