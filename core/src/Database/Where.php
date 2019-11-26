@@ -4,46 +4,9 @@ namespace Core\Database;
 
 class Where
 {
-    
-
-    /**
-     * Singleton Instance
-     *
-     * @var mixed
-     */
-    private static $instance;
-
-    private static $column;
-    
-    private static $operator;
-    
-    private static $value;
-    
-    private static $type;
-
     private static $query;
     
-    private function __construct() 
-    {
-
-    }
-
-    /**
-     * Get Router Instance
-     *
-     * @return mixed
-     */
-    public static function getInstance()
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
-    }
-
-
-    public function generateQuery($column, $operator, $value, $type)
+    public static function generateQuery($column, $operator, $value, $type)
     {
         $where = $column . $operator . $value;
         
