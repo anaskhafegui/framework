@@ -6,7 +6,7 @@ class Where
 {
     private static $query;
     
-    public static function generateQuery($column, $operator, $value, $type)
+    public static function generate($column, $operator, $value, $type)
     {
         $where = $column . $operator . $value;
         
