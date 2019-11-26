@@ -6,6 +6,7 @@ use Core\Interfaces\QueryInterface;
 
 class Query implements QueryInterface
 {   
+
     /**
      * Final Query
      *
@@ -117,19 +118,9 @@ class Query implements QueryInterface
      */
     public function where($column, $operator, $value, $type=null): QueryInterface
     {
-        $where = new Where($column, $operator, $value, $type);
-        
-        if (is_null($this->where)) {
-            // if where not exists before
-            $statement = " WHERE ". $where;
-        } elseif(is_null($type)) {
-            // if type not specified so set type as AND
-            $statement = " AND ". $where;
-        } else {
-            $statement = " OR ". $where;
-        }
+        $statement = Where::getInstance()->generateQuery($column, $operator, $value, $type);
 
-        $this->where .= $statement;
+        $this->where = $statement;
     
         return $this;
     }
