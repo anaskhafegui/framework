@@ -118,9 +118,7 @@ class Query implements QueryInterface
      */
     public function where($column, $operator, $value, $type=null): QueryInterface
     {
-        $statement = Where::getInstance()->generateQuery($column, $operator, $value, $type);
-
-        $this->where = $statement;
+        $this->where = Where::getInstance()->generateQuery($column, $operator, $value, $type);
     
         return $this;
     }
