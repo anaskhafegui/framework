@@ -116,9 +116,9 @@ class QueryBuilder implements QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function where($column, $operator, $value, $type=null): QueryBuilderInterface
+    public function where(): QueryBuilderInterface
     {
-        $this->where = Where::generate($column, $operator, $value, $type);
+        $this->where = Where::generate(func_get_args());
     
         return $this;
     }

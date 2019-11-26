@@ -6,8 +6,12 @@ class Where
 {
     private static $query;
     
-    public static function generate($column, $operator, $value, $type)
+    public static function generate($params)
     {
+        list($column, $operator, $value) = $params;
+        
+        $type = $params[3] ?? null;
+
         $where = $column . $operator . $value;
         
         if (is_null(static::$query)) {
@@ -20,10 +24,8 @@ class Where
             $statement = " OR ". $where;
         }
 
-
         static::$query .= $statement;
 
         return static::$query;
     }
-
 }

@@ -61,7 +61,7 @@ interface QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function where($column, $operator, $value, $type=null): QueryBuilderInterface;
+    public function where(): QueryBuilderInterface;
 
     /**
      * orWhere Condition
