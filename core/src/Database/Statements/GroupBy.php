@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Database;
+namespace Core\Database\Statements;
 
 class GroupBy extends AbstractQuery
 {
