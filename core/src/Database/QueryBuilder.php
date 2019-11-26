@@ -98,10 +98,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function select(): QueryBuilderInterface
     {
-        $columns = func_get_args();
-        $columns = implode(', ', $columns);
-
-        $this->select = "SELECT ". $columns . " FROM ";
+        $this->select = Select::generate(func_get_args());
 
         return $this;
     }
@@ -132,8 +129,10 @@ class QueryBuilder implements QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function orWhere($column, $operator, $value): QueryBuilderInterface
+    public function orWhere(): QueryBuilderInterface
     {
+        list($column, $operator, $value) = func_get_args();
+
         $this->where($column, $operator, $value, 'OR');
 
         return $this;
@@ -148,9 +147,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryBuilderInterface
+    public function join(): QueryBuilderInterface
     {
-        $this->join = " " .$type ." JOIN " . $table . " ON ". $firstColumn . " = ". $secondColumn;
+        $this->join = Join::generate(func_get_args());
 
         return $this;
     }
@@ -163,9 +162,11 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $secondColumn
      * @return QueryBuilderInterface
      */
-    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
+    public function rightJoin(): QueryBuilderInterface
     {
-        $this->join = $this->join($table, $firstColumn, $secondColumn, 'RIGHT');
+        list($table, $firstColumn, $secondColumn) = func_get_args();
+
+        $this->join($table, $firstColumn, $secondColumn, 'RIGHT');
 
         return $this;
     }
@@ -178,9 +179,11 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $secondColumn
      * @return QueryBuilderInterface
      */
-    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
+    public function leftJoin(): QueryBuilderInterface
     {
-        $this->join = $this->join($table, $firstColumn, $secondColumn, 'LEFT');
+        list($table, $firstColumn, $secondColumn) = func_get_args();
+
+        $this->join($table, $firstColumn, $secondColumn, 'LEFT');
 
         return $this;
     }    
@@ -192,10 +195,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function groupBy(): QueryBuilderInterface
     {
-        $groupBy = func_get_args();
-        $groupBy = " GROUP BY ". implode (', ', $groupBy) . " ";
-
-        $this->groupBy = $groupBy;
+        $this->groupBy = GroupBy::generate(func_get_args());
 
         return $this;
     }
@@ -208,11 +208,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $value
      * @return QueryBuilderInterface
      */
-    public function having($column, $operator, $value): QueryBuilderInterface
+    public function having(): QueryBuilderInterface
     {
-        $having = " HAVING ". $column . $operator . $value;
-
-        $this->having = $having;
+        $this->having = Having::generate(func_get_args());
 
         return $this;
     }
@@ -224,19 +222,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function orderBy($column, $type=null): QueryBuilderInterface
+    public function orderBy(): QueryBuilderInterface
     {
-        $type = $type ?? "ASC";
-        $orderBy = $column ." ". $type;
-        
-        if (is_null($this->orderBy)) {
-            // if orderBy not exists before
-            $statement = " ORDER BY ". $orderBy;
-        } else {
-            $statement = ", ". $orderBy;
-        }
-
-        $this->orderBy .= $statement;
+        $this->orderBy = OrderBy::generate(func_get_args());
     
         return $this;
     }
@@ -247,9 +235,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $limit
      * @return QueryBuilderInterface
      */
-    public function limit($limit): QueryBuilderInterface
+    public function limit(): QueryBuilderInterface
     {
-        $this->limit = " LIMIT ". $limit;
+        $this->limit = Limit::generate(func_get_args());
 
         return $this;
     }
@@ -260,9 +248,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $offset
      * @return QueryBuilderInterface
      */
-    public function offset($offset): QueryBuilderInterface
+    public function offset(): QueryBuilderInterface
     {
-        $this->offset = " OFFSET ". $offset;
+        $this->offset = Offset::generate(func_get_args());
 
         return $this;
     }

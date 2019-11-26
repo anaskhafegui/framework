@@ -2,7 +2,7 @@
 
 namespace Core\Database;
 
-class Where
+class Where extends AbstractQuery
 {
     private static $query;
     

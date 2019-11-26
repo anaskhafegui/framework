@@ -110,19 +110,19 @@ app('router')->get('/', 'HomeController@index');
 $query = new QueryBuilder;
 
 echo $query->table('users')
-->select('*')
-// ->join('grades', 'grades.user_id', 'users.id')
+->select('id', 'name', 'age')
+->rightJoin('grades', 'grades.user_id', 'users.id')
 ->where('users.id', '=', '1')
 ->where('users.id', '=', '2')
 ->where('users.name', '=', 'mohamed_gamal')
 ->orWhere('age', '>', 30)
 ->orWhere('age', '>', 32)
-// ->groupBy('id')
-// ->having('rate', '>', 90)
-// ->orderBy('id', 'ASC')
-// ->orderBy('created_at', 'DESC')
-// ->limit(10)
-// ->offset(1)
+->groupBy('id')
+->having('rate', '>', 90)
+->orderBy('id', 'ASC')
+->orderBy('created_at')
+->limit(10)
+->offset(1)
 ->renderQuery();
 
 

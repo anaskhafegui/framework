@@ -29,7 +29,7 @@ interface QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryBuilderInterface;
+    public function join(): QueryBuilderInterface;
 
     /**
      * Right Join Table
@@ -39,7 +39,7 @@ interface QueryBuilderInterface
      * @param string $secondColumn
      * @return QueryBuilderInterface
      */
-    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface;
+    public function rightJoin(): QueryBuilderInterface;
 
     /**
      * Left Join Table
@@ -49,7 +49,7 @@ interface QueryBuilderInterface
      * @param string $secondColumn
      * @return QueryBuilderInterface
      */
-    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface;
+    public function leftJoin(): QueryBuilderInterface;
 
     /**
      * Where Condition
@@ -72,7 +72,7 @@ interface QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function orWhere($column, $operator, $value): QueryBuilderInterface;
+    public function orWhere(): QueryBuilderInterface;
 
     /**
      * GroupBy Statement
@@ -89,7 +89,7 @@ interface QueryBuilderInterface
      * @param string $value
      * @return QueryBuilderInterface
      */
-    public function having($column, $operator, $value): QueryBuilderInterface;
+    public function having(): QueryBuilderInterface;
 
     /**
      * OrderBy Statement
@@ -98,7 +98,7 @@ interface QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function orderBy($column, $type=null): QueryBuilderInterface;
+    public function orderBy(): QueryBuilderInterface;
 
     /**
      * Limit Condition
@@ -106,7 +106,7 @@ interface QueryBuilderInterface
      * @param string $limit
      * @return QueryBuilderInterface
      */
-    public function limit($limit): QueryBuilderInterface;
+    public function limit(): QueryBuilderInterface;
 
     /**
      * Offset Statement
@@ -114,7 +114,7 @@ interface QueryBuilderInterface
      * @param string $offset
      * @return QueryBuilderInterface
      */
-    public function offset($offset): QueryBuilderInterface;
+    public function offset(): QueryBuilderInterface;
 
     /**
      * Fetch results from the compiled query
