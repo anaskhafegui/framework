@@ -7,6 +7,7 @@
 */
 
 use Core\Database\Query;
+use Core\Database\QueryBuilder;
 
 app('router')->get('/', 'HomeController@index');
 
@@ -106,7 +107,7 @@ app('router')->get('/', 'HomeController@index');
 | Database Testing
 |---------------------------------------------- 
 */
-$query = new Query;
+$query = new QueryBuilder;
 
 echo $query->table('users')
 ->select('*')

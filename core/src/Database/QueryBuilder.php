@@ -2,9 +2,9 @@
 
 namespace Core\Database;
 
-use Core\Interfaces\QueryInterface;
+use Core\Interfaces\QueryBuilderInterface;
 
-class Query implements QueryInterface
+class QueryBuilder implements QueryBuilderInterface
 {   
 
     /**
@@ -96,7 +96,7 @@ class Query implements QueryInterface
      * @param string $table
      * @return object
      */
-    public function select(): QueryInterface
+    public function select(): QueryBuilderInterface
     {
         $columns = func_get_args();
         $columns = implode(', ', $columns);
@@ -114,9 +114,9 @@ class Query implements QueryInterface
      * @param string $value
      * @param string $type
      * 
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function where($column, $operator, $value, $type=null): QueryInterface
+    public function where($column, $operator, $value, $type=null): QueryBuilderInterface
     {
         $this->where = Where::getInstance()->generateQuery($column, $operator, $value, $type);
     
@@ -130,9 +130,9 @@ class Query implements QueryInterface
      * @param string $operator
      * @param string $value
      * 
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function orWhere($column, $operator, $value): QueryInterface
+    public function orWhere($column, $operator, $value): QueryBuilderInterface
     {
         $this->where($column, $operator, $value, 'OR');
 
@@ -146,9 +146,9 @@ class Query implements QueryInterface
      * @param string $firstColumn
      * @param string $secondColumn
      * @param string $type
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryInterface
+    public function join($table, $firstColumn, $secondColumn, $type = 'INNER'): QueryBuilderInterface
     {
         $this->join = " " .$type ." JOIN " . $table . " ON ". $firstColumn . " = ". $secondColumn;
 
@@ -161,9 +161,9 @@ class Query implements QueryInterface
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function rightJoin($table, $firstColumn, $secondColumn): QueryInterface
+    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
     {
         $this->join = $this->join($table, $firstColumn, $secondColumn, 'RIGHT');
 
@@ -176,9 +176,9 @@ class Query implements QueryInterface
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function leftJoin($table, $firstColumn, $secondColumn): QueryInterface
+    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
     {
         $this->join = $this->join($table, $firstColumn, $secondColumn, 'LEFT');
 
@@ -188,9 +188,9 @@ class Query implements QueryInterface
     /**
      * GroupBy Statement
      * 
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function groupBy(): QueryInterface
+    public function groupBy(): QueryBuilderInterface
     {
         $groupBy = func_get_args();
         $groupBy = " GROUP BY ". implode (', ', $groupBy) . " ";
@@ -206,9 +206,9 @@ class Query implements QueryInterface
      * @param string $column
      * @param string $operator
      * @param string $value
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function having($column, $operator, $value): QueryInterface
+    public function having($column, $operator, $value): QueryBuilderInterface
     {
         $having = " HAVING ". $column . $operator . $value;
 
@@ -222,9 +222,9 @@ class Query implements QueryInterface
      *
      * @param string $column
      * @param string $type
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function orderBy($column, $type=null): QueryInterface
+    public function orderBy($column, $type=null): QueryBuilderInterface
     {
         $type = $type ?? "ASC";
         $orderBy = $column ." ". $type;
@@ -245,9 +245,9 @@ class Query implements QueryInterface
      * Limit Condition
      *
      * @param string $limit
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function limit($limit): QueryInterface
+    public function limit($limit): QueryBuilderInterface
     {
         $this->limit = " LIMIT ". $limit;
 
@@ -258,9 +258,9 @@ class Query implements QueryInterface
      * Offset Statement
      *
      * @param string $offset
-     * @return QueryInterface
+     * @return QueryBuilderInterface
      */
-    public function offset($offset): QueryInterface
+    public function offset($offset): QueryBuilderInterface
     {
         $this->offset = " OFFSET ". $offset;
 
