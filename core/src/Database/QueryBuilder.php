@@ -86,6 +86,13 @@ class QueryBuilder implements QueryBuilderInterface
     private $offset;
 
     /**
+     * Bindings
+     *
+     * @var mixed
+     */
+    private $bindings = [];
+    
+    /**
      * Database Connection
      * @var mixed
      */
@@ -134,7 +141,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function where(): QueryBuilderInterface
     {
-        $this->where = Where::generate(func_get_args());
+        list($this->where, $this->bindings) = Where::generate(func_get_args());
     
         return $this;
     }
@@ -229,7 +236,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function having(): QueryBuilderInterface
     {
-        $this->having = Having::generate(func_get_args());
+        list($this->having, $this->bindings) = Having::generate(func_get_args());
 
         return $this;
     }
@@ -283,7 +290,10 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $query = $this->renderQuery();
 
-        return $this->connection->query($query);
+        $preparedStatement = $this->connection->prepare($query);
+        $preparedStatement->execute($this->bindings);
+                
+        return $preparedStatement; 
     }
 
     /**
