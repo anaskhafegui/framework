@@ -39,28 +39,6 @@ class Update
         // get where statement
         $whereStatement = $params['where_statement'];
 
-        // get where bindings
-        $whereBindings = $params['where_bindings'];
-
-        // remove elements which are useless
-        unset($params['where_statement']);
-        unset($params['where_bindings']);
-
-        // set the update statement bindings
-        static::$bindings[] = $params;
-
-        if (isset($whereBindings) && isset($whereStatement)) {
-
-            // set the where bindings
-            static::$bindings[] = $whereBindings;
-
-            // compile the where statement
-            static::$query .= $whereStatement;
-        }
-
-    
-        static::$bindings = flatten(static::$bindings);
-        
-        return [static::$query, static::$bindings];
+        return static::$query . $whereStatement;
     }
 }

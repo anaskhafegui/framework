@@ -315,8 +315,7 @@ class QueryBuilder implements QueryBuilderInterface
         $preparedStatement = $this->connection->prepare($query);
 
         $this->bindings[] = array_merge($this->whereBindings, $this->havingBindings);
-
-
+        
         $preparedStatement->execute(flatten($this->bindings));
                 
         return $preparedStatement; 
@@ -375,21 +374,20 @@ class QueryBuilder implements QueryBuilderInterface
     {
         // add table name to the array
         $data['table'] = $this->table;
-
-        // add binding from the where statement before update to the array
-        $data['where_bindings'] = $this->bindings;
         
         // add the where statement to the array
         $data['where_statement'] = $this->where;
 
+    
+        $query = Update::generate($data);
 
-        list($query, $this->bindings) = Update::generate($data);
-
+        
         // delete the elements which are useless now
-        unset($data['table']);
-        unset($data['where_bindings']);
         unset($data['where_statement']);
+        unset($data['table']);
 
+        $this->bindings = array_values($data);
+        
         return $this->execute($query)->rowCount() > 0;
     }
 
@@ -400,8 +398,15 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function delete(): bool
     {
-        $this->delete = Delete::generate();
-        return $this->execute()->rowCount() > 0;
+        $data['table'] = $this->table;
+
+        $query = Delete::generate($data);
+
+        // add the where statement to the array
+        $data['where_statement'] = $this->where;
+
+        
+        return $this->execute($query)->rowCount() > 0;
     }
 
     /**

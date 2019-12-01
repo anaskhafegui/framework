@@ -11,26 +11,17 @@ class Insert
      */
     private static $query;
 
-    /**
-     * Generated Params for Query
-     *
-     * @var mixed
-     */
-    private static $bindings = [];
 
     public static function generate($params=null)
     {
         $table = $params['table']; 
         unset($params['table']);
-
-
-        foreach($params as $column => $value) {
+        
+        foreach(array_keys($params) as $column) {
             $columns [] = $column ." = ?";
         }
 
         static::$query = "INSERT INTO " .$table ." SET " . implode(",", $columns);
-
-        static::$bindings[] = array_values($params);
 
         return static::$query;
     }

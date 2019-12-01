@@ -14,8 +14,16 @@ class Delete
 
     public static function generate($params=null)
     {
-        static::$query = "DELETE FROM ";
+        // set table name
+        $table = $params['table']; 
 
-        return static::$query;
+        unset($params['table']);
+        
+        static::$query = "DELETE FROM ". $table;
+
+        // get where statement
+        $whereStatement = $params['where_statement'];
+
+        return static::$query. $whereStatement;
     }
 }
