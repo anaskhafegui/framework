@@ -109,8 +109,9 @@ app('router')->get('/', 'HomeController@index');
 */
 $query = new QueryBuilder;
 
-pre($query->table('users')->select('*')
-->orderBy('id')
+pre($query->table('users')->select('grade', 'count(id)')
+->groupBy('grade')
+->having('count(id)', '>', 2)
 ->get()
 );
 

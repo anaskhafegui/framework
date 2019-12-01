@@ -10,13 +10,6 @@ class Where
      * @var string
      */
     private static $query;
-    
-    /**
-     * Generated Params for Query
-     *
-     * @var mixed
-     */
-    private static $bindings = [];
 
     public static function generate($column, $operator, $value, $type=null)
     {
@@ -35,8 +28,7 @@ class Where
         }
 
         static::$query .= $statement;
-        static::$bindings[] = $value;
 
-        return [static::$query, static::$bindings];
+        return static::$query;
     }
 }
