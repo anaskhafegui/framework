@@ -148,8 +148,5 @@ class Application
         // Load Routes
         $this->loadWebRoutes();
         $this->router->handle();
-
-        // Database Connection
-        $this->db_connection->connect();
     }
 }

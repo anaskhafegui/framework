@@ -86,6 +86,17 @@ class QueryBuilder implements QueryBuilderInterface
     private $offset;
 
     /**
+     * Database Connection
+     * @var mixed
+     */
+    private $connection;
+
+    public function __construct()
+    {
+        $this->connection = app('db_connection')->connect();
+    }
+
+    /**
      * Set Table
      *
      * @param string $table
@@ -264,25 +275,36 @@ class QueryBuilder implements QueryBuilderInterface
     }
 
     /**
+     * Execute the complied query
+     *
+     * @return mixed
+     */
+    public function execute()
+    {
+        $query = $this->renderQuery();
+
+        return $this->connection->query($query);
+    }
+
+    /**
      * Fetch results from the compiled query
      *
      * @return mixed
      */
-    public function get(){}
+    public function get()
+    {
+        return $this->execute()->fetchAll();
+    }
 
     /**
      * Fetch single row from the compiled query
      *
      * @return mixed
      */
-    public function first(){}
-
-    /**
-     * Execute the complied query
-     *
-     * @return mixed
-     */
-    public function execute(){}
+    public function first()
+    {
+        return $this->execute()->fetch();
+    }
 
     /**
      * Insert Records

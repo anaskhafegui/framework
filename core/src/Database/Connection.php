@@ -46,6 +46,10 @@ class Connection implements ConnectionInterface
     {
         if(is_null($this->connection)){
 
+            $options = [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+            ];
+
             $credentials = app('file')->require("../config/database.php");
 
             list($host, $username, $password, $database) = array_values($credentials);
@@ -53,9 +57,9 @@ class Connection implements ConnectionInterface
             $dsn = "mysql:host=$host;dbname=$database";
 
             try {
-                $this->connection = new PDO($dsn, $username, $password);
-                echo "connected!";
+                $this->connection = new PDO($dsn, $username, $password, $options);
 
+                return $this->connection;
             } catch (PDOException $e) {
                 throw new PDOException($e->getMessage());
             }
