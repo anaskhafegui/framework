@@ -138,7 +138,7 @@ class FileSystem implements FileSystemInterface
      */
     public function require(string $file)
     {
-        require $file;
+        return require $file;
     }
     
     /**
@@ -149,7 +149,7 @@ class FileSystem implements FileSystemInterface
      */
     public function requireOnce(string $file)
     {
-        require_once $file;
+        return require_once $file;
     }
     
     /**

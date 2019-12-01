@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Database\Connection;
 use Core\Database\QueryBuilder;
 use Core\Event\Event;
 use Core\FileSystem\FileSystem;
@@ -41,6 +42,7 @@ class Application
         'file'              => FileSystem::class,
         'session'           => Session::class,
         'query_builder'     => QueryBuilder::class,
+        'db_connection'     => Connection::class,
     ];
 
 	/**
@@ -146,5 +148,8 @@ class Application
         // Load Routes
         $this->loadWebRoutes();
         $this->router->handle();
+
+        // Database Connection
+        $this->db_connection->connect();
     }
 }

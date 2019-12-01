@@ -107,23 +107,24 @@ app('router')->get('/', 'HomeController@index');
 | Database Testing
 |---------------------------------------------- 
 */
-$query = new QueryBuilder;
+// $query = new QueryBuilder;
 
-echo $query->table('users')
-->select('id', 'name', 'age')
-->rightJoin('grades', 'grades.user_id', 'users.id')
-->where('users.id', '=', '1')
-->where('users.id', '=', '2')
-->where('users.name', '=', 'mohamed_gamal')
-->orWhere('age', '>', 30)
-->orWhere('age', '>', 32)
-->groupBy('id')
-->having('rate', '>', 90)
-->orderBy('id', 'ASC')
-->orderBy('created_at')
-->limit(10)
-->offset(1)
-->renderQuery();
+// echo $query->table('users')
+// ->select('id', 'name', 'age')
+// ->rightJoin('grades', 'grades.user_id', 'users.id')
+// ->where('users.id', '=', '1')
+// ->where('users.id', '=', '2')
+// ->where('users.name', '=', 'mohamed_gamal')
+// ->orWhere('age', '>', 30)
+// ->orWhere('age', '>', 32)
+// ->groupBy('id')
+// ->having('rate', '>', 90)
+// ->orderBy('id', 'ASC')
+// ->orderBy('created_at')
+// ->limit(10)
+// ->offset(1)
+// ->renderQuery();
+
 
 
 /*
