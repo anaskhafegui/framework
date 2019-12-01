@@ -178,13 +178,6 @@ interface QueryBuilderInterface
     public function links($currentPage, $pages);
 
     /**
-     * Render Compiled Query
-     *
-     * @return string
-     */
-    public function renderQuery(): string;
-
-    /**
      * Convert Object to String
      *
      * @return string

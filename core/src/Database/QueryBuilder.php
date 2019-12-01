@@ -94,7 +94,21 @@ class QueryBuilder implements QueryBuilderInterface
      * @var mixed
      */
     private $bindings = [];
+
+    /**
+     * Where Bindings
+     *
+     * @var mixed
+     */
+    private $whereBindings = [];
     
+    /**
+     * Having Bindings
+     *
+     * @var mixed
+     */
+    private $havingBindings = [];
+
     /**
      * Database Connection
      * @var mixed
@@ -144,7 +158,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function where(): QueryBuilderInterface
     {
-        list($this->where, $this->bindings) = Where::generate(func_get_args());
+        list($this->where, $this->whereBindings) = Where::generate(func_get_args());
     
         return $this;
     }
@@ -239,7 +253,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function having(): QueryBuilderInterface
     {
-        list($this->having, $this->bindings) = Having::generate(func_get_args());
+        list($this->having, $this->havingBindings) = Having::generate(func_get_args());
 
         return $this;
     }
@@ -296,7 +310,11 @@ class QueryBuilder implements QueryBuilderInterface
         }
 
         $preparedStatement = $this->connection->prepare($query);
-        $preparedStatement->execute($this->bindings);
+
+        $this->bindings[] = array_merge($this->whereBindings, $this->havingBindings);
+
+
+        $preparedStatement->execute(flatten($this->bindings));
                 
         return $preparedStatement; 
     }
@@ -322,17 +340,6 @@ class QueryBuilder implements QueryBuilderInterface
     }
 
     /**
-     * Manipulate the statement
-     *
-     * @param Type $var
-     * @return void
-     */
-    public function manipulate()
-    {
-        
-    }
-
-    /**
      * Insert Records
      *
      * @param array $data
@@ -340,12 +347,16 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function insert($data): bool
     {
+        // add table name to the array
         $data['table'] = $this->table;
         
+        // pass all values including table name
         $query = Insert::generate($data);
 
+        // delete the element with table name
         unset($data['table']);
 
+        // set binding for insert statement
         $this->bindings = array_values($data);
 
         return $this->execute($query)->rowCount() > 0;
@@ -359,13 +370,19 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function update($data): bool
     {
+        // add table name to the array
         $data['table'] = $this->table;
-        
+
+        // add binding from the where statement before update to the array
         $data['where_bindings'] = $this->bindings;
+        
+        // add the where statement to the array
         $data['where_statement'] = $this->where;
+
 
         list($query, $this->bindings) = Update::generate($data);
 
+        // delete the elements which are useless now
         unset($data['table']);
         unset($data['where_bindings']);
         unset($data['where_statement']);
@@ -406,7 +423,7 @@ class QueryBuilder implements QueryBuilderInterface
      *
      * @return string
      */
-    public function renderQuery(): string
+    private function renderQuery(): string
     {
         $query = $this->select;
         $query = $this->delete;
