@@ -11,6 +11,7 @@ use Core\Database\Statements\Limit;
 use Core\Database\Statements\Offset;
 use Core\Database\Statements\OrderBy;
 use Core\Database\Statements\Select;
+use Core\Database\Statements\Update;
 use Core\Database\Statements\Where;
 use Core\Interfaces\QueryBuilderInterface;
 
@@ -293,7 +294,7 @@ class QueryBuilder implements QueryBuilderInterface
         if (is_null($query)){
             $query = $this->renderQuery();
         }
-        
+
         $preparedStatement = $this->connection->prepare($query);
         $preparedStatement->execute($this->bindings);
                 
@@ -358,7 +359,18 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function update($data): bool
     {
-        return true;
+        $data['table'] = $this->table;
+        
+        $data['where_bindings'] = $this->bindings;
+        $data['where_statement'] = $this->where;
+
+        list($query, $this->bindings) = Update::generate($data);
+
+        unset($data['table']);
+        unset($data['where_bindings']);
+        unset($data['where_statement']);
+
+        return $this->execute($query)->rowCount() > 0;
     }
 
     /**

@@ -71,3 +71,20 @@ if (! function_exists('validate')) {
         return app('request')->validate($rules);
     }
 }
+
+if (! function_exists('flatten')) {
+    function flatten(array $array): array
+    {
+        $result = [];
+
+        foreach ($array as $item) {
+            if (is_null($item)) {
+                continue;
+            }
+
+            $result = array_merge($result, is_array($item) ? flatten($item) : [$item]);
+        }
+
+        return $result;
+    }
+}

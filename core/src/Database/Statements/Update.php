@@ -22,18 +22,35 @@ class Update extends AbstractQuery
     {
         $table = $params['table']; 
         unset($params['table']);
-        $columns = implode(', ', array_keys($params));
-        $columns = ' ('. $columns .')';
 
 
-        $values = array_map(function() { return '?'; }, $params);
+        foreach($params as $column => $value) {
+            if ($column != 'where_bindings' && $column != 'where_statement'){
+                $columns [] = $column ." = ?";
+            }
+            
+        }
 
-        $values = implode(', ', $values);
-        $values = '('. $values .')';
-        
-        static::$query = "UPDATE  " .$table ." " . $columns . " VALUES ". $values;
+        static::$query = "UPDATE " .$table ." SET " . implode(",", $columns);
+
+        $whereStatement = $params['where_statement'];
+        $whereBindings = $params['where_bindings'];
+
+        unset($params['where_statement']);
+        unset($params['where_bindings']);
+
         static::$bindings[] = $params;
 
-        return static::$query;
+        if (isset($whereBindings) && isset($whereStatement)) {
+
+            static::$bindings[] = $whereBindings;
+
+            static::$query .= $whereStatement;
+        }
+
+    
+        static::$bindings = flatten(static::$bindings);
+        
+        return [static::$query, static::$bindings];
     }
 }
