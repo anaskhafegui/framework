@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Delete extends AbstractQuery
+class Delete
 {
     /**
      * Generated Query

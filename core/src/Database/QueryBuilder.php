@@ -110,6 +110,13 @@ class QueryBuilder implements QueryBuilderInterface
     private $havingBindings = [];
 
     /**
+     * Delete Statement
+     *
+     * @var string
+     */
+    private $delete;
+    
+    /**
      * Database Connection
      * @var mixed
      */
@@ -139,9 +146,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $table
      * @return object
      */
-    public function select(): QueryBuilderInterface
+    public function select($columns): QueryBuilderInterface
     {
-        $this->select = Select::generate(func_get_args());
+        $this->select = Select::generate($columns);
 
         return $this;
     }
@@ -426,7 +433,6 @@ class QueryBuilder implements QueryBuilderInterface
     private function renderQuery(): string
     {
         $query = $this->select;
-        $query = $this->delete;
         $query .= $this->table;
         $query .= $this->join;
         $query .= $this->where;

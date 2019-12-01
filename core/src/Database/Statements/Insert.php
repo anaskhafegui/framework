@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Insert extends AbstractQuery
+class Insert
 {
     /**
      * Generated Query

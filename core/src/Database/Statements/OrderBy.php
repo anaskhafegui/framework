@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class OrderBy extends AbstractQuery
+class OrderBy
 {
     private static $query;
     

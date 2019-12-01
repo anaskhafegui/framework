@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Limit extends AbstractQuery
+class Limit
 {
     private static $query;
     

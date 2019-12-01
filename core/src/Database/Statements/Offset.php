@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Offset extends AbstractQuery
+class Offset
 {
     private static $query;
     

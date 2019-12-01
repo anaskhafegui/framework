@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Update extends AbstractQuery
+class Update
 {
     /**
      * Generated Query

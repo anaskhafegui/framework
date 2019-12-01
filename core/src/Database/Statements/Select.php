@@ -1,14 +1,13 @@
 <?php
 
-namespace Core\Database\Statements;
 
-class Select extends AbstractQuery
+class Select
 {
     private static $query;
-    
-    public static function generate($params)
+
+    public static function generate($columns)
     {
-        $columns = implode(', ', $params);
+        $columns = is_array($columns) ? implode(', ', $columns) : '*';
 
         static::$query = "SELECT ". $columns . " FROM ";
 

@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Having extends AbstractQuery
+class Having
 {
     /**
      * Generated Query

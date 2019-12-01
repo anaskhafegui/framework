@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class GroupBy extends AbstractQuery
+class GroupBy
 {
     private static $query;
     

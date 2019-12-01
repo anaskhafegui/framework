@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Join extends AbstractQuery
+class Join
 {
     private static $query;
     

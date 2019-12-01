@@ -2,7 +2,7 @@
 
 namespace Core\Database\Statements;
 
-class Where extends AbstractQuery
+class Where
 {
     /**
      * Generated Query
