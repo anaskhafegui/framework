@@ -18,10 +18,8 @@ class Having
      */
     private static $bindings = [];
     
-    public static function generate($params)
-    {
-        list($column, $operator, $value) = $params;
-        
+    public static function generate($column, $operator, $value)
+    {   
         static::$query = " HAVING ". $column . $operator . ' ? ';
         static::$bindings[] = $value;
 

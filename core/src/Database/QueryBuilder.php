@@ -146,7 +146,7 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $table
      * @return object
      */
-    public function select($columns): QueryBuilderInterface
+    public function select(...$columns): QueryBuilderInterface
     {
         $this->select = Select::generate($columns);
 

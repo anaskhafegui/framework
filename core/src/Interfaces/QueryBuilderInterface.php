@@ -18,7 +18,7 @@ interface QueryBuilderInterface
      * @param string $table
      * @return object
      */
-    public function select($columns): QueryBuilderInterface ;
+    public function select(...$columns): QueryBuilderInterface ;
 
     /**
      * Join Table

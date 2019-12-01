@@ -8,8 +8,8 @@ class Select
 
     public static function generate($columns)
     {
-        $columns = is_array($columns) ? implode(', ', $columns) : '*';
-
+        $columns = ! in_array('*', $columns) ? implode(', ', $columns) : '*';
+        
         static::$query = "SELECT ". $columns . " FROM ";
 
         return static::$query;

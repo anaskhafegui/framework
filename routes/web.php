@@ -111,8 +111,11 @@ $query = new QueryBuilder;
 
 pre($query
 ->table('users')
-->select('*')
-->orderBy('id')
+->select('grade', 'count(age)')
+->where('id' , '<>', 14)
+->where('id' , '<>', 15)
+->groupBy('grade')
+->having('count(age)', '=', 3)
 ->get());
 // pre($query->table('users')->where('id', '=', '12')->update(['name' => 'new12', 'age' => 12]));
 

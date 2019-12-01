@@ -6,11 +6,9 @@ class Join
 {
     private static $query;
     
-    public static function generate($params)
+    public static function generate($table, $firstColumn, $secondColumn, $type=null)
     {
-        list($table, $firstColumn, $secondColumn) = $params;
-
-        $type = $params[3] ?? 'INNER';
+        $type = $type ?? 'INNER';
 
         static::$query = " " .$type ." JOIN " . $table . " ON ". $firstColumn . " = ". $secondColumn;
 

@@ -6,10 +6,8 @@ class Offset
 {
     private static $query;
     
-    public static function generate($params)
-    {
-        list($offset) = $params;
-         
+    public static function generate($offset)
+    {    
         static::$query = " OFFSET ". $offset;
 
         return static::$query;
