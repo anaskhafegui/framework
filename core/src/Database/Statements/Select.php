@@ -1,5 +1,6 @@
 <?php
 
+namespace Core\Database\Statements;
 
 class Select
 {

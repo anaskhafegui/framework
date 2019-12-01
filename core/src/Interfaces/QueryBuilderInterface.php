@@ -29,7 +29,7 @@ interface QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function join(): QueryBuilderInterface;
+    public function join($table, $firstColumn, $secondColumn, $type): QueryBuilderInterface;
 
     /**
      * Right Join Table
@@ -39,7 +39,7 @@ interface QueryBuilderInterface
      * @param string $secondColumn
      * @return QueryBuilderInterface
      */
-    public function rightJoin(): QueryBuilderInterface;
+    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface;
 
     /**
      * Left Join Table
@@ -49,7 +49,7 @@ interface QueryBuilderInterface
      * @param string $secondColumn
      * @return QueryBuilderInterface
      */
-    public function leftJoin(): QueryBuilderInterface;
+    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface;
 
     /**
      * Where Condition
@@ -61,7 +61,7 @@ interface QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function where(): QueryBuilderInterface;
+    public function where($column, $operator, $value, $type=null): QueryBuilderInterface;
 
     /**
      * orWhere Condition
@@ -72,14 +72,14 @@ interface QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function orWhere(): QueryBuilderInterface;
+    public function orWhere($column, $operator, $value): QueryBuilderInterface;
 
     /**
      * GroupBy Statement
      * 
      * @return QueryBuilderInterface
      */
-    public function groupBy(): QueryBuilderInterface;
+    public function groupBy($column): QueryBuilderInterface;
 
     /**
      * Having Condition
@@ -89,7 +89,7 @@ interface QueryBuilderInterface
      * @param string $value
      * @return QueryBuilderInterface
      */
-    public function having(): QueryBuilderInterface;
+    public function having($column, $operator, $value): QueryBuilderInterface;
 
     /**
      * OrderBy Statement
@@ -98,7 +98,7 @@ interface QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function orderBy(): QueryBuilderInterface;
+    public function orderBy($column, $type=null): QueryBuilderInterface;
 
     /**
      * Limit Condition
@@ -106,7 +106,7 @@ interface QueryBuilderInterface
      * @param string $limit
      * @return QueryBuilderInterface
      */
-    public function limit(): QueryBuilderInterface;
+    public function limit($limit): QueryBuilderInterface;
 
     /**
      * Offset Statement
@@ -114,7 +114,7 @@ interface QueryBuilderInterface
      * @param string $offset
      * @return QueryBuilderInterface
      */
-    public function offset(): QueryBuilderInterface;
+    public function offset($offset): QueryBuilderInterface;
 
     /**
      * Fetch results from the compiled query

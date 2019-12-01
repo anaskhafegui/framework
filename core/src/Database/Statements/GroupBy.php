@@ -6,9 +6,9 @@ class GroupBy
 {
     private static $query;
     
-    public static function generate($params)
+    public static function generate($column)
     {
-        static::$query  = " GROUP BY ". implode (', ', $params) . " ";
+        static::$query  = " GROUP BY ". $column . " ";
 
         return static::$query;
     }

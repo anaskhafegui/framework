@@ -18,11 +18,9 @@ class Where
      */
     private static $bindings = [];
 
-    public static function generate($params)
+    public static function generate($column, $operator, $value, $type=null)
     {
-        list($column, $operator, $value) = $params;
-        
-        $type = $params[3] ?? null;
+        $type = $type ?? null;
 
         $where = $column . $operator . ' ? ';
         

@@ -6,11 +6,9 @@ class OrderBy
 {
     private static $query;
     
-    public static function generate($params)
+    public static function generate($column, $type=null)
     {
-        list($column) = $params;
-
-        $type = $params[1] ?? "ASC";
+        $type = $type ?? "ASC";
 
         $orderBy = $column ." ". $type;
         
