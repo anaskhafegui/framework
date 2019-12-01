@@ -109,7 +109,10 @@ app('router')->get('/', 'HomeController@index');
 */
 $query = new QueryBuilder;
 
-pre($query->table('users')->where('id', '=', 26)->update(['grade' => 'B+']));
+pre($query->table('users')->select('*')
+->orderBy('id')
+->get()
+);
 
 
 

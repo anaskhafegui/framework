@@ -266,7 +266,7 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function orderBy($column, $type=null): QueryBuilderInterface
+    public function orderBy($column, $type='ASC'): QueryBuilderInterface
     {
         $this->orderBy = OrderBy::generate($column, $type);
     
