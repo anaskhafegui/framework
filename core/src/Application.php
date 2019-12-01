@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Core\Database\Query;
+use Core\Database\QueryBuilder;
 use Core\Event\Event;
 use Core\FileSystem\FileSystem;
 use Core\Http\Request;
@@ -34,13 +34,13 @@ class Application
      * @var mixed
      */
     private const CORE_CLASSES = [
-        'router'        => Router::class,
-        'request'       => Request::class,
-        'response'      => Response::class,
-        'event'         => Event::class,
-        'file'          => FileSystem::class,
-        'session'       => Session::class,
-        'query'         => Query::class,
+        'router'            => Router::class,
+        'request'           => Request::class,
+        'response'          => Response::class,
+        'event'             => Event::class,
+        'file'              => FileSystem::class,
+        'session'           => Session::class,
+        'query_builder'     => QueryBuilder::class,
     ];
 
 	/**
