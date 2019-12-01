@@ -2,8 +2,10 @@
 
 namespace Core\Database;
 
+use Core\Database\Statements\Delete;
 use Core\Database\Statements\GroupBy;
 use Core\Database\Statements\Having;
+use Core\Database\Statements\Insert;
 use Core\Database\Statements\Join;
 use Core\Database\Statements\Limit;
 use Core\Database\Statements\Offset;
@@ -286,10 +288,12 @@ class QueryBuilder implements QueryBuilderInterface
      *
      * @return mixed
      */
-    public function execute()
+    public function execute($query=null)
     {
-        $query = $this->renderQuery();
-
+        if (is_null($query)){
+            $query = $this->renderQuery();
+        }
+        
         $preparedStatement = $this->connection->prepare($query);
         $preparedStatement->execute($this->bindings);
                 
@@ -317,6 +321,17 @@ class QueryBuilder implements QueryBuilderInterface
     }
 
     /**
+     * Manipulate the statement
+     *
+     * @param Type $var
+     * @return void
+     */
+    public function manipulate()
+    {
+        
+    }
+
+    /**
      * Insert Records
      *
      * @param array $data
@@ -324,7 +339,15 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function insert($data): bool
     {
-        return true;
+        $data['table'] = $this->table;
+        
+        $query = Insert::generate($data);
+
+        unset($data['table']);
+
+        $this->bindings = array_values($data);
+
+        return $this->execute($query)->rowCount() > 0;
     }
 
     /**
@@ -345,7 +368,8 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function delete(): bool
     {
-        return true;
+        $this->delete = Delete::generate();
+        return $this->execute()->rowCount() > 0;
     }
 
     /**
@@ -373,6 +397,7 @@ class QueryBuilder implements QueryBuilderInterface
     public function renderQuery(): string
     {
         $query = $this->select;
+        $query = $this->delete;
         $query .= $this->table;
         $query .= $this->join;
         $query .= $this->where;
