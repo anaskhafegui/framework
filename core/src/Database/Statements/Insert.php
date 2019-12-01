@@ -22,17 +22,15 @@ class Insert extends AbstractQuery
     {
         $table = $params['table']; 
         unset($params['table']);
-        $columns = implode(', ', array_keys($params));
-        $columns = ' ('. $columns .')';
 
 
-        $values = array_map(function() { return '?'; }, $params);
+        foreach($params as $column => $value) {
+            $columns [] = $column ." = ?";
+        }
 
-        $values = implode(', ', $values);
-        $values = '('. $values .')';
-        
-        static::$query = "INSERT INTO " .$table ." " . $columns . " VALUES ". $values;
-        static::$bindings[] = $params;
+        static::$query = "INSERT INTO " .$table ." SET " . implode(",", $columns);
+
+        static::$bindings[] = array_values($params);
 
         return static::$query;
     }

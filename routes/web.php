@@ -109,7 +109,7 @@ app('router')->get('/', 'HomeController@index');
 */
 $query = new QueryBuilder;
 
-pre($query->table('users')->where('id', '=', '1')->update(['name' => 'mohamsdfed', 'age' => 21]));
+pre($query->table('users')->insert(['name' => 'mohamsdfed', 'age' => 21]));
 
 
 
