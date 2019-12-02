@@ -110,9 +110,7 @@ app('router')->get('/', 'HomeController@index');
 pre(
     app('query_builder')
     ->table('users')
-    ->select('*')
-    ->orderBy('id', 'DESC')
-    ->first()
+    ->insert(['name' => 'New', 'age' => 40, 'grade' => 'A+'])
 );
 
 

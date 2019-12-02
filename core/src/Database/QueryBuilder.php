@@ -326,11 +326,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function execute($query=null)
     {
-        // in case of get() or first(),
-        // so we use the renderQuery() to generate the query automatically
-        if (is_null($query)){
-            $query = $this->renderQuery();
-        }
+        $query = $query ?? $this->renderQuery();
 
         // prepare the query before binding variables
         $preparedStatement = $this->connection->prepare($query);
