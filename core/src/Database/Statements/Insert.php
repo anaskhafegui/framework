@@ -4,25 +4,19 @@ namespace Core\Database\Statements;
 
 class Insert
 {
-    /**
-     * Generated Query
-     *
-     * @var string
-     */
-    private static $query;
-
-
-    public static function generate($params=null)
+    public static function generate($table, $params=null)
     {
-        $table = $params['table']; 
-        unset($params['table']);
-        
-        foreach(array_keys($params) as $column) {
-            $columns [] = $column ." = ?";
+        return "INSERT INTO " .$table ." SET " . static::formatColumns($params);
+    }
+
+
+    public static function formatColumns($columns): string
+    {
+        // get only the columns which need updates
+        foreach(array_keys($columns) as $column) {
+            $formattedColumns[] = $column ." = ?";
         }
 
-        static::$query = "INSERT INTO " .$table ." SET " . implode(",", $columns);
-
-        return static::$query;
+        return implode(", ", $formattedColumns);
     }
 }

@@ -348,15 +348,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @return bool
      */
     public function insert($data): bool
-    {
-        // add table name to the array
-        $data['table'] = $this->table;
-        
+    {        
         // pass all values including table name
-        $query = Insert::generate($data);
-
-        // delete the element with table name
-        unset($data['table']);
+        $query = Insert::generate($this->table, $data);
 
         // set binding for insert statement
         $this->bindings = array_values($data);
@@ -372,22 +366,13 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function update($data): bool
     {
-        // add table name to the array
-        $data['table'] = $this->table;
-        
-        // add the where statement to the array
-        $data['where_statement'] = $this->where;
-
-    
-        $query = Update::generate($data);
-
-        
-        // delete the elements which are useless now
-        unset($data['where_statement']);
-        unset($data['table']);
+        $query = Update::generate($this->table, $data);
 
         $this->bindings = array_values($data);
-        
+
+        // if update statement has where condition 
+        $query .= $this->where;
+
         return $this->execute($query)->rowCount() > 0;
     }
 
@@ -398,13 +383,11 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function delete(): bool
     {
-        $data['table'] = $this->table;
-        
-        // add the where statement to the array
-        $data['where_statement'] = $this->where;
+        $query = Delete::generate($this->table);
+     
+        // if update statement has where condition 
+        $query .= $this->where;
 
-        $query = Delete::generate($data);
-        
         return $this->execute($query)->rowCount() > 0;
     }
 

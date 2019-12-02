@@ -110,7 +110,7 @@ app('router')->get('/', 'HomeController@index');
 $query = new QueryBuilder;
 
 pre(
-    $query->table('users')->delete()
+    $query->table('users')->where('id', '=', 10)->delete()
 );
 
 
