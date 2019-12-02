@@ -399,12 +399,11 @@ class QueryBuilder implements QueryBuilderInterface
     public function delete(): bool
     {
         $data['table'] = $this->table;
-
-        $query = Delete::generate($data);
-
+        
         // add the where statement to the array
         $data['where_statement'] = $this->where;
 
+        $query = Delete::generate($data);
         
         return $this->execute($query)->rowCount() > 0;
     }

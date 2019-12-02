@@ -109,10 +109,8 @@ app('router')->get('/', 'HomeController@index');
 */
 $query = new QueryBuilder;
 
-pre($query->table('users')->where('id', '=', 28)->delete()
-// ->groupBy('grade')
-// ->having('count(id)', '>', 2)
-// ->get()
+pre(
+    $query->table('users')->delete()
 );
 
 
