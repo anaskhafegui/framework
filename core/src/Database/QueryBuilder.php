@@ -278,7 +278,7 @@ class QueryBuilder implements QueryBuilderInterface
     /**
      * Limit Condition
      *
-     * @param string $limit
+     * @param int $limit
      * @return QueryBuilderInterface
      */
     public function limit($limit): QueryBuilderInterface
@@ -291,7 +291,7 @@ class QueryBuilder implements QueryBuilderInterface
     /**
      * Offset Statement
      *
-     * @param string $offset
+     * @param int $offset
      * @return QueryBuilderInterface
      */
     public function offset($offset): QueryBuilderInterface
