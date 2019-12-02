@@ -314,10 +314,14 @@ class QueryBuilder implements QueryBuilderInterface
         }
 
         $preparedStatement = $this->connection->prepare($query);
-
-        $this->bindings = ! is_null($this->where) ? array_merge($this->bindings, $this->whereBindings) : $this->bindings;
-        
     
+        if (! is_null($this->where)) {
+            $this->bindings = array_merge($this->bindings, $this->whereBindings);
+
+        } elseif (! is_null($this->having)) {
+            $this->bindings = array_merge($this->bindings, $this->havingBindings);
+        }
+
         $preparedStatement->execute(flatten($this->bindings));
 
 
