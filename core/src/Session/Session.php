@@ -86,9 +86,7 @@ class Session implements SessionInterface
      */
     public function forget(string $key)
     {
-        if (isset($_SESSION[$key])) {
-            unset($_SESSION[$key]);
-        }
+        if (isset($_SESSION[$key])) unset($_SESSION[$key]);
     }
 
     /**
