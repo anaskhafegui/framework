@@ -109,13 +109,6 @@ class QueryBuilder implements QueryBuilderInterface
      * @var mixed
      */
     private $havingBindings = [];
-
-    /**
-     * Delete Statement
-     *
-     * @var string
-     */
-    private $delete;
     
     /**
      * Database Connection
@@ -123,10 +116,32 @@ class QueryBuilder implements QueryBuilderInterface
      */
     private $connection;
 
+    /**
+     * Singleton Instance
+     *
+     * @var mixed
+     */
+    private static $instance;
+
     public function __construct()
     {
         $this->connection = app('db_connection')->connect();
     }
+
+    /**
+     * Get Router Instance
+     *
+     * @return mixed
+     */
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
+    
 
     /**
      * Set Table

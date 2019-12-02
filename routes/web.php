@@ -107,14 +107,12 @@ app('router')->get('/', 'HomeController@index');
 | Database Testing
 |---------------------------------------------- 
 */
-$query = new QueryBuilder;
-
-// pre(
-//     // $query->table('users')->where('id', '=', 23)->update(['name' => 'Mohamed Gamal Hafez'])
-// );
-
 pre(
-    $query->table('users')->insert(['name' => 'MGX', 'grade' => 'F', 'age' => 30])
+    app('query_builder')
+    ->table('users')
+    ->select('*')
+    ->orderBy('id', 'DESC')
+    ->first()
 );
 
 
