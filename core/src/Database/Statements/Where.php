@@ -17,7 +17,8 @@ class Where
 
         $where = $column . $operator . ' ? ';
         
-        if (is_null(static::$query)) {
+        if (static::$query == "") {
+
             // if where not exists before
             $statement = " WHERE ". $where;
         } elseif(is_null($type)) {
@@ -27,8 +28,12 @@ class Where
             $statement = " OR ". $where;
         }
 
+        
         static::$query .= $statement;
+        $query = static::$query;
 
-        return static::$query;
+        static::$query = "";
+        
+        return $query;
     }
 }

@@ -110,9 +110,12 @@ app('router')->get('/', 'HomeController@index');
 $query = new QueryBuilder;
 
 pre(
-    $query->table('users')->where('id', '=', 10)->delete()
+    $query->table('users')->where('id', '=', 23)->update(['name' => 'Mohamed Gamal Hafez'])
 );
 
+pre(
+    $query->table('users')->where('id', '=', 26)->delete()
+);
 
 
 /*

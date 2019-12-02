@@ -166,6 +166,7 @@ class QueryBuilder implements QueryBuilderInterface
     public function where($column, $operator, $value, $type=null): QueryBuilderInterface
     {
         $this->where = Where::generate($column, $operator, $value);
+
         $this->whereBindings[] = $value;
 
         return $this;
@@ -314,9 +315,13 @@ class QueryBuilder implements QueryBuilderInterface
 
         $preparedStatement = $this->connection->prepare($query);
 
-        $this->bindings[] = array_merge($this->whereBindings, $this->havingBindings);
+        $this->bindings = ! is_null($this->where) ? array_merge($this->bindings, $this->whereBindings) : $this->bindings;
         
+    
         $preparedStatement->execute(flatten($this->bindings));
+
+
+        $this->clear();
                 
         return $preparedStatement; 
     }
@@ -372,7 +377,7 @@ class QueryBuilder implements QueryBuilderInterface
 
         // if update statement has where condition 
         $query .= $this->where;
-
+        
         return $this->execute($query)->rowCount() > 0;
     }
 
@@ -428,5 +433,22 @@ class QueryBuilder implements QueryBuilderInterface
         $this->query = $query;
 
         return $this->query;
+    }
+
+    private function clear(): void
+    {
+        $this->select   = "";
+        $this->table    = "";
+        $this->join     = "";
+        $this->where    = "";
+        $this->groupBy  = "";
+        $this->having   = "";
+        $this->orderBy  = "";
+        $this->limit    = "";
+        $this->offset   = "";
+        $this->whereBindings = [];
+        $this->havingBindings = [];
+        $this->bindings = [];
+        $this->query    = "";;
     }
 }
