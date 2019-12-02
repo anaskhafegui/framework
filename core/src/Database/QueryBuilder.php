@@ -14,6 +14,7 @@ use Core\Database\Statements\Select;
 use Core\Database\Statements\Update;
 use Core\Database\Statements\Where;
 use Core\Interfaces\QueryBuilderInterface;
+use PDO;
 
 class QueryBuilder implements QueryBuilderInterface
 {   
@@ -259,6 +260,7 @@ class QueryBuilder implements QueryBuilderInterface
         $this->having = Having::generate($column, $operator, $value);
 
         $this->havingBindings[] = $value;
+
         return $this;
     }
 
@@ -309,24 +311,32 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function execute($query=null)
     {
+        // in case of get() or first(),
+        // so we use the renderQuery() to generate the query automatically
         if (is_null($query)){
             $query = $this->renderQuery();
         }
 
+        // prepare the query before binding variables
         $preparedStatement = $this->connection->prepare($query);
     
+        
         if (! is_null($this->where)) {
+            // if the query has where statement
             $this->bindings = array_merge($this->bindings, $this->whereBindings);
 
         } elseif (! is_null($this->having)) {
+            // if the query has having statement
             $this->bindings = array_merge($this->bindings, $this->havingBindings);
         }
 
+        // execute the query with its bindings
         $preparedStatement->execute(flatten($this->bindings));
 
-
-        $this->clear();
+        // reset the statement for new ones
+        $this->reset();
                 
+        // return the statement to use fetch() or fetchAll()
         return $preparedStatement; 
     }
 
@@ -356,15 +366,24 @@ class QueryBuilder implements QueryBuilderInterface
      * @param array $data
      * @return bool
      */
-    public function insert($data): bool
+    public function insert($data)
     {        
         // pass all values including table name
         $query = Insert::generate($this->table, $data);
-
+        
         // set binding for insert statement
         $this->bindings = array_values($data);
 
-        return $this->execute($query)->rowCount() > 0;
+        // save table name in local variable before resetting the query
+        $table = $this->table;
+
+        $this->execute($query);
+
+        // get last inserted id
+        $lastInsertedId = $this->connection->lastInsertId();
+
+        // get the inserted object
+        return $this->table($table)->select('*')->where('id', '=', $lastInsertedId)->first();
     }
 
     /**
@@ -439,7 +458,13 @@ class QueryBuilder implements QueryBuilderInterface
         return $this->query;
     }
 
-    private function clear(): void
+
+    /**
+     * Reset the statements
+     *
+     * @return void
+     */
+    private function reset(): void
     {
         $this->select   = "";
         $this->table    = "";

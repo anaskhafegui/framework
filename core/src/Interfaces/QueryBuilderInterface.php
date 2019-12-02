@@ -143,7 +143,7 @@ interface QueryBuilderInterface
      * @param array $data
      * @return bool
      */
-    public function insert($data): bool;
+    public function insert($data);
 
     /**
      * Update Record

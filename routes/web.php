@@ -114,7 +114,7 @@ $query = new QueryBuilder;
 // );
 
 pre(
-    $query->table('users')->select('id')->orderBy('id', 'DESC')->first()
+    $query->table('users')->insert(['name' => 'MGX', 'grade' => 'F', 'age' => 30])
 );
 
 
