@@ -446,14 +446,4 @@ class QueryBuilder implements QueryBuilderInterface
 
         return $this->query;
     }
-
-    /**
-     * Convert Object to String
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->query ?? "use <strong> renderQuery() </strong> to render display complied query";
-    }
 }

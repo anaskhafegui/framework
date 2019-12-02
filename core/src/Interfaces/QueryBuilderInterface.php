@@ -176,11 +176,4 @@ interface QueryBuilderInterface
      * @return mixed
      */
     public function links($currentPage, $pages);
-
-    /**
-     * Convert Object to String
-     *
-     * @return string
-     */
-    public function __toString();
 }
