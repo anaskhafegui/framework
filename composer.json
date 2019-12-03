@@ -9,6 +9,6 @@
             "email": "mg.dev1992@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "1.0",
     "require": {}
 }
