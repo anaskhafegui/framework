@@ -351,7 +351,8 @@ class QueryBuilder implements QueryBuilderInterface
         $preparedStatement = $this->connection->prepare($query);
         $preparedStatement->execute($parameters);
 
-        return $preparedStatement->fetchAll();
+        
+        return $preparedStatement;
     }
 
     /**

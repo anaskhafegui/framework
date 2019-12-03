@@ -107,8 +107,17 @@ app('router')->get('/', 'HomeController@index');
 | Database Testing
 |---------------------------------------------- 
 */
-pre(
-    app('query_builder')->sql('SELECT grade, count(grade) FROM users GROUP BY grade HAVING count(grade) > 14')
+
+
+// $users = app('query_builder')->sql('SELECT * FROM users');
+
+
+// foreach ($users->fetchAll() as $user) {
+//     echo $user->id;
+// }
+
+pre (
+    app('query_builder')->sql('SELECT * FROM users')
 );
 
 
