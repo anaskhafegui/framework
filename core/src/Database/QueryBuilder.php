@@ -120,8 +120,6 @@ class QueryBuilder
      */
     public static function getInstance()
     {
-        static::$connection = Connection::getInstance();
-
         return new static;
     }
     
@@ -309,11 +307,12 @@ class QueryBuilder
      */
     public function execute($query = null, $parameters = [])
     {
+        $connection = Connection::getInstance();
         $query = $query ?? $this->renderQuery();
         $parameters = $parameters ?? flatten($this->bindings);
 
         // prepare the query before binding variables
-        $preparedStatement = static::$connection->prepare($query);
+        $preparedStatement = $connection->prepare($query);
     
         // execute the query with its bindings
         $preparedStatement->execute($parameters);
