@@ -389,16 +389,9 @@ class QueryBuilder implements QueryBuilderInterface
         // set binding for insert statement
         $this->bindings = array_values($data);
 
-        // save table name in local variable before resetting the query
-        $table = $this->table;
-
         $this->execute($query);
 
-        // get last inserted id
-        $lastInsertedId = $this->connection->lastInsertId();
-
-        // get the inserted object
-        return $this->table($table)->select('*')->where('id', '=', $lastInsertedId)->first();
+        return $this->execute($query)->rowCount() > 0;
     }
 
     /**

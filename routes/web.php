@@ -129,6 +129,7 @@ pre (
 */
 /**
  * - app/
+ * - config
  *  - Http
  *      - Controllers
  * - public/
