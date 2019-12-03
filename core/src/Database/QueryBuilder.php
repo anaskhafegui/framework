@@ -324,35 +324,22 @@ class QueryBuilder implements QueryBuilderInterface
      *
      * @return mixed
      */
-    public function execute($query = null)
+    public function execute($query = null, $parameters = [])
     {
         $query = $query ?? $this->renderQuery();
+        $parameters = $parameters ?? flatten($this->bindings);
 
         // prepare the query before binding variables
         $preparedStatement = $this->connection->prepare($query);
     
         // execute the query with its bindings
-        $preparedStatement->execute(flatten($this->bindings));
+        $preparedStatement->execute($parameters);
 
         // reset the statement for new ones
         $this->reset();
                 
         // return the statement to use fetch() or fetchAll()
         return $preparedStatement; 
-    }
-
-    /**
-     * Execute raw query
-     *
-     * @return void
-     */
-    public function sql($query, $parameters = [])
-    {
-        $preparedStatement = $this->connection->prepare($query);
-        $preparedStatement->execute($parameters);
-
-        
-        return $preparedStatement;
     }
 
     /**

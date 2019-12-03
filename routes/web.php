@@ -113,10 +113,12 @@ app('router')->get('/', 'HomeController@index');
 //     echo $user->id;
 // }
 
-pre (
-    app('query_builder')->sql('SELECT * FROM users')
-);
 
+app('query_builder')->execute('UPDATE users SET name = ?  WHERE id = ?', ['new', 30]);
+
+// foreach($users as $user) {
+// echo $user->id;
+// }
 
 
 /*
