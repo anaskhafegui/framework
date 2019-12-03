@@ -6,9 +6,6 @@
 |---------------------------------------------- 
 */
 
-use Core\Database\Query;
-use Core\Database\QueryBuilder;
-
 app('router')->get('/', 'HomeController@index');
 
 
