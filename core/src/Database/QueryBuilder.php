@@ -2,19 +2,19 @@
 
 namespace Core\Database;
 
-use Core\Database\Statements\Delete;
-use Core\Database\Statements\GroupBy;
-use Core\Database\Statements\Having;
-use Core\Database\Statements\Insert;
 use Core\Database\Statements\Join;
 use Core\Database\Statements\Limit;
+use Core\Database\Statements\Where;
 use Core\Database\Statements\Offset;
-use Core\Database\Statements\OrderBy;
+use Core\Database\Statements\Delete;
+use Core\Database\Statements\Having;
+use Core\Database\Statements\Insert;
 use Core\Database\Statements\Select;
 use Core\Database\Statements\Update;
-use Core\Database\Statements\Where;
+use Core\Database\Statements\GroupBy;
+use Core\Database\Statements\OrderBy;
+
 use Core\Interfaces\QueryBuilderInterface;
-use PDO;
 
 class QueryBuilder implements QueryBuilderInterface
 {   
