@@ -41,9 +41,6 @@ class Where
 
         $query = static::$query;
         $bindings = static::$bindings;
-
-        static::$query = "";
-        static::$bindings = [];
         
 
         return [$bindings, $query];

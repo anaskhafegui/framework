@@ -181,8 +181,9 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function where($column, $operator, $value, $type=null): QueryBuilderInterface
     {
-        
         list($this->whereBindings, $this->where) = Where::generate($column, $operator, $value);
+
+        $this->bindings = array_merge($this->bindings, $this->whereBindings);
 
         return $this;
     }
@@ -273,6 +274,8 @@ class QueryBuilder implements QueryBuilderInterface
     {
         list($this->havingBindings, $this->having) = Having::generate($column, $operator, $value);
 
+        $this->bindings = array_merge($this->bindings, $this->havingBindings);
+
         return $this;
     }
 
@@ -328,15 +331,6 @@ class QueryBuilder implements QueryBuilderInterface
         // prepare the query before binding variables
         $preparedStatement = $this->connection->prepare($query);
     
-        
-        if (! is_null($this->where)) {
-            // if the query has where statement
-            $this->bindings = array_merge($this->bindings, $this->whereBindings);
-
-        } elseif (! is_null($this->having)) {
-            // if the query has having statement
-            $this->bindings = array_merge($this->bindings, $this->havingBindings);
-        }
 
         // execute the query with its bindings
         $preparedStatement->execute(flatten($this->bindings));
@@ -404,7 +398,7 @@ class QueryBuilder implements QueryBuilderInterface
     {
         $query = Update::generate($this->table, $data);
 
-        $this->bindings = array_values($data);
+        $this->bindings = array_merge(array_values($data), $this->bindings);
 
         // if update statement has where condition 
         $query .= $this->where;

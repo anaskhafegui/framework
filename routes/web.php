@@ -110,12 +110,16 @@ app('router')->get('/', 'HomeController@index');
 pre(
     app('query_builder')
     ->table('users')
-    ->select('grade', 'count(grade)')
-    ->groupBy('grade')
-    ->having('count(grade)', '>', 12)
-    ->get()
+    ->where('id', '=', 23)
+    ->update(['name' => 'MGX'])
 );
 
+pre(
+    app('query_builder')
+    ->table('users')
+    ->where('id', '=', 29)
+    ->delete()
+);
 
 
 /*
