@@ -15,8 +15,7 @@ use Core\Database\Statements\GroupBy;
 use Core\Database\Statements\OrderBy;
 
 class QueryBuilder
-{   
-
+{
     /**
      * Final Query
      *
@@ -158,9 +157,9 @@ class QueryBuilder
      * Select Statement
      *
      * @param string $table
-     * @return object
+     * @return mixed
      */
-    public function select(...$columns): QueryBuilderInterface
+    public function select(...$columns)
     {
         $this->select = Select::generate($columns);
 
@@ -175,9 +174,9 @@ class QueryBuilder
      * @param string $value
      * @param string $type
      * 
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function where($column, $operator, $value, $type = null): QueryBuilderInterface
+    public function where($column, $operator, $value, $type = null)
     {
         list($this->whereBindings, $this->where) = Where::generate($column, $operator, $value);
 
@@ -193,9 +192,9 @@ class QueryBuilder
      * @param string $operator
      * @param string $value
      * 
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function orWhere($column, $operator, $value): QueryBuilderInterface
+    public function orWhere($column, $operator, $value)
     {
         $this->where($column, $operator, $value, 'OR');
 
@@ -209,9 +208,9 @@ class QueryBuilder
      * @param string $firstColumn
      * @param string $secondColumn
      * @param string $type
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function join($table, $firstColumn, $secondColumn, $type): QueryBuilderInterface
+    public function join($table, $firstColumn, $secondColumn, $type)
     {
         $this->join = Join::generate($table, $firstColumn, $secondColumn, $type);
 
@@ -224,9 +223,9 @@ class QueryBuilder
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function rightJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
+    public function rightJoin($table, $firstColumn, $secondColumn)
     {
         $this->join($table, $firstColumn, $secondColumn, 'RIGHT');
 
@@ -239,9 +238,9 @@ class QueryBuilder
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function leftJoin($table, $firstColumn, $secondColumn): QueryBuilderInterface
+    public function leftJoin($table, $firstColumn, $secondColumn)
     {
         $this->join($table, $firstColumn, $secondColumn, 'LEFT');
 
@@ -251,9 +250,9 @@ class QueryBuilder
     /**
      * GroupBy Statement
      * 
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function groupBy($column): QueryBuilderInterface
+    public function groupBy($column)
     {
         $this->groupBy = GroupBy::generate($column);
 
@@ -266,9 +265,9 @@ class QueryBuilder
      * @param string $column
      * @param string $operator
      * @param string $value
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function having($column, $operator, $value): QueryBuilderInterface
+    public function having($column, $operator, $value)
     {
         list($this->havingBindings, $this->having) = Having::generate($column, $operator, $value);
 
@@ -282,9 +281,9 @@ class QueryBuilder
      *
      * @param string $column
      * @param string $type
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function orderBy($column, $type = 'ASC'): QueryBuilderInterface
+    public function orderBy($column, $type = 'ASC')
     {
         $this->orderBy = OrderBy::generate($column, $type);
     
@@ -295,9 +294,9 @@ class QueryBuilder
      * Limit Condition
      *
      * @param int $limit
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function limit($limit): QueryBuilderInterface
+    public function limit($limit)
     {
         $this->limit = Limit::generate($limit);
 
@@ -308,9 +307,9 @@ class QueryBuilder
      * Offset Statement
      *
      * @param int $offset
-     * @return QueryBuilderInterface
+     * @return mixed
      */
-    public function offset($offset): QueryBuilderInterface
+    public function offset($offset)
     {
         $this->offset = Offset::generate($offset);
 
