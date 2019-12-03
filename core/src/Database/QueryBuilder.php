@@ -111,19 +111,7 @@ class QueryBuilder
      * Database Connection
      * @var mixed
      */
-    private $connection;
-
-    /**
-     * Singleton Instance
-     *
-     * @var mixed
-     */
-    private static $instance;
-
-    public function __construct()
-    {
-        $this->connection = app('db_connection')->connect();
-    }
+    private static $connection;
 
     /**
      * Get Router Instance
@@ -132,11 +120,7 @@ class QueryBuilder
      */
     public static function getInstance()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        return static::$instance;
+        static::$connection = Connection::getInstance();
     }
     
 
@@ -327,7 +311,7 @@ class QueryBuilder
         $parameters = $parameters ?? flatten($this->bindings);
 
         // prepare the query before binding variables
-        $preparedStatement = $this->connection->prepare($query);
+        $preparedStatement = static::$connection->prepare($query);
     
         // execute the query with its bindings
         $preparedStatement->execute($parameters);
