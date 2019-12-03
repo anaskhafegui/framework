@@ -324,7 +324,7 @@ class QueryBuilder implements QueryBuilderInterface
      *
      * @return mixed
      */
-    public function execute($query=null)
+    public function execute($query = null)
     {
         $query = $query ?? $this->renderQuery();
 
