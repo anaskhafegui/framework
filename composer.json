@@ -9,7 +9,7 @@
             "email": "mg.dev1992@gmail.com"
         }
     ],
-    "minimum-stability": "1.0",
+    "minimum-stability": "^1.0",
     "require": {
         "php" : "^7.1.3"
     },
