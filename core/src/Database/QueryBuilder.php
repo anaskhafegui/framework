@@ -179,7 +179,7 @@ class QueryBuilder implements QueryBuilderInterface
      * 
      * @return QueryBuilderInterface
      */
-    public function where($column, $operator, $value, $type=null): QueryBuilderInterface
+    public function where($column, $operator, $value, $type = null): QueryBuilderInterface
     {
         list($this->whereBindings, $this->where) = Where::generate($column, $operator, $value);
 
@@ -286,7 +286,7 @@ class QueryBuilder implements QueryBuilderInterface
      * @param string $type
      * @return QueryBuilderInterface
      */
-    public function orderBy($column, $type='ASC'): QueryBuilderInterface
+    public function orderBy($column, $type = 'ASC'): QueryBuilderInterface
     {
         $this->orderBy = OrderBy::generate($column, $type);
     
