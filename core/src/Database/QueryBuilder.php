@@ -14,8 +14,6 @@ use Core\Database\Statements\Update;
 use Core\Database\Statements\GroupBy;
 use Core\Database\Statements\OrderBy;
 
-use Core\Interfaces\QueryBuilderInterface;
-
 class QueryBuilder
 {   
 
