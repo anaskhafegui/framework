@@ -108,18 +108,9 @@ app('router')->get('/', 'HomeController@index');
 |---------------------------------------------- 
 */
 pre(
-    app('query_builder')
-    ->table('users')
-    ->where('id', '=', 23)
-    ->update(['name' => 'MGX'])
+    app('query_builder')->sql('SELECT grade, count(grade) FROM users GROUP BY grade HAVING count(grade) > 14')
 );
 
-pre(
-    app('query_builder')
-    ->table('users')
-    ->where('id', '=', 29)
-    ->delete()
-);
 
 
 /*
