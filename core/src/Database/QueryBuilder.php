@@ -16,7 +16,7 @@ use Core\Database\Statements\OrderBy;
 
 use Core\Interfaces\QueryBuilderInterface;
 
-class QueryBuilder implements QueryBuilderInterface
+class QueryBuilder
 {   
 
     /**
