@@ -25,7 +25,6 @@ class Where
         $where = $column . $operator . ' ? ';
         
         if (static::$query == "") {
-
             // if where not exists before
             $statement = " WHERE ". $where;
         } elseif(is_null($type)) {
@@ -41,7 +40,9 @@ class Where
 
         $query = static::$query;
         $bindings = static::$bindings;
-        
+
+        static::$query = "";
+        static::$bindings = [];
 
         return [$bindings, $query];
     }
