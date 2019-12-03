@@ -11,10 +11,19 @@ class Having
      */
     private static $query;
     
+    /**
+     * Query Bindings
+     *
+     * @var string
+     */
+    private static $bindings;
+
     public static function generate($column, $operator, $value)
     {   
         static::$query = " HAVING ". $column . $operator . ' ? ';
 
-        return static::$query;
+        static::$bindings[] = $value;
+
+        return [static::$bindings, static::$query];
     }
 }

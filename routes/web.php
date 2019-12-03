@@ -110,8 +110,12 @@ app('router')->get('/', 'HomeController@index');
 pre(
     app('query_builder')
     ->table('users')
-    ->insert(['name' => 'New', 'age' => 40, 'grade' => 'A+'])
+    ->select('grade', 'count(grade)')
+    ->groupBy('grade')
+    ->having('count(grade)', '>', 12)
+    ->get()
 );
+
 
 
 /*

@@ -11,6 +11,13 @@ class Where
      */
     private static $query;
 
+    /**
+     * Query Bindings
+     *
+     * @var string
+     */
+    private static $bindings;
+
     public static function generate($column, $operator, $value, $type=null)
     {
         $type = $type ?? null;
@@ -30,10 +37,15 @@ class Where
 
         
         static::$query .= $statement;
+        static::$bindings[] = $value;
+
         $query = static::$query;
+        $bindings = static::$bindings;
 
         static::$query = "";
+        static::$bindings = [];
         
-        return $query;
+
+        return [$bindings, $query];
     }
 }

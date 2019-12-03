@@ -181,9 +181,8 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function where($column, $operator, $value, $type=null): QueryBuilderInterface
     {
-        $this->where = Where::generate($column, $operator, $value);
-
-        $this->whereBindings[] = $value;
+        
+        list($this->whereBindings, $this->where) = Where::generate($column, $operator, $value);
 
         return $this;
     }
@@ -272,9 +271,7 @@ class QueryBuilder implements QueryBuilderInterface
      */
     public function having($column, $operator, $value): QueryBuilderInterface
     {
-        $this->having = Having::generate($column, $operator, $value);
-
-        $this->havingBindings[] = $value;
+        list($this->havingBindings, $this->having) = Having::generate($column, $operator, $value);
 
         return $this;
     }
