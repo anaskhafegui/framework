@@ -114,13 +114,15 @@ class QueryBuilder
     private static $connection;
 
     /**
-     * Get Router Instance
+     * Get Single Instance
      *
      * @return mixed
      */
     public static function getInstance()
     {
         static::$connection = Connection::getInstance();
+
+        return new static;
     }
     
 
