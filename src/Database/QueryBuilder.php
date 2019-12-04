@@ -309,8 +309,8 @@ class QueryBuilder
     {
         $connection = Connection::getInstance();
         $query = $query ?? $this->renderQuery();
-        $parameters = $parameters ?? flatten($this->bindings);
-
+        $parameters = ! empty($parameters) ?  $parameters : flatten($this->bindings);
+        
         // prepare the query before binding variables
         $preparedStatement = $connection->prepare($query);
     
@@ -357,8 +357,6 @@ class QueryBuilder
         
         // set binding for insert statement
         $this->bindings = array_values($data);
-
-        $this->execute($query);
 
         return $this->execute($query)->rowCount() > 0;
     }
