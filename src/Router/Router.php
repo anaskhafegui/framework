@@ -158,7 +158,6 @@ class Router
      */
     public function invoke($route, $params)
     {
-        
         $action = $route['action'];
 
         if (is_callable($action)) {
@@ -173,7 +172,17 @@ class Router
             $controller = 'App\Http\Controllers\\' . $controller;
             
             // call method from controller method
-            return call_user_func_array([new $controller, $method], $params);
+            $content = call_user_func_array([new $controller, $method], $params);
+
+            $headers = [
+                'name' => 'Mohamed',
+            ];
+
+            app('response')->setHeaders($headers);
+
+            app('response')->setContent($content);
+
+            app('response')->send();
         }
     }
 }
