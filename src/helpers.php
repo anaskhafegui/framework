@@ -90,7 +90,7 @@ if (! function_exists('flatten')) {
 }
 
 
-if (! function_exists('css')) {
+if (! function_exists('asset')) {
     function asset($path)
     {
         return app('request')->server('DOCUMENT_ROOT').'/espressoPHP/public/'.$path;
