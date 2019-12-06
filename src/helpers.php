@@ -88,3 +88,11 @@ if (! function_exists('flatten')) {
         return $result;
     }
 }
+
+
+if (! function_exists('css')) {
+    function asset($path)
+    {
+        return app('request')->server('DOCUMENT_ROOT').'/espressoPHP/public/'.$path;
+    }
+}
