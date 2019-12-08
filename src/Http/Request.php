@@ -219,6 +219,6 @@ class Request implements RequestInterface
      */
     public function all():iterable
     {
-        return $_REQUEST
+        return $_REQUEST;
     }
 }
