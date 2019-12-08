@@ -32,7 +32,17 @@ interface RequestInterface extends ArrayAccess
      * @return  string
      */
     public function server(string $key):? string;
+
+
+    /**
+     * Get all values from the request
+     * 
+     * @return mixed
+     */
+    public function all():iterable;
+
     
+
     /**
      * Get a request header value for the given header 
      * 

@@ -213,4 +213,12 @@ class Request implements RequestInterface
     {
         $this->$offset = null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function all():iterable
+    {
+        return $_REQUEST
+    }
 }
