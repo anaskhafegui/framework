@@ -6,10 +6,12 @@ use Core\Database\Connection;
 use Core\Database\QueryBuilder;
 use Core\Event\Event;
 use Core\FileSystem\FileSystem;
+use Core\Hash\Hash;
 use Core\Http\Request;
 use Core\Http\Response;
 use Core\Router\Router;
 use Core\Session\Session;
+
 use Exception;
 
 class Application
@@ -43,6 +45,7 @@ class Application
         'session'           => Session::class,
         'query_builder'     => QueryBuilder::class,
         'db_connection'     => Connection::class,
+        'hash'              => Hash::class,
     ];
 
 	/**
