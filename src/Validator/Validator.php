@@ -2,7 +2,7 @@
 
 namespace Core\Validator;
 
-use Core\Validator\Rules\{Max, Min, Number, Required};
+use Core\Validator\Rules\{Max, Min, Number, Required, Same};
 
 class Validator
 {
@@ -12,6 +12,7 @@ class Validator
         'min'       => Min::class,
         'number'    => Number::class,
         'required'  => Required::class,
+        'same'      => Same::class,
     ];
 
     public function validate($rules)
