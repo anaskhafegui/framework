@@ -11,7 +11,7 @@ use Core\Application;
 if (! function_exists('app')) {
     function app($key) 
     {
-        return Application::getInstance()->get($key);
+        return Application::instance()->get($key);
     }
 }
 

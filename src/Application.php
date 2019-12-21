@@ -63,7 +63,7 @@ class Application
      *
      * @return mixed
      */
-    public static function getInstance()
+    public static function instance()
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
@@ -82,7 +82,7 @@ class Application
     {
         $object = isset(self::CORE_CLASSES[$key]) ? self::CORE_CLASSES[$key] : null;
         
-    	return $object::getInstance();
+    	return $object::instance();
     }
 
     /**

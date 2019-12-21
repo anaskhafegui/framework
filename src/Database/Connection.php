@@ -24,7 +24,7 @@ class Connection
      *
      * @return mixed
      */
-    public static function getInstance()
+    public static function instance()
     {
         if (is_null(static::$instance)) {
             

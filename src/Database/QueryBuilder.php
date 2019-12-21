@@ -118,7 +118,7 @@ class QueryBuilder
      *
      * @return mixed
      */
-    public static function getInstance()
+    public static function instance()
     {
         return new static;
     }
@@ -307,7 +307,7 @@ class QueryBuilder
      */
     public function execute($query = null, $parameters = [])
     {
-        $connection = Connection::getInstance();
+        $connection = Connection::instance();
         $query = $query ?? $this->renderQuery();
         $parameters = ! empty($parameters) ?  $parameters : flatten($this->bindings);
         
