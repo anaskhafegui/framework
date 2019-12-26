@@ -395,23 +395,6 @@ class QueryBuilder
     }
 
     /**
-     * Paginate Results
-     *
-     * @param int $itemPerPage
-     * @return mixed
-     */
-    public function paginate($itemPerPage){}
-
-    /**
-     * Get Pagination Links
-     *
-     * @param int $currentPage
-     * @param int $pages
-     * @return mixed
-     */
-    public function links($currentPage, $pages){}
-
-    /**
      * Render Compiled Query
      *
      * @return string
