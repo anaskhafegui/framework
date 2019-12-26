@@ -185,4 +185,16 @@ class Router
             app('response')->send();
         }
     }
+    
+    /**
+     * Redirect the request to the path
+     *
+     * @param $path
+     * @return void
+     */
+    public function redirect($path)
+    {
+        header('Location: ' . $path);
+        exit;
+    }
 }
