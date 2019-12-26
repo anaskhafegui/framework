@@ -4,7 +4,7 @@ namespace Core;
 
 class View
 {
-    public static function render($path, $data)
+    public static function render($path, $data = [])
     {
         ob_start();
         extract($data);
