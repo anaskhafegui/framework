@@ -32,7 +32,7 @@ class Connection
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
             ];
 
-            $host       = app('config')->database['username'];
+            $host       = app('config')->database['host'];
             $username   = app('config')->database['username'];
             $password   = app('config')->database['password'];
             $database   = app('config')->database['database'];
