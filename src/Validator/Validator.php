@@ -2,7 +2,7 @@
 
 namespace Core\Validator;
 
-use Core\Validator\Rules\{Max, Min, Number, Required, Same};
+use Core\Validator\Rules\{Length, Max, Min, Number, Required, Same};
 
 class Validator
 {
@@ -44,7 +44,7 @@ class Validator
         }
 
         app('session')->set('errors', $errors); 
-        
+
         return $errors;
     }
 
