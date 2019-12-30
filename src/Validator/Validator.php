@@ -43,6 +43,8 @@ class Validator
             }
         }
 
+        app('session')->set('errors', $errors); 
+        
         return $errors;
     }
 
