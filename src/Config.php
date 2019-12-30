@@ -17,6 +17,7 @@ class Config
      *
      * @var array
      */
+
     private $repository = [];
 
     private function __construct() 
