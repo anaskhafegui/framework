@@ -32,9 +32,10 @@ class Connection
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
             ];
 
-            $credentials = app('file')->require("../config/database.php");
-
-            list($host, $username, $password, $database) = array_values($credentials);
+            $host       = app('config')->database['username'];
+            $username   = app('config')->database['username'];
+            $password   = app('config')->database['password'];
+            $database   = app('config')->database['database'];
 
             $dsn = "mysql:host=$host;dbname=$database";
 
@@ -43,7 +44,7 @@ class Connection
 
                 return static::$instance;
             } catch (PDOException $e) {
-                throw new PDOException($e->getMessage());
+                throw new PDOException('Couldn\'t connect to the database!');
             }
         }
 
