@@ -93,6 +93,7 @@ if (! function_exists('flatten')) {
 if (! function_exists('asset')) {
     function asset($path)
     {
-        return app('request')->server('DOCUMENT_ROOT').'/espressoPHP/public/'.$path;
+        $appUrl = app('config')->app['url'];
+        return $appUrl.$path;
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Core;
 
-use Core\Database\Connection;
-use Core\Database\QueryBuilder;
-use Core\Event\Event;
-use Core\FileSystem\FileSystem;
+use Exception;
 use Core\Hash\Hash;
+use Core\Event\Event;
 use Core\Http\Request;
 use Core\Http\Response;
 use Core\Router\Router;
 use Core\Session\Session;
+use Core\Database\Connection;
+use Core\Database\QueryBuilder;
+use Core\FileSystem\FileSystem;
 
-use Exception;
 
 class Application
 {
@@ -46,6 +46,7 @@ class Application
         'query_builder'     => QueryBuilder::class,
         'db_connection'     => Connection::class,
         'hash'              => Hash::class,
+        'config'            => Config::class,
     ];
 
 	/**
