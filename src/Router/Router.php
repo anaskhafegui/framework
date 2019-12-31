@@ -194,6 +194,8 @@ class Router
      */
     public function redirect($path)
     {
+        // remove useless slashes from url
+        $path = preg_replace('#/+#','/',$path);
         header('Location: ' . $path);
         exit;
     }
