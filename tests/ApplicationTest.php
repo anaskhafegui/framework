@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\tests;
+namespace tests;
 
 use Core\Application;
 use Core\FileSystem\FileSystem;
