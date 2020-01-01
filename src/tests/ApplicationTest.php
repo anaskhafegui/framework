@@ -7,14 +7,23 @@ use Core\FileSystem\FileSystem;
 use Core\Hash\Hash;
 use Core\Http\Request;
 use Core\Http\Response;
-use Core\Session\Session;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 
 final class ApplicationTest extends TestCase
 {
+    /**
+     * hold an application instance
+     *
+     * @var mixed
+     */
     private $app;
 
+    /**
+     * initiate for each test
+     *
+     * @return void
+     */
     public function setUp()
     {
         $this->app = Application::instance();    
@@ -66,5 +75,4 @@ final class ApplicationTest extends TestCase
         $this->assertTrue($this->app->has('new_request'));
         
     }
-    
 }
