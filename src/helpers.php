@@ -59,19 +59,6 @@ if (! function_exists('response')) {
 }
 
 
-/**
- * handle validation
- *
- * @param string $key
- * @return mixed
- */
-if (! function_exists('validate')) {
-    function validate($rules) 
-    {
-        return app('request')->validate($rules);
-    }
-}
-
 if (! function_exists('flatten')) {
     function flatten(array $array): array
     {
