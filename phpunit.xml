@@ -3,7 +3,8 @@
          xsi:noNamespaceSchemaLocation="phpunit.xsd"
          cacheResult="false"
          colors="true"
-         verbose="true">
+         verbose="true"
+         stderr="true">
     <testsuites>
         <testsuite name="unit">
             <directory suffix="Test.php">tests/</directory>

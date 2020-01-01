@@ -86,7 +86,7 @@ class Session implements SessionInterface
      */
     public function forget(string $key)
     {
-        if (isset($_SESSION[$key])) unset($_SESSION[$key]);
+        if ($this->has($key)) unset($_SESSION[$key]);
     }
 
     /**
@@ -106,7 +106,7 @@ class Session implements SessionInterface
      */
     public function destroy()
     {
-        foreach($this->all() as $key => $value) {
+        foreach(array_keys((array)$this->all()) as $key) {
             $this->forget($key);
         }
     }
