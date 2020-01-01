@@ -70,7 +70,7 @@ class Validator
      * @param string $rule
      * @return object
      */
-    private function generateRuleObject($rule): object
+    private function generateRuleObject($rule)
     {
         $ruleName = self::RULES[$rule];
         return new $ruleName;
