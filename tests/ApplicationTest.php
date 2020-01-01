@@ -82,5 +82,6 @@ final class ApplicationTest extends TestCase
     public function failed()
     {
         $this->assertTrue(false);
+        
     }
 }
