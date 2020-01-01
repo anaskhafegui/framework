@@ -43,9 +43,14 @@ class Validator
             }
         }
 
-        app('session')->set('errors', $errors); 
+        $this->persistErrorsToSession($errors);
 
         return $errors;
+    }
+
+    public function persistErrorsToSession($errors): void
+    {
+        app('session')->set('errors', $errors); 
     }
 
     /**
