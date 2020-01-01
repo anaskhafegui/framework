@@ -8,6 +8,6 @@ jobs:
       - image: debian:stretch
     steps:
       - checkout
-      - run: composer install -n --prefer-dist
+      - run: composer install
       - run: ./vendor/bin/phpunit tests
       - store_test_results
