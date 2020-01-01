@@ -75,4 +75,12 @@ final class ApplicationTest extends TestCase
         $this->assertTrue($this->app->has('new_request'));
         
     }
+
+    /**
+     * @test
+     */
+    public function failed()
+    {
+        $this->assertTrue(false);
+    }
 }
