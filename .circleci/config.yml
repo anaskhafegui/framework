@@ -8,3 +8,4 @@ jobs:
       - image: debian:stretch
     steps:
       - checkout
+      - run: ./vendor/bin/phpunit tests/
