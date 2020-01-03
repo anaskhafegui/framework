@@ -25,8 +25,8 @@ class FileSystemTest extends TestCase
      */
     public function files()
     {
-        file_put_contents($this->tempDir.'/file1.txt', 'Hello World from file1');
-        file_put_contents($this->tempDir.'/file2.txt', 'Hello World from file2');
+        $this->file->put($this->tempDir.'/file1.txt', 'Hello World from file1');
+        $this->file->put($this->tempDir.'/file2.txt', 'Hello World from file2');
 
         $this->assertCount(2, $this->file->files($this->tempDir));
     }
@@ -36,11 +36,11 @@ class FileSystemTest extends TestCase
      */
     public function allFiles()
     {
-        file_put_contents($this->tempDir.'/file1.txt', 'Hello World from file1');
-        file_put_contents($this->tempDir.'/file2.txt', 'Hello World from file2');
-        mkdir($this->tempDir.'/sub_dir1');
-        file_put_contents($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
-        file_put_contents($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
+        $this->file->put($this->tempDir.'/file1.txt', 'Hello World from file1');
+        $this->file->put($this->tempDir.'/file2.txt', 'Hello World from file2');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
+        $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
 
         $this->assertCount(4, $this->file->allFiles($this->tempDir));
     }
@@ -50,15 +50,15 @@ class FileSystemTest extends TestCase
      */
     public function directories()
     {
-        file_put_contents($this->tempDir.'/file1.txt', 'Hello World from file1');
-        file_put_contents($this->tempDir.'/file2.txt', 'Hello World from file2');
-        mkdir($this->tempDir.'/sub_dir1');
-        file_put_contents($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
-        file_put_contents($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
+        $this->file->put($this->tempDir.'/file1.txt', 'Hello World from file1');
+        $this->file->put($this->tempDir.'/file2.txt', 'Hello World from file2');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
+        $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
 
-        mkdir($this->tempDir.'/sub_dir2');
-        file_put_contents($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
-        file_put_contents($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
+        $this->file->put($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
 
         $this->assertCount(2, $this->file->directories($this->tempDir));
     }
@@ -69,15 +69,15 @@ class FileSystemTest extends TestCase
     public function allDirectories()
     {
         
-        mkdir($this->tempDir.'/sub_dir1');
-        file_put_contents($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
-        file_put_contents($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
+        $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
 
-        mkdir($this->tempDir.'/sub_dir2');
-        file_put_contents($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
-        file_put_contents($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
+        $this->file->put($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
 
-        mkdir($this->tempDir.'/sub_dir2/sub_dir3');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
         
         $this->assertCount(3, $this->file->allDirectories($this->tempDir));   
     }
@@ -87,18 +87,18 @@ class FileSystemTest extends TestCase
      */
     public function list()
     {
-        file_put_contents($this->tempDir.'/file1.txt', 'Hello World from file1');
-        file_put_contents($this->tempDir.'/file2.txt', 'Hello World from file2');
+        $this->file->put($this->tempDir.'/file1.txt', 'Hello World from file1');
+        $this->file->put($this->tempDir.'/file2.txt', 'Hello World from file2');
 
-        mkdir($this->tempDir.'/sub_dir1');
-        file_put_contents($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
-        file_put_contents($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
+        $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
 
-        mkdir($this->tempDir.'/sub_dir2');
-        file_put_contents($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
-        file_put_contents($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
+        $this->file->put($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
 
-        mkdir($this->tempDir.'/sub_dir2/sub_dir3');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
 
         $this->assertCount(2, $this->file->list($this->tempDir)['directories']);  
         $this->assertCount(2, $this->file->list($this->tempDir)['files']);  
@@ -110,18 +110,18 @@ class FileSystemTest extends TestCase
      */
     public function listAll()
     {
-        file_put_contents($this->tempDir.'/file1.txt', 'Hello World from file1');
-        file_put_contents($this->tempDir.'/file2.txt', 'Hello World from file2');
+        $this->file->put($this->tempDir.'/file1.txt', 'Hello World from file1');
+        $this->file->put($this->tempDir.'/file2.txt', 'Hello World from file2');
 
-        mkdir($this->tempDir.'/sub_dir1');
-        file_put_contents($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
-        file_put_contents($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
+        $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
 
-        mkdir($this->tempDir.'/sub_dir2');
-        file_put_contents($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
-        file_put_contents($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
+        $this->file->put($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
 
-        mkdir($this->tempDir.'/sub_dir2/sub_dir3');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
 
         $this->assertCount(3, $this->file->listAll($this->tempDir)['directories']);  
         $this->assertCount(6, $this->file->listAll($this->tempDir)['files']); 
@@ -132,18 +132,18 @@ class FileSystemTest extends TestCase
      */
     public function cleanDirectory()
     {
-        file_put_contents($this->tempDir.'/file1.txt', 'Hello World from file1');
-        file_put_contents($this->tempDir.'/file2.txt', 'Hello World from file2');
+        $this->file->put($this->tempDir.'/file1.txt', 'Hello World from file1');
+        $this->file->put($this->tempDir.'/file2.txt', 'Hello World from file2');
 
-        mkdir($this->tempDir.'/sub_dir1');
-        file_put_contents($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
-        file_put_contents($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
+        $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
 
-        mkdir($this->tempDir.'/sub_dir2');
-        file_put_contents($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
-        file_put_contents($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2', 0777, true, true);
+        $this->file->put($this->tempDir.'/sub_dir2/file5.txt', 'Hello World from file5');
+        $this->file->put($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
 
-        mkdir($this->tempDir.'/sub_dir2/sub_dir3');
+        $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
 
         $file = FileSystem::instance();
         $this->assertTrue($file->cleanDirectory($this->tempDir.'/sub_dir1'));  
@@ -158,7 +158,7 @@ class FileSystemTest extends TestCase
     public function append()
     {
         $filePath = $this->tempDir.'/file1.txt';
-        file_put_contents($filePath , 'Hello');
+        $this->file->put($filePath , 'Hello');
 
         $this->file->append($filePath, ' World');
 
@@ -171,7 +171,7 @@ class FileSystemTest extends TestCase
     public function prepend()
     {
         $filePath = $this->tempDir.'/file1.txt';
-        file_put_contents($filePath , 'World');
+        $this->file->put($filePath , 'World');
 
         $this->file->prepend($filePath, 'Hello ');
 

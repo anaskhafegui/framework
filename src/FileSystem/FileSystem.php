@@ -160,7 +160,7 @@ class FileSystem implements FileSystemInterface
      * @param int $flags
      * @return int|false 
      */
-    public function put(string $path, string $content, int $flags)
+    public function put(string $path, string $content, int $flags=0)
     {
         file_put_contents($path, $content, $flags);
     }
