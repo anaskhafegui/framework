@@ -54,7 +54,7 @@ class ValidatorTest extends TestCase
         $_GET['age'] = '27';
         $_GET['username'] = 'mgamal';
         $_GET['long_username'] = 'mgamal123456';
-        $_GET['password'] = 'password';
-        $_GET['password_confirmation'] = 'password';
+        $_GET['password'] = '1234567';
+        $_GET['password_confirmation'] = '1234567';
     }
 }
