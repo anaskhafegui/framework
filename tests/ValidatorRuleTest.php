@@ -18,12 +18,14 @@ final class ValidatorRuleTest extends TestCase
      * @dataProvider rule
      */
     public function apply(RuleInterface $rule, $value, $parameter){
+        $_GET['password'] = '1234567';
+
         $this->assertNull($rule->apply($value, $parameter));
     }
 
     public function rule()
     {
-        $_GET['password'] = '1234567';
+        
 
         return [
             [new Same, '1234567', 'password'],
