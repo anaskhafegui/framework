@@ -5,7 +5,7 @@ namespace tests;
 use Core\FileSystem\FileSystem;
 use PHPUnit\Framework\TestCase;
 
-class FileTest extends TestCase
+class FileSystemTest extends TestCase
 {
     public function setUp()
     {
