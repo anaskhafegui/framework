@@ -2,7 +2,6 @@
 
 namespace tests;
 
-use Core\Interfaces\SessionInterface;
 use Core\Session\Session;
 use PHPUnit\Framework\TestCase;
 
@@ -21,73 +20,65 @@ final class SessionTest extends TestCase
      *
      * @return void
      */
-    // public function setUp()
-    // {
-    //     $this->session = Session::instance();    
-    // }
-
-    // /**
-    //  * @test
-    //  */
-    // public function instance()
-    // {
-    //     $this->assertInstanceOf(Session::class, Session::instance());
-    // }
+    public function setUp()
+    {
+        $this->session = Session::instance();    
+    }
 
     /**
      * @test
-     * @dataProvider provider
      */
-    public function forget (SessionInterface $session)
+    public function instance()
     {
-        $session->set('name', 'mohamed');
-
-        $this->assertArrayHasKey('name', $session->all());
-
-        $session->forget('name');
-
-        $this->assertArrayNotHasKey('name', $session->all());
+        $this->assertInstanceOf(Session::class, Session::instance());
     }
 
-    public function provider()
+    /**
+     * @test
+     */
+    public function forget ()
     {
-        return [
-            [Session::instance()]
-        ];
+        $this->session->set('name', 'mohamed');
+
+        $this->assertArrayHasKey('name', $this->session->all());
+
+        $this->session->forget('name');
+
+        $this->assertArrayNotHasKey('name', $this->session->all());
     }
 
-    // /**
-    //  * @test
-    //  */
-    // public function destroy()
-    // {
-    //     $this->session->set('name', 'mohamed');
-    //     $this->session->set('age', '27');
-    //     $this->session->set('job', 'developer');
+    /**
+     * @test
+     */
+    public function destroy()
+    {
+        $this->session->set('name', 'mohamed');
+        $this->session->set('age', '27');
+        $this->session->set('job', 'developer');
 
-    //     $this->assertArrayHasKey('name', $this->session->all());
+        $this->assertArrayHasKey('name', $this->session->all());
 
-    //     $this->session->destroy();
+        $this->session->destroy();
 
-    //     $this->assertArrayNotHasKey('name', $this->session->all());
-    //     $this->assertArrayNotHasKey('age', $this->session->all());
-    //     $this->assertArrayNotHasKey('job', $this->session->all());
+        $this->assertArrayNotHasKey('name', $this->session->all());
+        $this->assertArrayNotHasKey('age', $this->session->all());
+        $this->assertArrayNotHasKey('job', $this->session->all());
         
 
-    //     $this->assertArrayNotHasKey('name', $this->session->all());
-    // }
+        $this->assertArrayNotHasKey('name', $this->session->all());
+    }
 
-    // /**
-    //  * @test
-    //  */
-    // public function flash()
-    // {
-    //     $this->session->set('name', 'mohamed');
+    /**
+     * @test
+     */
+    public function flash()
+    {
+        $this->session->set('name', 'mohamed');
 
-    //     $this->assertArrayHasKey('name', $this->session->all());
+        $this->assertArrayHasKey('name', $this->session->all());
 
-    //     $this->session->flash('name');
+        $this->session->flash('name');
 
-    //     $this->assertArrayNotHasKey('name', $this->session->all());
-    // }
+        $this->assertArrayNotHasKey('name', $this->session->all());
+    }
 }
