@@ -433,14 +433,14 @@ class FileSystem implements FileSystemInterface
         if (is_array($tree)) {
             foreach($tree as $file) {
                 if($this->isDirectory($file)) {
-                    $files = $this->allFiles($file);
+                    $files[] = $this->allFiles($file);
                 } else {
                     $files[] = $this->name($file);
                 }
             }
         }
 
-        return $files;
+        return flatten($files);
     }
     
     /**
