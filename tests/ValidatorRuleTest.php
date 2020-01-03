@@ -25,8 +25,6 @@ final class ValidatorRuleTest extends TestCase
 
     public function rule()
     {
-        
-
         return [
             [new Same, '1234567', 'password'],
             [new Required, 'notEmptyValue', null],
