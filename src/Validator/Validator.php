@@ -15,6 +15,7 @@ class Validator
         'same'      => Same::class,
     ];
 
+    // MUST BE REFACTORED!
     public function validate($rules)
     {
         $errors = [];
@@ -85,9 +86,7 @@ class Validator
     public function parseRule($rule): array
     {
         $parsingRules = explode(':', $rule);
-        $rule = $parsingRules[0];
-        $parameter = $parsingRules[1] ?? null;
-
+        list($rule, $parameter) = array_pad($parsingRules, 2, null);
         return [$rule, $parameter];
     }
 }
