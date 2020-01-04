@@ -32,32 +32,6 @@ if (! function_exists('pre')) {
     }
 }
 
-/**
- * handle request
- *
- * @param string $key
- * @return mixed
- */
-if (! function_exists('request')) {
-    function request($key) 
-    {
-        return app('request')->$key;
-    }
-}
-
-/**
- * handle response
- *
- * @param string $key
- * @return mixed
- */
-if (! function_exists('response')) {
-    function response() 
-    {
-        return app('response');
-    }
-}
-
 
 if (! function_exists('flatten')) {
     function flatten(array $array): array

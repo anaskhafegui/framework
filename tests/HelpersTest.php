@@ -43,24 +43,6 @@ final class HelpersTest extends TestCase
     /**
      * @test
      */
-    public function request()
-    {
-        $_GET['key'] = 'value';
-
-        $this->assertEquals(request('key'), $_GET['key']);
-    }
-
-    /**
-     * @test
-     */
-    public function response()
-    {
-        $this->assertInstanceOf(Response::class, response());
-    }
-
-    /**
-     * @test
-     */
     public function flatten()
     {
         $arr = [
