@@ -105,13 +105,26 @@ class Application
      */
     public function get($key)
     {
-        if (! isset(self::CORE_CLASSES[$key])) throw new Exception("Class Not Found");
-        
+        $this->isKeyInCoreClasses($key);
+
         if (! $this->has($key)) {
             $this->set($key, $this->instantiate($key));
         }
 
         return $this->container[$key];
+    }
+
+    /**
+     * Check if the class exists in main core classes
+     *
+     * @param string $key
+     * @return boolean
+     */
+    public function isKeyInCoreClasses($key)
+    {
+        if (! isset(self::CORE_CLASSES[$key])) throw new Exception("Class Not Found");
+
+        return true;
     }
 
     /**
