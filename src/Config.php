@@ -13,6 +13,13 @@ class Config
     private static $instance;
 
     /**
+     * Config Directory Path
+     *
+     * @var string
+     */
+    private CONST DIR_PATH = '../config/';
+    
+    /**
      * Persist config arrays
      *
      * @var array
@@ -22,7 +29,7 @@ class Config
 
     private function __construct() 
     {
-        $this->bindConfigPaths();
+        $this->appendConfigPaths();
     }
 
     /**
@@ -30,15 +37,32 @@ class Config
      * 
      * @return void
      */
-    public function bindConfigPaths()
+    public function appendConfigPaths()
     {
-        $dirPath = '../config/';
-        foreach(app('file')->allFiles($dirPath) as $file) {
-            $fileNameWithoutExtension = pathinfo($file, PATHINFO_FILENAME);
-            $this->repository[$fileNameWithoutExtension] = require_once $dirPath.$file;
+        foreach(app('file')->allFiles(self::DIR_PATH) as $file) {; 
+            $this->bindPathToRepository($file);
         }
     }
 
+    /**
+     * Bind config path to the repository
+     *
+     * @return void
+     */
+    public function bindPathToRepository($file)
+    {
+        $this->repository[$this->getFileName($file)] = require_once $dirPath.$file;
+    }
+
+    /**
+     * Get file name without extension
+     *
+     * @return string
+     */
+    public function getFileName($file)
+    {
+        return pathinfo($file, PATHINFO_FILENAME);
+    }
     /**
      * Get Router Instance
      *
