@@ -15,43 +15,73 @@ class Validator
         'same'      => Same::class,
     ];
 
-    // MUST BE REFACTORED!
-    public function validate($rules)
-    {
-        $errors = [];
 
-        // 1. loop through rules array
+    /**
+     * Validate the inputs with specified rules
+     *
+     * @param array $rules
+     * @return array
+     */
+    public function validate($rules):array
+    {   
         foreach ($rules as $input => $inputRules) {
-            // 2. extract key (input) from request
-            
-            // 3. explode rules by |
-            foreach (explode('|', $inputRules) as $rule) {
-                // 4. apply each rule on input
-
-                // rule with parameter
-                list($rule, $parameter) = $this->parseRule($rule);
-                
-                // get value
-                $value = $this->extractValueFromInputRequest($input);
-
-                // get a new rule object
-                $ruleObject = $this->generateRuleObject($rule);
-
-                // fill errors array if exists
-                if ($error = $ruleObject->apply($value, $parameter)) {
-                    $errors[$input][$rule] = $error;
-                }
-            }
+            $errors = $this->applyRulesForInput($input, $inputRules);
         }
 
         $this->persistErrorsToSession($errors);
 
+        return $this->removeEmptyValuesFromErrors($errors);
+    }
+
+    /**
+     * Apply each rule on one only input, then return if errors found
+     *
+     * @param string $input
+     * @param array $rules
+     * @return void
+     */
+    public function applyRulesForInput($input, $rules):array
+    {
+        // divide rules by |
+        foreach (explode('|', $rules) as $rule) {
+            // apply each rule on input
+            $errors = $this->applyOneRuleForInput($rule, $input);
+        }
+
         return $errors;
     }
 
-    public function persistErrorsToSession($errors): void
+    /**
+     * Apply only one rule to the input
+     *
+     * @param string $ruleString
+     * @param string $input
+     * @return array
+     */
+    public function applyOneRuleForInput($ruleString, $input): array
     {
-        app('session')->set('errors', $errors); 
+        list($ruleString, $parameter) = $this->parseRule($ruleString);
+            
+        $value = $this->extractValueFromInputRequest($input);
+
+        $ruleObject = $this->generateRuleObjectFromString($ruleString);
+
+        $errors[$input][$ruleString] = $this->detectErrors($ruleObject, $value, $parameter);
+
+        return $errors;
+    }
+
+     /**
+     * Parse rule with its parameters
+     *
+     * @param string $rule
+     * @return array
+     */
+    public function parseRule($rule): array
+    {
+        $parsingRules = explode(':', $rule);
+        list($rule, $parameter) = array_pad($parsingRules, 2, null);
+        return [$rule, $parameter];
     }
 
     /**
@@ -71,22 +101,46 @@ class Validator
      * @param string $rule
      * @return object
      */
-    private function generateRuleObject($rule)
+    private function generateRuleObjectFromString($rule)
     {
         $ruleName = self::RULES[$rule];
         return new $ruleName;
     }
 
     /**
-     * Parse rule with its parameters
+     * Detect errors while applying rules on input
      *
-     * @param string $rule
+     * @param  mixed $ruleObject
+     * @param  mixed $value
+     * @param  mixed $parameter
+     *
+     * @return mixed
+     */
+    public function detectErrors($ruleObject, $value, $parameter)
+    {
+        return $ruleObject->apply($value, $parameter);
+    }
+    
+    /**
+     * Persist validation errors to session
+     *
+     * @param array errors
+     * @return void
+     */
+    public function persistErrorsToSession($errors): void
+    {
+        app('session')->set('errors', $errors); 
+    }
+
+
+    /**
+     * Remove useless or empty keys from errors 
+     *
+     * @param mixed $errors
      * @return array
      */
-    public function parseRule($rule): array
+    public function removeEmptyValuesFromErrors($errors):array
     {
-        $parsingRules = explode(':', $rule);
-        list($rule, $parameter) = array_pad($parsingRules, 2, null);
-        return [$rule, $parameter];
+        return array_filter(array_map('array_filter', $errors));
     }
 }
