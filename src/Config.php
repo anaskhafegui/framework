@@ -17,7 +17,7 @@ class Config
      *
      * @var string
      */
-    private CONST DIR_PATH = '../config/';
+    private CONST DIR_PATH = __DIR__.'/../config/';
     
     /**
      * Persist config arrays
@@ -29,40 +29,9 @@ class Config
 
     private function __construct() 
     {
-        $this->appendConfigPaths();
+        $this->appendConfigData();
     }
 
-    /**
-     * Bind Config Files Paths to the Config Repository
-     * 
-     * @return void
-     */
-    public function appendConfigPaths()
-    {
-        foreach(app('file')->allFiles(self::DIR_PATH) as $file) {; 
-            $this->bindPathToRepository($file);
-        }
-    }
-
-    /**
-     * Bind config path to the repository
-     *
-     * @return void
-     */
-    public function bindPathToRepository($file)
-    {
-        $this->repository[$this->getFileName($file)] = require_once $dirPath.$file;
-    }
-
-    /**
-     * Get file name without extension
-     *
-     * @return string
-     */
-    public function getFileName($file)
-    {
-        return pathinfo($file, PATHINFO_FILENAME);
-    }
     /**
      * Get Router Instance
      *
@@ -76,6 +45,43 @@ class Config
 
         return static::$instance;
     }
+
+    /**
+     * Bind Config Files Paths to the Config Repository
+     * 
+     * @return void
+     */
+    public function appendConfigData()
+    {
+        foreach(app('file')->allFiles(self::DIR_PATH) as $file) {
+
+            $data[$this->getFileName($file)] = require_once self::DIR_PATH.$file;
+        }
+
+        $this->set($data); 
+    }
+
+    /**
+     * Bind config path to the repository
+     *
+     * @param array $items
+     * @return void
+     */
+    public function set($items = [])
+    {
+        $this->repository = $items;
+    }
+
+    /**
+     * Get file name without extension
+     *
+     * @return string
+     */
+    public function getFileName($file)
+    {
+        return pathinfo($file, PATHINFO_FILENAME);
+    }
+    
     
     /**
      * Get key from Config Repo Magically
@@ -86,5 +92,15 @@ class Config
     public function __get($key): array
     {
         return $this->repository[$key];
+    }
+
+    public function get()
+    {
+        return $this->repository;
+    }
+
+    public function has($key)
+    {
+        return isset($this->repository[$key]);
     }
 }
