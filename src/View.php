@@ -8,7 +8,7 @@ class View
     {
         ob_start();
         extract($data);
-        require realpath(__DIR__.'/../../../../').'/views/'.$path.'.php';
+        require realpath(__DIR__.'/..').'/views/'.$path.'.php';
         $content = ob_get_contents();
         ob_end_clean();
     
