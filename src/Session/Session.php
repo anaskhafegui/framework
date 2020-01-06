@@ -7,92 +7,98 @@ use Core\Interfaces\SessionInterface;
 class Session implements SessionInterface
 {
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
-    private function __construct() 
+    private function __construct()
     {
         $this->start();
     }
 
     /**
-     * Get Router Instance
+     * Get Router Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
 
     /**
-     * Set new value to the container
-     * 
-     * @param   string $key
-     * @param   mixed $value
-     * @return  void
+     * Set new value to the container.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return void
      */
     public function set(string $key, $value)
     {
         $_SESSION[$key] = $value;
     }
-    
+
     /**
-     * Check if the container has a value for the given key  
-     * 
-     * @param   string $key
-     * @return  boolean
+     * Check if the container has a value for the given key.
+     *
+     * @param string $key
+     *
+     * @return bool
      */
     public function has(string $key): bool
     {
         return isset($_SESSION[$key]);
     }
-    
+
     /**
      * Get a value from the storage container
-     * If no value exists for the given key, return the default value instead
-     * 
-     * @param   string $key
-     * @param   mixed $default
-     * @return  mixed
+     * If no value exists for the given key, return the default value instead.
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
      */
-    public function get(string $key, $default=null)
+    public function get(string $key, $default = null)
     {
         return $this->has($key) ? $_SESSION[$key] : $default;
     }
-    
+
     /**
-     * Get all stored values in the container
-     * 
-     * @return  iterable
+     * Get all stored values in the container.
+     *
+     * @return iterable
      */
-    public function all(): iterable 
+    public function all(): iterable
     {
         return $_SESSION ?? [];
     }
-    
+
     /**
-     * Remove the value from the container
-     * 
-     * @param   string $key
-     * @return  void
+     * Remove the value from the container.
+     *
+     * @param string $key
+     *
+     * @return void
      */
     public function forget(string $key)
     {
-        if ($this->has($key)) unset($_SESSION[$key]);
+        if ($this->has($key)) {
+            unset($_SESSION[$key]);
+        }
     }
 
     /**
-     * Start the session
-     * 
-     * @return  void
+     * Start the session.
+     *
+     * @return void
      */
     public function start()
     {
@@ -100,28 +106,29 @@ class Session implements SessionInterface
     }
 
     /**
-     * Destroy the session
-     * 
+     * Destroy the session.
+     *
      * @return void
      */
     public function destroy()
     {
-        foreach(array_keys((array)$this->all()) as $key) {
+        foreach (array_keys((array) $this->all()) as $key) {
             $this->forget($key);
         }
     }
 
     /**
-     * * Set new value to the container for one request
+     * * Set new value to the container for one request.
      *
      * @param string $key
      * @param string $value
+     *
      * @return void
      */
     public function flash($key)
     {
         $value = null;
-        
+
         if ($this->has($key)) {
             $value = $this->get($key);
             $this->forget($key);

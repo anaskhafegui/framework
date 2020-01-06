@@ -8,6 +8,8 @@ class Length implements RuleInterface
 {
     public function apply($value, $parameter)
     {
-        if (strlen($value) != $parameter) return 'length error';
+        if (strlen($value) != $parameter) {
+            return 'length error';
+        }
     }
 }

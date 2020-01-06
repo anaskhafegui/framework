@@ -2,132 +2,133 @@
 
 namespace Core\Database;
 
-use Core\Database\Statements\Join;
-use Core\Database\Statements\Limit;
-use Core\Database\Statements\Where;
-use Core\Database\Statements\Offset;
 use Core\Database\Statements\Delete;
+use Core\Database\Statements\GroupBy;
 use Core\Database\Statements\Having;
 use Core\Database\Statements\Insert;
+use Core\Database\Statements\Join;
+use Core\Database\Statements\Limit;
+use Core\Database\Statements\Offset;
+use Core\Database\Statements\OrderBy;
 use Core\Database\Statements\Select;
 use Core\Database\Statements\Update;
-use Core\Database\Statements\GroupBy;
-use Core\Database\Statements\OrderBy;
+use Core\Database\Statements\Where;
 
 class QueryBuilder
 {
     /**
-     * Final Query
+     * Final Query.
      *
      * @var [type]
      */
     private $query;
 
     /**
-     * Table Name
+     * Table Name.
      *
      * @var string
      */
     private $table;
 
     /**
-     * Where Conditions
+     * Where Conditions.
      *
      * @var string
      */
     private $where;
 
     /**
-     * Select Columns
+     * Select Columns.
      *
      * @var string
      */
     private $select;
 
     /**
-     * Join
+     * Join.
      *
      * @var string
      */
     private $join;
 
     /**
-     * Group By Condition
+     * Group By Condition.
      *
      * @var string
      */
     private $groupBy;
 
     /**
-     * Having Condition
+     * Having Condition.
      *
      * @var string
      */
     private $having;
 
     /**
-     * OrderBy
+     * OrderBy.
      *
      * @var string
      */
     private $orderBy;
 
     /**
-     * Limit
+     * Limit.
      *
      * @var string
      */
     private $limit;
 
     /**
-     * Offset
+     * Offset.
      *
      * @var string
      */
     private $offset;
 
     /**
-     * Bindings
+     * Bindings.
      *
      * @var mixed
      */
     private $bindings = [];
 
     /**
-     * Where Bindings
+     * Where Bindings.
      *
      * @var mixed
      */
     private $whereBindings = [];
-    
+
     /**
-     * Having Bindings
+     * Having Bindings.
      *
      * @var mixed
      */
     private $havingBindings = [];
-    
+
     /**
-     * Database Connection
+     * Database Connection.
+     *
      * @var mixed
      */
     private static $connection;
 
     /**
-     * Get Single Instance
+     * Get Single Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
-        return new static;
+        return new static();
     }
-    
 
     /**
-     * Set Table
+     * Set Table.
      *
      * @param string $table
+     *
      * @return object
      */
     public function table($table)
@@ -138,9 +139,10 @@ class QueryBuilder
     }
 
     /**
-     * Select Statement
+     * Select Statement.
      *
      * @param string $table
+     *
      * @return mixed
      */
     public function select(...$columns)
@@ -151,13 +153,13 @@ class QueryBuilder
     }
 
     /**
-     * Where Condition
+     * Where Condition.
      *
      * @param string $column
      * @param string $operator
      * @param string $value
      * @param string $type
-     * 
+     *
      * @return mixed
      */
     public function where($column, $operator, $value, $type = null)
@@ -170,12 +172,12 @@ class QueryBuilder
     }
 
     /**
-     * orWhere Condition
+     * orWhere Condition.
      *
      * @param string $column
      * @param string $operator
      * @param string $value
-     * 
+     *
      * @return mixed
      */
     public function orWhere($column, $operator, $value)
@@ -186,12 +188,13 @@ class QueryBuilder
     }
 
     /**
-     * Join Table
+     * Join Table.
      *
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
      * @param string $type
+     *
      * @return mixed
      */
     public function join($table, $firstColumn, $secondColumn, $type)
@@ -202,11 +205,12 @@ class QueryBuilder
     }
 
     /**
-     * Right Join Table
+     * Right Join Table.
      *
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
+     *
      * @return mixed
      */
     public function rightJoin($table, $firstColumn, $secondColumn)
@@ -217,11 +221,12 @@ class QueryBuilder
     }
 
     /**
-     * Left Join Table
+     * Left Join Table.
      *
      * @param string $table
      * @param string $firstColumn
      * @param string $secondColumn
+     *
      * @return mixed
      */
     public function leftJoin($table, $firstColumn, $secondColumn)
@@ -229,11 +234,11 @@ class QueryBuilder
         $this->join($table, $firstColumn, $secondColumn, 'LEFT');
 
         return $this;
-    }    
+    }
 
     /**
-     * GroupBy Statement
-     * 
+     * GroupBy Statement.
+     *
      * @return mixed
      */
     public function groupBy($column)
@@ -244,11 +249,12 @@ class QueryBuilder
     }
 
     /**
-     * Having Condition
+     * Having Condition.
      *
      * @param string $column
      * @param string $operator
      * @param string $value
+     *
      * @return mixed
      */
     public function having($column, $operator, $value)
@@ -261,23 +267,25 @@ class QueryBuilder
     }
 
     /**
-     * OrderBy Statement
+     * OrderBy Statement.
      *
      * @param string $column
      * @param string $type
+     *
      * @return mixed
      */
     public function orderBy($column, $type = 'ASC')
     {
         $this->orderBy = OrderBy::generate($column, $type);
-    
+
         return $this;
     }
 
     /**
-     * Limit Condition
+     * Limit Condition.
      *
      * @param int $limit
+     *
      * @return mixed
      */
     public function limit($limit)
@@ -288,9 +296,10 @@ class QueryBuilder
     }
 
     /**
-     * Offset Statement
+     * Offset Statement.
      *
      * @param int $offset
+     *
      * @return mixed
      */
     public function offset($offset)
@@ -301,7 +310,7 @@ class QueryBuilder
     }
 
     /**
-     * Execute the complied query
+     * Execute the complied query.
      *
      * @return mixed
      */
@@ -309,23 +318,23 @@ class QueryBuilder
     {
         $connection = Connection::instance();
         $query = $query ?? $this->renderQuery();
-        $parameters = ! empty($parameters) ?  $parameters : flatten($this->bindings);
-        
+        $parameters = !empty($parameters) ? $parameters : flatten($this->bindings);
+
         // prepare the query before binding variables
         $preparedStatement = $connection->prepare($query);
-    
+
         // execute the query with its bindings
         $preparedStatement->execute($parameters);
 
         // reset the statement for new ones
         $this->reset();
-                
+
         // return the statement to use fetch() or fetchAll()
-        return $preparedStatement; 
+        return $preparedStatement;
     }
 
     /**
-     * Fetch results from the compiled query
+     * Fetch results from the compiled query.
      *
      * @return mixed
      */
@@ -335,7 +344,7 @@ class QueryBuilder
     }
 
     /**
-     * Fetch single row from the compiled query
+     * Fetch single row from the compiled query.
      *
      * @return mixed
      */
@@ -345,16 +354,17 @@ class QueryBuilder
     }
 
     /**
-     * Insert Records
+     * Insert Records.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function insert($data)
-    {        
+    {
         // pass all values including table name
         $query = Insert::generate($this->table, $data);
-        
+
         // set binding for insert statement
         $this->bindings = array_values($data);
 
@@ -362,9 +372,10 @@ class QueryBuilder
     }
 
     /**
-     * Update Record
+     * Update Record.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function update($data): bool
@@ -373,35 +384,35 @@ class QueryBuilder
 
         $this->bindings = array_merge(array_values($data), $this->bindings);
 
-        // if update statement has where condition 
+        // if update statement has where condition
         $query .= $this->where;
-        
+
         return $this->execute($query)->rowCount() > 0;
     }
 
     /**
-     * Delete Record
+     * Delete Record.
      *
      * @return bool
      */
     public function delete(): bool
     {
         $query = Delete::generate($this->table);
-     
-        // if update statement has where condition 
+
+        // if update statement has where condition
         $query .= $this->where;
 
         return $this->execute($query)->rowCount() > 0;
     }
 
     /**
-     * Render Compiled Query
+     * Render Compiled Query.
      *
      * @return string
      */
     private function renderQuery(): string
     {
-        $query  = $this->select;
+        $query = $this->select;
         $query .= $this->table;
         $query .= $this->join;
         $query .= $this->where;
@@ -416,26 +427,25 @@ class QueryBuilder
         return $this->query;
     }
 
-
     /**
-     * Reset the statements
+     * Reset the statements.
      *
      * @return void
      */
     private function reset(): void
     {
-        $this->select   = "";
-        $this->table    = "";
-        $this->join     = "";
-        $this->where    = "";
-        $this->groupBy  = "";
-        $this->having   = "";
-        $this->orderBy  = "";
-        $this->limit    = "";
-        $this->offset   = "";
+        $this->select = '';
+        $this->table = '';
+        $this->join = '';
+        $this->where = '';
+        $this->groupBy = '';
+        $this->having = '';
+        $this->orderBy = '';
+        $this->limit = '';
+        $this->offset = '';
         $this->whereBindings = [];
         $this->havingBindings = [];
         $this->bindings = [];
-        $this->query    = "";;
+        $this->query = '';
     }
 }

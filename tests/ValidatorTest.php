@@ -11,7 +11,7 @@ class ValidatorTest extends TestCase
 
     public function setUp()
     {
-        $this->validator = new Validator;    
+        $this->validator = new Validator();
     }
 
     /**
@@ -23,12 +23,12 @@ class ValidatorTest extends TestCase
 
         // without validation  errors
         $rules = [
-            'name' => 'required',
-            'username' => 'required|min:3',
-            'password' => 'required',
+            'name'                  => 'required',
+            'username'              => 'required|min:3',
+            'password'              => 'required',
             'password_confirmation' => 'required|same:password',
         ];
-        
+
         // has no errors
         $this->assertEmpty($this->validator->validate($rules));
 

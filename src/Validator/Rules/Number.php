@@ -8,6 +8,8 @@ class Number implements RuleInterface
 {
     public function apply($value, $parameter)
     {
-        if (! is_numeric($value)) return 'number error';
+        if (!is_numeric($value)) {
+            return 'number error';
+        }
     }
 }

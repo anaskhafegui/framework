@@ -7,16 +7,15 @@ use Core\Validator\Validator;
 
 class Request implements RequestInterface
 {
-
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
     /**
-     * validator object
+     * validator object.
      *
      * @var mixed
      */
@@ -24,58 +23,59 @@ class Request implements RequestInterface
 
     private function __construct()
     {
-        $this->validator = new Validator;
+        $this->validator = new Validator();
     }
 
     /**
-     * Get Request Instance
+     * Get Request Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function get(string $input)
     {
         return $_GET[$input] ?? null;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function post(string $input)
     {
         return $_POST[$input] ?? null;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function server(string $key ):? string 
+    public function server(string $key): ?string
     {
         return $_SERVER[$key] ?? null;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function header(string $header):? string
+    public function header(string $header): ?string
     {
         $headers = $this->headers();
-        return $headers[$header] ?? null; 
+
+        return $headers[$header] ?? null;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function headers(): array
     {
@@ -83,40 +83,39 @@ class Request implements RequestInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isFile(string $input): bool
     {
         return $_FILES[$input] ?? null;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function validate(array $rules) 
+    public function validate(array $rules)
     {
         $errors = $this->validator->validate($rules);
 
-        return $errors ?? true; 
+        return $errors ?? true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function isSecure(): bool
+    {
+        return !empty($this->server('HTTPS')) && $this->server('HTTPS') !== 'off';
+    }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function isSecure(): bool 
+    public function ip(): string
     {
-        return (!empty($this->server('HTTPS')) && $this->server('HTTPS') !== 'off');
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function ip(): string 
-    {
-        
+
         // needs refactoring!
-        
+
         if (!empty($this->server('HTTP_CLIENT_IP'))) {
             //ip from share internet
             $ip = $this->server('HTTP_CLIENT_IP');
@@ -126,21 +125,22 @@ class Request implements RequestInterface
         } else {
             $ip = $this->server('REMOTE_ADDR');
         }
+
         return $ip;
     }
-    
+
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function userAgent(): string 
+    public function userAgent(): string
     {
         return $this->server('HTTP_USER_AGENT');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function uri(): string 
+    public function uri(): string
     {
         $uri = $this->server('REQUEST_URI');
         $scriptName = dirname($this->server('SCRIPT_NAME'));
@@ -150,23 +150,24 @@ class Request implements RequestInterface
 
         // remove query string from uri
         $uri = explode('?', $uri)[0];
+
         return $uri;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function url(): string 
+    public function url(): string
     {
         $host = $this->server('HTTP_HOST');
         $uri = $this->server('REQUEST_URI');
-        $protocol = $this->isSecure() ? "https" : "http";
-        
+        $protocol = $this->isSecure() ? 'https' : 'http';
+
         return "$protocol://$host$uri";
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __get(string $key)
     {
@@ -183,31 +184,31 @@ class Request implements RequestInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function offsetExists ($offset): bool
+    public function offsetExists($offset): bool
     {
         return isset($this->$offset);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function offsetGet($offset):? string 
+    public function offsetGet($offset): ?string
     {
         return $this->$offset;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function offsetSet($offset, $value): void 
+    public function offsetSet($offset, $value): void
     {
         $this->$offset = $value;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetUnset($offset): void
     {
@@ -215,9 +216,9 @@ class Request implements RequestInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function all():iterable
+    public function all(): iterable
     {
         return $_REQUEST;
     }

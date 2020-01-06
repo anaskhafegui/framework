@@ -4,42 +4,40 @@ namespace Core\Router;
 
 class Router
 {
-
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
     /**
-     * Routes List
+     * Routes List.
      *
      * @var array
      */
     private $routes = [];
 
-    private function __construct() 
+    private function __construct()
     {
-        
     }
 
     /**
-     * Get Router Instance
+     * Get Router Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
 
     /**
-     * Get Routes List
+     * Get Routes List.
      *
      * @return void
      */
@@ -49,28 +47,30 @@ class Router
     }
 
     /**
-     * Add a new route
+     * Add a new route.
      *
      * @param string $method
      * @param string $uri
      * @param string $action
+     *
      * @return void
      */
     public function add($method, $uri, $action)
     {
         $this->routes[] = [
             'method' => $method,
-            'uri' => $uri,
+            'uri'    => $uri,
             'action' => $action,
-            'name' => '',
+            'name'   => '',
         ];
     }
 
     /**
-     * Add a new GET route
+     * Add a new GET route.
      *
      * @param string $uri
      * @param string $action
+     *
      * @return void
      */
     public function get($uri, $action)
@@ -79,10 +79,11 @@ class Router
     }
 
     /**
-     * Add a new POST route
+     * Add a new POST route.
      *
      * @param string $uri
      * @param string $action
+     *
      * @return void
      */
     public function post($uri, $action)
@@ -91,10 +92,11 @@ class Router
     }
 
     /**
-     * Add a new GET|POST route
+     * Add a new GET|POST route.
      *
      * @param string $uri
      * @param string $action
+     *
      * @return void
      */
     public function any($uri, $action)
@@ -102,11 +104,12 @@ class Router
         $this->add('POST', $uri, $action);
         $this->add('GET', $uri, $action);
     }
-    
+
     /**
-     * Handle matched routes with current URI
+     * Handle matched routes with current URI.
      *
      * @param Type $var
+     *
      * @return void
      */
     public function handle()
@@ -115,19 +118,19 @@ class Router
         $scriptName = dirname(app('request')->server('SCRIPT_NAME'));
 
         // build regex with current uri
-        $currentURIRegex = preg_replace("#^" . $scriptName . '#', '', $uri);
+        $currentURIRegex = preg_replace('#^'.$scriptName.'#', '', $uri);
 
-        foreach($this->list() as $route){
+        foreach ($this->list() as $route) {
             $matched = true;
 
             // detect route parameter
             $uriRouteRegex = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['uri']);
-        
+
             // build regex to match current url with route
-            $uriRouteRegex = $currentURIRegex != '/' ? '#^/' . $uriRouteRegex . '$#' : '#^' . $route['uri'] . '$#';
-            
+            $uriRouteRegex = $currentURIRegex != '/' ? '#^/'.$uriRouteRegex.'$#' : '#^'.$route['uri'].'$#';
+
             if (preg_match($uriRouteRegex, $currentURIRegex, $matches)) {
-                
+
                 // extract the matched route
                 array_shift($matches);
 
@@ -139,21 +142,22 @@ class Router
                     $matched = false;
                 }
 
-
                 // if match invoke the action
-                if ($matched) return $this->invoke($route, $params);
-            } 
+                if ($matched) {
+                    return $this->invoke($route, $params);
+                }
+            }
         }
 
         echo 'not found route';
     }
 
-
     /**
-     * Call the route action
+     * Call the route action.
      *
      * @param string $route
-     * @param array $params
+     * @param array  $params
+     *
      * @return void
      */
     public function invoke($route, $params)
@@ -163,16 +167,15 @@ class Router
         if (is_callable($action)) {
             // call a callback method
             return call_user_func_array($action, $params);
-
         } elseif (strpos($action, '@')) {
 
             // extract controller and method from action
             list($controller, $method) = explode('@', $action);
 
-            $controller = 'App\Http\Controllers\\' . $controller;
-            
+            $controller = 'App\Http\Controllers\\'.$controller;
+
             // call method from controller method
-            $content = call_user_func_array([new $controller, $method], $params);
+            $content = call_user_func_array([new $controller(), $method], $params);
 
             $headers = [
                 'name' => 'Mohamed',
@@ -185,18 +188,19 @@ class Router
             app('response')->send();
         }
     }
-    
+
     /**
-     * Redirect the request to the path
+     * Redirect the request to the path.
      *
      * @param $path
+     *
      * @return void
      */
     public function redirect($path)
     {
         // remove useless slashes from url
-        $path = preg_replace('/([^:])(\/{2,})/', '$1/',$path);
-        header('Location: ' . $path);
+        $path = preg_replace('/([^:])(\/{2,})/', '$1/', $path);
+        header('Location: '.$path);
         exit;
     }
 }

@@ -1,41 +1,44 @@
-<?php 
+<?php
 
 namespace Core\Interfaces;
 
 interface EventInterface
 {
     /**
-     * Register event to container
+     * Register event to container.
      *
      * @param string $eventName
+     *
      * @return void
      */
     public function register($eventName);
 
     /**
-     * Subscribe to event
+     * Subscribe to event.
      *
      * @param string $eventName
      * @param string $listener
+     *
      * @return void
      */
     public function subscribe($eventName, $listener);
 
     /**
-     * Dispatch event and update listeners with params
+     * Dispatch event and update listeners with params.
      *
      * @param string $eventName
-     * @param mixed $params
+     * @param mixed  $params
+     *
      * @return void
      */
     public function dispatch($eventName, $params);
 
-
     /**
-     * Check if this event valid to be dispatched
+     * Check if this event valid to be dispatched.
      *
      * @param string $eventName
-     * @return boolean
+     *
+     * @return bool
      */
     public function isValidEvent($eventName): bool;
 }

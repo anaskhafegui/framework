@@ -19,7 +19,6 @@ class FileSystemTest extends TestCase
         $this->file->delete($this->tempDir);
     }
 
-
     /**
      * @test
      */
@@ -68,7 +67,6 @@ class FileSystemTest extends TestCase
      */
     public function allDirectories()
     {
-        
         $this->file->makeDirectory($this->tempDir.'/sub_dir1', 0777, true, true);
         $this->file->put($this->tempDir.'/sub_dir1/file3.txt', 'Hello World from file3');
         $this->file->put($this->tempDir.'/sub_dir1/file4.txt', 'Hello World from file4');
@@ -78,8 +76,8 @@ class FileSystemTest extends TestCase
         $this->file->put($this->tempDir.'/sub_dir2/file6.txt', 'Hello World from file6');
 
         $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
-        
-        $this->assertCount(3, $this->file->allDirectories($this->tempDir));   
+
+        $this->assertCount(3, $this->file->allDirectories($this->tempDir));
     }
 
     /**
@@ -100,10 +98,9 @@ class FileSystemTest extends TestCase
 
         $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
 
-        $this->assertCount(2, $this->file->list($this->tempDir)['directories']);  
-        $this->assertCount(2, $this->file->list($this->tempDir)['files']);  
+        $this->assertCount(2, $this->file->list($this->tempDir)['directories']);
+        $this->assertCount(2, $this->file->list($this->tempDir)['files']);
     }
-
 
     /**
      * @test
@@ -123,8 +120,8 @@ class FileSystemTest extends TestCase
 
         $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
 
-        $this->assertCount(3, $this->file->listAll($this->tempDir)['directories']);  
-        $this->assertCount(6, $this->file->listAll($this->tempDir)['files']); 
+        $this->assertCount(3, $this->file->listAll($this->tempDir)['directories']);
+        $this->assertCount(6, $this->file->listAll($this->tempDir)['files']);
     }
 
     /**
@@ -146,10 +143,10 @@ class FileSystemTest extends TestCase
         $this->file->makeDirectory($this->tempDir.'/sub_dir2/sub_dir3', 0777, true, true);
 
         $file = FileSystem::instance();
-        $this->assertTrue($file->cleanDirectory($this->tempDir.'/sub_dir1'));  
+        $this->assertTrue($file->cleanDirectory($this->tempDir.'/sub_dir1'));
 
-        $this->assertEmpty($this->file->listAll($this->tempDir.'/sub_dir1')['files']);  
-        $this->assertEmpty($this->file->listAll($this->tempDir.'/sub_dir1')['directories']);  
+        $this->assertEmpty($this->file->listAll($this->tempDir.'/sub_dir1')['files']);
+        $this->assertEmpty($this->file->listAll($this->tempDir.'/sub_dir1')['directories']);
     }
 
     /**
@@ -158,7 +155,7 @@ class FileSystemTest extends TestCase
     public function append()
     {
         $filePath = $this->tempDir.'/file1.txt';
-        $this->file->put($filePath , 'Hello');
+        $this->file->put($filePath, 'Hello');
 
         $this->file->append($filePath, ' World');
 
@@ -171,7 +168,7 @@ class FileSystemTest extends TestCase
     public function prepend()
     {
         $filePath = $this->tempDir.'/file1.txt';
-        $this->file->put($filePath , 'World');
+        $this->file->put($filePath, 'World');
 
         $this->file->prepend($filePath, 'Hello ');
 

@@ -5,42 +5,42 @@ namespace Core\Hash;
 class Hash
 {
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
     /**
-     * Routes List
+     * Routes List.
      *
      * @var array
      */
     private $routes = [];
 
-    private function __construct() 
+    private function __construct()
     {
-        
     }
 
     /**
-     * Get Router Instance
+     * Get Router Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
 
     /**
-     * Hash the value
+     * Hash the value.
      *
      * @param string $value
+     *
      * @return string
      */
     public function make($value)

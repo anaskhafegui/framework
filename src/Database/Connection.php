@@ -8,34 +8,32 @@ use PDOException;
 class Connection
 {
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
-    private function __construct() 
+    private function __construct()
     {
-
     }
 
     /**
-     * Get Router Instance
+     * Get Router Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            
             $options = [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
             ];
 
-            $host       = app('config')->database['host'];
-            $username   = app('config')->database['username'];
-            $password   = app('config')->database['password'];
-            $database   = app('config')->database['database'];
+            $host = app('config')->database['host'];
+            $username = app('config')->database['username'];
+            $password = app('config')->database['password'];
+            $database = app('config')->database['database'];
 
             $dsn = "mysql:host=$host;dbname=$database";
 
