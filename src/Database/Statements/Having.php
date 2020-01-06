@@ -5,22 +5,22 @@ namespace Core\Database\Statements;
 class Having
 {
     /**
-     * Generated Query
+     * Generated Query.
      *
      * @var string
      */
     private static $query;
-    
+
     /**
-     * Query Bindings
+     * Query Bindings.
      *
      * @var string
      */
     private static $bindings;
 
     public static function generate($column, $operator, $value)
-    {   
-        static::$query = " HAVING ". $column . $operator . ' ? ';
+    {
+        static::$query = ' HAVING '.$column.$operator.' ? ';
 
         static::$bindings[] = $value;
 

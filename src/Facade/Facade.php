@@ -2,15 +2,14 @@
 
 namespace Core\Facade;
 
-abstract class Facade 
+abstract class Facade
 {
     /**
-     * Return the accessor
+     * Return the accessor.
      *
      * @return void
      */
-    public abstract static function getAccessor(): string;
-
+    abstract public static function getAccessor(): string;
 
     public static function __callStatic($method, $args)
     {

@@ -7,71 +7,74 @@ use Core\Interfaces\FileSystemInterface;
 class FileSystem implements FileSystemInterface
 {
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
-    private function __construct() 
+    private function __construct()
     {
-        
     }
 
     /**
-     * Get Router Instance
+     * Get Router Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
-    
+
     /**
-     * Check if the given path exists
-     * 
+     * Check if the given path exists.
+     *
      * @param string $path
-     * @return bool 
+     *
+     * @return bool
      */
     public function exists(string $path): bool
     {
         return file_exists($path);
     }
-    
+
     /**
-     * Check if the given path is a file
-     * 
+     * Check if the given path is a file.
+     *
      * @param string $path
-     * @return bool 
+     *
+     * @return bool
      */
     public function isFile(string $path): bool
     {
         return is_file($path);
     }
-    
+
     /**
-     * Check if the given path is a directory
-     * 
+     * Check if the given path is a directory.
+     *
      * @param string $path
-     * @return bool 
+     *
+     * @return bool
      */
     public function isDirectory(string $path): bool
     {
         return is_dir($path);
     }
-    
+
     /**
      * Create a directory.
      *
-     * @param  string  $path
-     * @param  int     $mode
-     * @param  bool    $recursive
-     * @param  bool    $force
+     * @param string $path
+     * @param int    $mode
+     * @param bool   $recursive
+     * @param bool   $force
+     *
      * @return bool
      */
     public function makeDirectory(string $path, int $mode, bool $recursive, bool $force): bool
@@ -80,21 +83,21 @@ class FileSystem implements FileSystemInterface
     }
 
     /**
-     * Remove all contents of the given directory path and keep the directory
-     * 
-     * @param  string $path
+     * Remove all contents of the given directory path and keep the directory.
+     *
+     * @param string $path
+     *
      * @return bool
      */
-    public function cleanDirectory(string $path):bool
+    public function cleanDirectory(string $path): bool
     {
-        $structure = $this->glob(rtrim($path, "/").'/*', 0);
+        $structure = $this->glob(rtrim($path, '/').'/*', 0);
         if (is_array($structure)) {
-            foreach($structure as $file) {
+            foreach ($structure as $file) {
                 if (is_dir($file) && $path != $file) {
                     $this->cleanDirectory($file);
                     rmdir($file);
-
-                } else if (is_file($file)) {
+                } elseif (is_file($file)) {
                     unlink($file);
                 }
             }
@@ -104,24 +107,28 @@ class FileSystem implements FileSystemInterface
     }
 
     /**
-     * Get the content of the given file path
-     * 
+     * Get the content of the given file path.
+     *
      * @param string $path
      * @param bool   $lock
-     * @return string
+     *
      * @throws FileNotFoundException
+     *
+     * @return string
      */
     public function get(string $path, bool $lock): string
     {
         return file_get_contents($path);
     }
-    
+
     /**
-     * Get the content of the given json file 
-     * 
+     * Get the content of the given json file.
+     *
      * @param string $path
-     * @return array
+     *
      * @throws FileNotFoundException
+     *
+     * @return array
      */
     public function getJson(string $path, bool $assoc): array
     {
@@ -129,49 +136,53 @@ class FileSystem implements FileSystemInterface
 
         return json_decode($json, $assoc);
     }
-    
+
     /**
-     * Require the given file path 
-     * 
+     * Require the given file path.
+     *
      * @param string $file
+     *
      * @return mixed
      */
     public function require(string $file)
     {
         return require $file;
     }
-    
+
     /**
-     * Require the given file path once 
-     * 
+     * Require the given file path once.
+     *
      * @param string $file
+     *
      * @return mixed
      */
     public function requireOnce(string $file)
     {
         return require_once $file;
     }
-    
+
     /**
-     * Put the given content to the given file path
-     * 
+     * Put the given content to the given file path.
+     *
      * @param string $path
      * @param string $content
-     * @param int $flags
-     * @return int|false 
+     * @param int    $flags
+     *
+     * @return int|false
      */
-    public function put(string $path, string $content, int $flags=0)
+    public function put(string $path, string $content, int $flags = 0)
     {
         file_put_contents($path, $content, $flags);
     }
-    
+
     /**
-     * Put the given content to the given json file path
-     * 
+     * Put the given content to the given json file path.
+     *
      * @param string $path
-     * @param array $data
-     * @param int $flags
-     * @return int|false 
+     * @param array  $data
+     * @param int    $flags
+     *
+     * @return int|false
      */
     public function putJson(string $path, array $data, int $flags)
     {
@@ -179,13 +190,14 @@ class FileSystem implements FileSystemInterface
 
         $this->put($path, $json, $flags);
     }
-    
+
     /**
-     * Add content to the beginning of the given file path
-     * 
+     * Add content to the beginning of the given file path.
+     *
      * @param string $path
      * @param string $content
-     * @return int|false 
+     *
+     * @return int|false
      */
     public function prepend(string $path, string $content)
     {
@@ -194,13 +206,14 @@ class FileSystem implements FileSystemInterface
 
         $this->put($path, $prependContent, 0);
     }
-    
+
     /**
-     * Add content to the end of the given file path
-     * 
+     * Add content to the end of the given file path.
+     *
      * @param string $path
      * @param string $content
-     * @return int|false 
+     *
+     * @return int|false
      */
     public function append(string $path, string $content)
     {
@@ -209,51 +222,53 @@ class FileSystem implements FileSystemInterface
 
         $this->put($path, $appendContent, 0);
     }
-    
+
     /**test
      * Delete the given path
      * This works with files and directories as well
-     * 
+     *
      * @param string $path
-     * @return bool 
+     * @return bool
      */
     public function delete(string $path): bool
     {
-        $structure = $this->glob(rtrim($path, "/").'/*', 0);
+        $structure = $this->glob(rtrim($path, '/').'/*', 0);
         if (is_array($structure)) {
-            foreach($structure as $file) {
+            foreach ($structure as $file) {
                 if ($this->isDirectory($file)) {
                     $this->cleanDirectory($file);
                     rmdir($file);
-                } else if ($this->isFile($file)) {
+                } elseif ($this->isFile($file)) {
                     unlink($file);
                 }
             }
 
             rmdir($path);
+
             return true;
         }
     }
-    
+
     /**tst
      * Rename the given path to the new path
-     * 
+     *
      * @param string $oldPath
      * @param string $newPath
-     * @return bool 
+     * @return bool
      */
     public function rename(string $oldPath, string $newPath): bool
     {
         return rename($oldPath, $newPath);
     }
-    
+
     /**
      * Copy the given path to the new pat
-     * This works with files and directories as well
-     * 
+     * This works with files and directories as well.
+     *
      * @param string $target
      * @param string $destination
-     * @return bool 
+     *
+     * @return bool
      */
     public function copy(string $target, string $destination): bool
     {
@@ -262,11 +277,12 @@ class FileSystem implements FileSystemInterface
 
     /**
      * Move the given path to the new path
-     * This works with files and directories as well
-     * 
+     * This works with files and directories as well.
+     *
      * @param string $target
      * @param string $destination
-     * @return bool 
+     *
+     * @return bool
      */
     public function move(string $target, string $destination): bool
     {
@@ -276,7 +292,8 @@ class FileSystem implements FileSystemInterface
     /**
      * Get the MD5 hash of the file at the given path.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     public function hash(string $path): string
@@ -287,23 +304,25 @@ class FileSystem implements FileSystemInterface
     /**
      * Get the file|directory size.
      * If the unit parameter is passed then convert the size to its corresponding unit accordingly
-     * Available units: kb|mb|gb
-     *  
-     * @param  string  $path
-     * @param  string  $unit
+     * Available units: kb|mb|gb.
+     *
+     * @param string $path
+     * @param string $unit
+     *
      * @return float
      */
     public function size(string $path, string $unit): float
     {
         return 1.5;
     }
-    
+
     /**
      * Get or set UNIX mode of a file or directory.
      * If second parameter is passed, then set the mode otherwise return it.
      *
-     * @param  string  $path
-     * @param  int  $mode
+     * @param string $path
+     * @param int    $mode
+     *
      * @return mixed
      */
     public function chmod(string $path, int $mode)
@@ -314,7 +333,8 @@ class FileSystem implements FileSystemInterface
     /**
      * Extract the file name from a file path.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     public function name(string $path): string
@@ -325,10 +345,11 @@ class FileSystem implements FileSystemInterface
     /**
      * Extract the parent directory from a file path.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
-    public function dirname(string $path):? string
+    public function dirname(string $path): ?string
     {
         return dirname($path);
     }
@@ -336,10 +357,11 @@ class FileSystem implements FileSystemInterface
     /**
      * Extract the file extension from a file path.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
-    public function extension(string $path):? string
+    public function extension(string $path): ?string
     {
         return pathinfo($path, PATHINFO_EXTENSION);
     }
@@ -347,10 +369,11 @@ class FileSystem implements FileSystemInterface
     /**
      * Get the file type of a given file.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
-    public function type(string $path):? string
+    public function type(string $path): ?string
     {
         return filetype($path);
     }
@@ -358,10 +381,11 @@ class FileSystem implements FileSystemInterface
     /**
      * Get the mime-type of a given file.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string|null
      */
-    public function mimeType(string $path):? string
+    public function mimeType(string $path): ?string
     {
         return mime_content_type($path);
     }
@@ -369,7 +393,8 @@ class FileSystem implements FileSystemInterface
     /**
      * Get the file's last modification time.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return int
      */
     public function lastModified(string $path): int
@@ -380,59 +405,63 @@ class FileSystem implements FileSystemInterface
     /**
      * Determine if the given path is readable.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return bool
      */
     public function isReadable(string $path): bool
     {
         return is_readable($path);
     }
-    
+
     /**
      * Determine if the given path is writable.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return bool
      */
     public function isWritable(string $path): bool
     {
         return is_writable($path);
     }
-    
+
     /**
      * Get an array of all files in a directory.
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool   $hidden
      */
     public function files(string $directory, bool $hidden = false): iterable
-    {        
+    {
         $files = [];
-        $tree = $this->glob(rtrim($directory, '/') . '/*', 0);
+        $tree = $this->glob(rtrim($directory, '/').'/*', 0);
 
         if (is_array($tree)) {
-            foreach($tree as $file) {
-                if( ! $this->isDirectory($file)) $files[] = $this->name($file);
+            foreach ($tree as $file) {
+                if (!$this->isDirectory($file)) {
+                    $files[] = $this->name($file);
+                }
             }
         }
 
         return $files;
     }
-    
+
     /**
      * Get an array of all files in a directory recursively.
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool   $hidden
      */
     public function allFiles(string $directory, bool $hidden = false): iterable
     {
         $files = [];
-        $tree = $this->glob(rtrim($directory, '/') . '/*', GLOB_BRACE);
+        $tree = $this->glob(rtrim($directory, '/').'/*', GLOB_BRACE);
 
         if (is_array($tree)) {
-            foreach($tree as $file) {
-                if($this->isDirectory($file)) {
+            foreach ($tree as $file) {
+                if ($this->isDirectory($file)) {
                     $files[] = $this->allFiles($file);
                 } else {
                     $files[] = $this->name($file);
@@ -442,53 +471,53 @@ class FileSystem implements FileSystemInterface
 
         return flatten($files);
     }
-    
+
     /**
      * Get an array of all directories in a directory.
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool   $hidden
      */
     public function directories(string $directory, bool $hidden = false): iterable
     {
         $dirs = [];
-        $tree =  $this->glob($directory . '/*' , GLOB_ONLYDIR);
+        $tree = $this->glob($directory.'/*', GLOB_ONLYDIR);
 
         if (is_array($tree)) {
-            foreach($tree as $dir) {
+            foreach ($tree as $dir) {
                 $dirs[] = $dir;
             }
         }
 
         return $dirs;
     }
-    
+
     /**
      * Get an array of all directories in a directory recursively.
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool   $hidden
      */
     public function allDirectories(string $directory, bool $hidden = false): iterable
     {
         $dirs = [];
-        $tree =  $this->glob($directory . '/*' , GLOB_ONLYDIR);
+        $tree = $this->glob($directory.'/*', GLOB_ONLYDIR);
 
         if (is_array($tree)) {
-            foreach($tree as $file) {
+            foreach ($tree as $file) {
                 $dirs[] = $file;
-                $dirs = array_merge($dirs, (array)$this->allDirectories($file));
+                $dirs = array_merge($dirs, (array) $this->allDirectories($file));
             }
         }
 
         return $dirs;
     }
-    
+
     /**
      * Get an array of all directories and files in a directory.
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool   $hidden
      */
     public function list(string $directory, bool $hidden = false): iterable
     {
@@ -499,12 +528,12 @@ class FileSystem implements FileSystemInterface
 
         return $list;
     }
-    
+
     /**
      * Get an array of all directories and files in a directory recursively.
      *
-     * @param  string  $directory
-     * @param  bool  $hidden
+     * @param string $directory
+     * @param bool   $hidden
      */
     public function listAll(string $directory, bool $hidden = false): iterable
     {
@@ -515,12 +544,13 @@ class FileSystem implements FileSystemInterface
 
         return $list;
     }
-    
+
     /**
      * Find path names matching a given pattern.
      *
-     * @param  string  $pattern
-     * @param  int     $flags
+     * @param string $pattern
+     * @param int    $flags
+     *
      * @return array
      */
     public function glob(string $pattern, int $flags): iterable

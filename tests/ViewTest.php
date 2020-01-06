@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 final class ViewTest extends TestCase
 {
-
     public function setUp()
     {
         $this->file = FileSystem::instance();
@@ -24,6 +23,6 @@ final class ViewTest extends TestCase
 
         $this->file->put($this->viewDir.'/view.php', '<p>Hello <?php echo $name; ?></p>');
 
-        $this->assertSame("<p>Hello ". $data['name']. "</p>", View::render('view', $data)); 
+        $this->assertSame('<p>Hello '.$data['name'].'</p>', View::render('view', $data));
     }
 }

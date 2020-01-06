@@ -2,15 +2,16 @@
 
 namespace Core;
 
-abstract class Model 
+abstract class Model
 {
     protected $table;
 
     /**
-     * Call any function which is not exist in this class but exists in QueryBuilder class
+     * Call any function which is not exist in this class but exists in QueryBuilder class.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
+     *
      * @return mixed
      */
     public function __call($method, $args)
@@ -19,7 +20,7 @@ abstract class Model
     }
 
     /**
-     * Get all records from specific table
+     * Get all records from specific table.
      *
      * @return mixed
      */
@@ -27,11 +28,12 @@ abstract class Model
     {
         return $this->table($this->table)->select('*')->get();
     }
-    
+
     /**
-     * Get only one record from specific table
+     * Get only one record from specific table.
      *
      * @param int $id
+     *
      * @return void
      */
     public function get($id)
@@ -40,9 +42,10 @@ abstract class Model
     }
 
     /**
-     * Create new record
+     * Create new record.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function create($data)
@@ -51,10 +54,11 @@ abstract class Model
     }
 
     /**
-     * Update a record
+     * Update a record.
      *
-     * @param int $id
+     * @param int   $id
      * @param array $data
+     *
      * @return bool
      */
     public function update($id, $data)
@@ -63,9 +67,10 @@ abstract class Model
     }
 
     /**
-     * Delete a record
+     * Delete a record.
      *
      * @param int $id
+     *
      * @return bool
      */
     public function delete($id)

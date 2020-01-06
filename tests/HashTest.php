@@ -8,20 +8,20 @@ use PHPUnit\Framework\TestCase;
 final class HashTest extends TestCase
 {
     /**
-     * hold an hash instance
+     * hold an hash instance.
      *
      * @var mixed
      */
     private $hash;
 
     /**
-     * initiate for each test
+     * initiate for each test.
      *
      * @return void
      */
     public function setUp()
     {
-        $this->hash = Hash::instance();    
+        $this->hash = Hash::instance();
     }
 
     /**

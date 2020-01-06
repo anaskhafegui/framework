@@ -10,7 +10,7 @@ class Min implements RuleInterface
     {
         if (is_numeric($value) && $value < $parameter) {
             return 'min value error';
-        } else if(! is_numeric($value) && strlen($value) < $parameter) {
+        } elseif (!is_numeric($value) && strlen($value) < $parameter) {
             return 'min length error';
         }
     }

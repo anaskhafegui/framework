@@ -10,7 +10,7 @@ class Max implements RuleInterface
     {
         if (is_numeric($value) && $value > $parameter) {
             return 'max value error';
-        } else if(! is_numeric($value) && strlen($value) > $parameter) {
+        } elseif (!is_numeric($value) && strlen($value) > $parameter) {
             return 'max length error';
         }
     }

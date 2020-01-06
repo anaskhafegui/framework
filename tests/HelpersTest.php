@@ -26,12 +26,12 @@ final class HelpersTest extends TestCase
 
         // getting content
         ob_start();
-        echo "<pre>" ;
+        echo '<pre>';
         print_r($arr);
-        echo "</pre>";
+        echo '</pre>';
         $actual = ob_get_contents();
         ob_end_clean();
-        
+
         ob_start();
         pre($arr);
         $expected = ob_get_contents();
@@ -46,26 +46,25 @@ final class HelpersTest extends TestCase
     public function flatten()
     {
         $arr = [
-            'name' => 'mohamed',
-            'age'   => 27,
+            'name'    => 'mohamed',
+            'age'     => 27,
             'address' => [
-                'city' => 'giza',
-                'country' => 'egypt'
-            ]
+                'city'    => 'giza',
+                'country' => 'egypt',
+            ],
         ];
 
-        $flatten = ['mohamed', 27,'giza','egypt'];
+        $flatten = ['mohamed', 27, 'giza', 'egypt'];
 
         $this->assertEquals($flatten, flatten($arr));
 
-
         $notFlatten = [
-            'name' => 'mohamed',
-            'age'   => 27,
-            'city' => 'giza',
-            'country' => 'egypt'
+            'name'    => 'mohamed',
+            'age'     => 27,
+            'city'    => 'giza',
+            'country' => 'egypt',
         ];
-        
+
         $this->assertNotEquals($notFlatten, flatten($arr));
     }
 }

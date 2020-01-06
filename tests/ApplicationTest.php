@@ -13,20 +13,20 @@ use PHPUnit\Framework\TestCase;
 final class ApplicationTest extends TestCase
 {
     /**
-     * hold an application instance
+     * hold an application instance.
      *
      * @var mixed
      */
     private $app;
 
     /**
-     * initiate for each test
+     * initiate for each test.
      *
      * @return void
      */
     public function setUp()
     {
-        $this->app = Application::instance();    
+        $this->app = Application::instance();
     }
 
     /**
@@ -56,7 +56,7 @@ final class ApplicationTest extends TestCase
     {
         $this->assertInstanceOf(Request::class, $this->app->get('request'));
     }
-    
+
     /**
      * @test
      */
@@ -65,7 +65,7 @@ final class ApplicationTest extends TestCase
         $this->assertTrue($this->app->has('request'));
         $this->assertFalse($this->app->has('not_found_class'));
     }
-    
+
     /**
      * @test
      */

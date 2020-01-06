@@ -5,7 +5,7 @@ namespace tests;
 use Core\Config;
 use PHPUnit\Framework\TestCase;
 
-class ConfigTet extends TestCase
+class ConfigTest extends TestCase
 {
     private $config;
 
@@ -19,18 +19,16 @@ class ConfigTet extends TestCase
             'bar' => [
                 'a' => 'b',
                 'c' => 'd',
-            ]
+            ],
         ];
 
         $this->config = Config::instance();
 
         $this->config->set($configData);
-
     }
 
     /**
      * @test
-     * 
      */
     public function get()
     {
@@ -40,7 +38,6 @@ class ConfigTet extends TestCase
 
     /**
      * @test
-     * 
      */
     public function has()
     {

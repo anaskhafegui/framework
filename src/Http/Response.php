@@ -7,47 +7,48 @@ use Core\Interfaces\ResponseInterface;
 class Response implements ResponseInterface
 {
     /**
-     * Response Headers
+     * Response Headers.
+     *
      * @var mixed
      */
     public $headers = [];
 
     /**
-     * Response Content
+     * Response Content.
+     *
      * @var Response Content
      */
     protected $content;
 
     /**
-     * Singleton Instance
+     * Singleton Instance.
      *
      * @var mixed
      */
     private static $instance;
 
-    private function __construct() 
+    private function __construct()
     {
-        
     }
 
     /**
-     * Get Router Instance
+     * Get Router Instance.
      *
      * @return mixed
      */
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static;
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setContent($content) 
+    public function setContent($content)
     {
         if (is_array($content)) {
             $this->content = json_encode($content);
@@ -59,22 +60,23 @@ class Response implements ResponseInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setHeaders(array $headers) 
+    public function setHeaders(array $headers)
     {
         foreach ($headers as $key => $values) {
             $this->setHeader($key, $values);
         }
-        
+
         return $this;
     }
 
     /**
-     * Set single header
+     * Set single header.
      *
      * @param string $key
      * @param string $value
+     *
      * @return void
      */
     private function setHeader($key, $values)
@@ -82,13 +84,13 @@ class Response implements ResponseInterface
         if (is_array($values)) {
             $values = array_values($values);
 
-            if (! isset($this->headers[$key])){
+            if (!isset($this->headers[$key])) {
                 $this->headers[$key] = $values;
             } else {
                 $this->headers[$key] = array_merge($this->headers[$key], $values);
             }
         } else {
-            if (! isset($this->headers[$key])){
+            if (!isset($this->headers[$key])) {
                 $this->headers[$key] = [$values];
             } else {
                 $this->headers[$key][] = $values;
@@ -97,17 +99,16 @@ class Response implements ResponseInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function send() 
+    public function send()
     {
         $this->sendHeaders();
         $this->sendContent();
     }
 
-    
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function sendContent()
     {
@@ -115,13 +116,13 @@ class Response implements ResponseInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function sendHeaders()
     {
         foreach ($this->headers as $key => $values) {
-            foreach($values as $value) {
-                header($key.': '.$value);   
+            foreach ($values as $value) {
+                header($key.': '.$value);
             }
         }
     }

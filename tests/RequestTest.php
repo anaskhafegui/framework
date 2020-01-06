@@ -8,23 +8,21 @@ use PHPUnit\Framework\TestCase;
 final class RequestTest extends TestCase
 {
     /**
-     * hold an request instance
+     * hold an request instance.
      *
      * @var mixed
      */
     private $request;
 
     /**
-     * initiate for each test
+     * initiate for each test.
      *
      * @return void
      */
     public function setUp()
     {
-        $this->request = Request::instance();    
+        $this->request = Request::instance();
     }
-
-
 
     /**
      * @test
@@ -35,12 +33,12 @@ final class RequestTest extends TestCase
 
         // without validation  errors
         $rules = [
-            'name' => 'required',
-            'username' => 'required|min:3',
-            'password' => 'required',
+            'name'                  => 'required',
+            'username'              => 'required|min:3',
+            'password'              => 'required',
             'password_confirmation' => 'required|same:password',
         ];
-        
+
         // has no errors
         $this->assertEmpty($this->request->validate($rules));
 

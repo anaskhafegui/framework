@@ -7,22 +7,21 @@ use PHPUnit\Framework\TestCase;
 
 final class SessionTest extends TestCase
 {
-
     /**
-     * hold an session instance
+     * hold an session instance.
      *
      * @var mixed
      */
     private $session;
 
     /**
-     * initiate for each test
+     * initiate for each test.
      *
      * @return void
      */
     public function setUp()
     {
-        $this->session = Session::instance();    
+        $this->session = Session::instance();
     }
 
     /**
@@ -36,7 +35,7 @@ final class SessionTest extends TestCase
     /**
      * @test
      */
-    public function forget ()
+    public function forget()
     {
         $this->session->set('name', 'mohamed');
 
@@ -63,7 +62,6 @@ final class SessionTest extends TestCase
         $this->assertArrayNotHasKey('name', $this->session->all());
         $this->assertArrayNotHasKey('age', $this->session->all());
         $this->assertArrayNotHasKey('job', $this->session->all());
-        
 
         $this->assertArrayNotHasKey('name', $this->session->all());
     }
