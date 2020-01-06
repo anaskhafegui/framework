@@ -107,7 +107,7 @@ class Application
     {
         $this->isKeyInCoreClasses($key);
 
-        if (!$this->has($key)) {
+        if (!$this->has($key)){
             $this->set($key, $this->instantiate($key));
         }
 

@@ -68,8 +68,7 @@ final class ApplicationTest extends TestCase
     /**
      * @test
      */
-    public function set()
-    {
+    public function set(){
         $this->app->set('new_request', $this->app->instantiate('request'));
         $this->assertTrue($this->app->has('new_request'));
     }
