@@ -51,7 +51,7 @@ class Validator
     {
         $explodedRules = explode('|', $rules);
 
-        if (! $this->isFormattedRules($explodedRules)) {
+        if (!$this->isFormattedRules($explodedRules)) {
             throw ValidatorException::notFormattedRules();
         }
 
@@ -132,7 +132,7 @@ class Validator
      */
     private function generateRuleObjectFromString($rule)
     {
-        if (! $this->isRuleExists($rule)) {
+        if (!$this->isRuleExists($rule)) {
             throw ValidatorException::notFoundRule();
         }
         $ruleName = self::RULES[$rule];
