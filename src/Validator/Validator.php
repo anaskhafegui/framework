@@ -49,12 +49,14 @@ class Validator
      */
     public function applyRulesForInput($input, $rules): array
     {
-        if (!is_array(explode('|', $rules))) {
+        $explodedRules = explode('|', $rules);
+
+        if (! $this->isFormattedRules($explodedRules)) {
             throw ValidatorException::notFormattedRules();
         }
 
         // divide rules by |
-        foreach (explode('|', $rules) as $rule) {
+        foreach ($explodedRules as $rule) {
             // apply each rule on input
             $errors = $this->applyOneRuleForInput($rule, $input);
         }
@@ -67,10 +69,10 @@ class Validator
      *
      * @return void
      */
-    public function isFormattedRules($rules)
+    public function isFormattedRules($explodedRules)
     {
         // TODO: refactor with regex
-        // return
+        return is_array($explodedRules);
     }
 
     /**
@@ -130,12 +132,17 @@ class Validator
      */
     private function generateRuleObjectFromString($rule)
     {
-        if (!array_key_exists($rule, self::RULES)) {
+        if (! $this->isRuleExists($rule)) {
             throw ValidatorException::notFoundRule();
         }
         $ruleName = self::RULES[$rule];
 
         return new $ruleName();
+    }
+
+    public function isRuleExists($rule)
+    {
+        return array_key_exists($rule, self::RULES);
     }
 
     /**
