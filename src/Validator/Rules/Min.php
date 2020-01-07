@@ -9,7 +9,7 @@ class Min implements RuleInterface
 {
     public function apply($value, $parameter)
     {
-        if(is_null($parameter)) {
+        if (is_null($parameter)) {
             throw ValidatorException::missingRuleParameter();
         }
 
