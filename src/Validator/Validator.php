@@ -2,6 +2,7 @@
 
 namespace Core\Validator;
 
+use Core\Validator\Exceptions\ValidatorException;
 use Core\Validator\Rules\Length;
 use Core\Validator\Rules\Max;
 use Core\Validator\Rules\Min;
@@ -48,6 +49,10 @@ class Validator
      */
     public function applyRulesForInput($input, $rules): array
     {
+        if (! is_array(explode('|', $rules))) {
+            throw ValidatorException::notFormattedRules();
+        }
+        
         // divide rules by |
         foreach (explode('|', $rules) as $rule) {
             // apply each rule on input
@@ -55,6 +60,17 @@ class Validator
         }
 
         return $errors;
+    }
+
+    /**
+     * check if the rule has a desired format
+     *
+     * @return void
+     */
+    public function isFormattedRules($rules)
+    {
+        // TODO: refactor with regex
+        // return 
     }
 
     /**
@@ -114,6 +130,8 @@ class Validator
      */
     private function generateRuleObjectFromString($rule)
     {
+        if (! array_key_exists($rule, self::RULES)) throw ValidatorException::notFoundRule();
+
         $ruleName = self::RULES[$rule];
 
         return new $ruleName();

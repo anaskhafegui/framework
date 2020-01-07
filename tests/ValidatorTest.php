@@ -2,7 +2,9 @@
 
 namespace tests;
 
+use Core\Validator\Exceptions\ValidatorException;
 use Core\Validator\Validator;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
@@ -16,36 +18,128 @@ class ValidatorTest extends TestCase
 
     /**
      * @test
+     * @dataProvider validatorWithErrorsProvider
      */
-    public function validator()
+    public function validatorWithErrors($rules)
+    {
+        $this->fetchInputs();
+        
+        $this->assertNotEmpty($this->validator->validate($rules));
+    }
+
+    public function validatorWithErrorsProvider()
+    {
+        return [
+            [['long_username' => 'required|max:6',]],
+            [['long_username' => 'required|max:6',]]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider validatorWithoutErrorsProvider
+     */
+    public function validatorWithoutErrors($rules)
     {
         $this->fetchInputs();
 
-        // without validation  errors
-        $rules = [
-            'name'                  => 'required',
-            'username'              => 'required|min:3',
-            'password'              => 'required',
-            'password_confirmation' => 'required|same:password',
-        ];
-
-        // has no errors
         $this->assertEmpty($this->validator->validate($rules));
+    }
 
-        // with validation errors
-        $rules2 = [
-            'long_username' => 'required|max:6',
+    public function validatorWithoutErrorsProvider()
+    {
+        return 
+        [
+            [
+                [ 
+                    'name'                  => 'required',
+                    'username'              => 'required|min:3',
+                    'password'              => 'required',
+                    'password_confirmation' => 'required|same:password',
+                ]
+            ],
+            [
+                [
+                    'age' => 'required|number',
+                ]
+            ],
+
         ];
+    }
 
-        // has errors
-        $this->assertNotEmpty($this->validator->validate($rules2));
+    /**
+     * @test
+     * @dataProvider validatorWithMissingParametersProvider
+     */
+    public function validatorWithMissingParameters($rules)
+    {
+        $this->expectException(ValidatorException::class);
+        
+        $this->fetchInputs();
 
-        $rules3 = [
-            'age' => 'required|number',
+        $this->assertEmpty($this->validator->validate($rules));
+    }
+
+    public function validatorWithMissingParametersProvider()
+    {
+        return 
+        [
+            [
+                [
+                    'long_username' => 'max',
+                ]
+            ]
         ];
+    }
 
-        // has not errors
-        $this->assertEmpty($this->validator->validate($rules3));
+    /**
+     * @test
+     * @dataProvider validatorWithWrongRuleProvider
+     */
+    public function validatorWithWrongRule($rules)
+    {
+        $this->expectException(ValidatorException::class);
+        
+        $this->fetchInputs();
+
+        $this->assertEmpty($this->validator->validate($rules));
+    }
+
+    public function validatorWithWrongRuleProvider()
+    {
+        return 
+        [
+            [
+                [
+                    'long_username' => 'not_found_rule',
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider validatorWithWrongFormatProvider
+     */
+    public function validatorWithWrongFormat($rules)
+    {
+        $this->expectException(ValidatorException::class);
+        
+        $this->fetchInputs();
+
+        $this->assertEmpty($this->validator->validate($rules));
+    }
+
+    public function validatorWithWrongFormatProvider()
+    {
+        return 
+        [
+            [
+                [
+                    'long_username' => 'required,max:30',
+                ],
+            ]
+        ];
     }
 
     public function fetchInputs()

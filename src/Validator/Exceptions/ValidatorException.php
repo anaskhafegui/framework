@@ -7,18 +7,18 @@ use Exception;
 class ValidatorException extends Exception
 {
 
-    public function notFormattedRules()
+    public static function notFormattedRules()
     {
-        return new self('You Must Format Rules');
+        return new static('You Must Format Rules');
     }
 
-    public function notFoundRule()
+    public static function notFoundRule()
     {
-        return new self('This rule is not found');
+        return new static('This rule is not found');
     }
 
-    public function missingRuleParameter()
+    public static function missingRuleParameter()
     {
-        return new self('Missing Parameter');
+        return new static('Missing Parameter');
     }
 }
