@@ -6,7 +6,6 @@ use Exception;
 
 class ValidatorException extends Exception
 {
-
     public static function notFormattedRules()
     {
         return new static('You Must Format Rules');

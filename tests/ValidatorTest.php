@@ -4,7 +4,6 @@ namespace tests;
 
 use Core\Validator\Exceptions\ValidatorException;
 use Core\Validator\Validator;
-use Exception;
 use PHPUnit\Framework\TestCase;
 
 class ValidatorTest extends TestCase
@@ -23,15 +22,15 @@ class ValidatorTest extends TestCase
     public function validatorWithErrors($rules)
     {
         $this->fetchInputs();
-        
+
         $this->assertNotEmpty($this->validator->validate($rules));
     }
 
     public function validatorWithErrorsProvider()
     {
         return [
-            [['long_username' => 'required|max:6',]],
-            [['long_username' => 'required|max:6',]]
+            [['long_username' => 'required|max:6']],
+            [['long_username' => 'required|max:6']],
         ];
     }
 
@@ -48,20 +47,20 @@ class ValidatorTest extends TestCase
 
     public function validatorWithoutErrorsProvider()
     {
-        return 
+        return
         [
             [
-                [ 
+                [
                     'name'                  => 'required',
                     'username'              => 'required|min:3',
                     'password'              => 'required',
                     'password_confirmation' => 'required|same:password',
-                ]
+                ],
             ],
             [
                 [
                     'age' => 'required|number',
-                ]
+                ],
             ],
 
         ];
@@ -74,7 +73,7 @@ class ValidatorTest extends TestCase
     public function validatorWithMissingParameters($rules)
     {
         $this->expectException(ValidatorException::class);
-        
+
         $this->fetchInputs();
 
         $this->assertEmpty($this->validator->validate($rules));
@@ -82,13 +81,13 @@ class ValidatorTest extends TestCase
 
     public function validatorWithMissingParametersProvider()
     {
-        return 
+        return
         [
             [
                 [
                     'long_username' => 'max',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -99,7 +98,7 @@ class ValidatorTest extends TestCase
     public function validatorWithWrongRule($rules)
     {
         $this->expectException(ValidatorException::class);
-        
+
         $this->fetchInputs();
 
         $this->assertEmpty($this->validator->validate($rules));
@@ -107,13 +106,13 @@ class ValidatorTest extends TestCase
 
     public function validatorWithWrongRuleProvider()
     {
-        return 
+        return
         [
             [
                 [
                     'long_username' => 'not_found_rule',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -124,7 +123,7 @@ class ValidatorTest extends TestCase
     public function validatorWithWrongFormat($rules)
     {
         $this->expectException(ValidatorException::class);
-        
+
         $this->fetchInputs();
 
         $this->assertEmpty($this->validator->validate($rules));
@@ -132,13 +131,13 @@ class ValidatorTest extends TestCase
 
     public function validatorWithWrongFormatProvider()
     {
-        return 
+        return
         [
             [
                 [
                     'long_username' => 'required,max:30',
                 ],
-            ]
+            ],
         ];
     }
 
