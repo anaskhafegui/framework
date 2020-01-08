@@ -5,7 +5,7 @@ Welcome to your lightweight and simple framework to create your awesome apps or 
 ## Installation
 
 - clone the [skeleton](https://www.github.com/espressophp/skeleton) repository
-- run ```composer require espressophp/framework``` command
+- run ```composer require espressophp/framework```
 - It's done and create make your great app :)
 
 ## Documentation
