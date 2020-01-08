@@ -1,4 +1,5 @@
 # EspressoPHP Framework
+Welcome to your lightweight and simple framework to create your awesome apps or APIs
 
 ## Installation
 - clone the skeleton repository
@@ -6,7 +7,7 @@
 - It's done and create make your greate app :)
 
 ## Documentation
-See the Wiki for more details and explanation for the framework 
+See the [Wiki](https://github.com/espressoPHP/framework/wiki) for more details and explanation for the framework 
 
 ## Contribution Guides
 
