@@ -48,8 +48,8 @@ class Container implements ContainerInterface
      */
     public function instantiate($key)
     {
-        $object = Application::CORE_CLASSES[$key] ?? null;
+        $class = Application::CORE_CLASSES[$key] ?? null;
 
-        return $object::instance();
+        return $class::instance();
     }
 }

@@ -13,7 +13,6 @@ use Core\Session\Session;
 
 class Application extends Container
 {
-
     /**
      * Singleton Instance.
      *
