@@ -36,7 +36,7 @@ class Application extends Container
         'hash'              => Hash::class,
         'config'            => Config::class,
     ];
-    
+
     /**
      * Create a new application instance.
      *

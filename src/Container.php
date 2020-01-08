@@ -10,7 +10,7 @@ class Container implements ContainerInterface
 
     public function get($key)
     {
-        if(! $this->has($key)) {
+        if (! $this->has($key)) {
             $this->set($key, $this->instantiate($key));
         }
 
