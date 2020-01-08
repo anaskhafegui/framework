@@ -4,7 +4,6 @@ namespace Core;
 
 use Core\Database\Connection;
 use Core\Database\QueryBuilder;
-use Core\Event\Event;
 use Core\FileSystem\FileSystem;
 use Core\Hash\Hash;
 use Core\Http\Request;
@@ -38,7 +37,6 @@ class Application
         'router'            => Router::class,
         'request'           => Request::class,
         'response'          => Response::class,
-        'event'             => Event::class,
         'file'              => FileSystem::class,
         'session'           => Session::class,
         'query_builder'     => QueryBuilder::class,
