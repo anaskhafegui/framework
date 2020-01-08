@@ -16,7 +16,7 @@ class Container implements ContainerInterface
 
         return $this->container[$key];
     }
-    
+
     public function has($key)
     {
         return isset($this->container[$key]);
