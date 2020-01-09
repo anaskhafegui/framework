@@ -60,6 +60,4 @@ class Config extends ConfigContainer
     {
         return pathinfo($file, PATHINFO_FILENAME);
     }
-
-
 }

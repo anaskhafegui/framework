@@ -2,7 +2,6 @@
 
 namespace tests;
 
-use Core\Config;
 use Core\Container;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +22,7 @@ class ConfigTest extends TestCase
             ],
         ];
         
-        $container = new Container;
+        $container = new Container();
 
         $this->config = $container->get('config');
 

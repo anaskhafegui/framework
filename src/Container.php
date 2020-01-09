@@ -18,8 +18,9 @@ class Container implements ContainerInterface
      * @param       $abstract
      * @param array $parameters
      *
-     * @return mixed|null|object
      * @throws Exception
+     * 
+     * @return mixed|null|object
      */
     public function get($abstract, $parameters = [])
     {
@@ -49,13 +50,14 @@ class Container implements ContainerInterface
     }
 
     /**
-     * resolve single
+     * resolve single.
      *
      * @param $concrete
      * @param $parameters
      *
-     * @return mixed|object
      * @throws Exception
+     * 
+     * @return mixed|object
      */
     public function resolve($concrete, $parameters)
     {
@@ -86,12 +88,13 @@ class Container implements ContainerInterface
     }
 
     /**
-     * get all dependencies resolved
+     * get all dependencies resolved.
      *
      * @param $parameters
      *
-     * @return array
      * @throws Exception
+     * 
+     * @return array
      */
     public function getDependencies($parameters)
     {
