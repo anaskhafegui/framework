@@ -3,6 +3,7 @@
 namespace tests;
 
 use Core\Config;
+use Core\Container;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
@@ -21,8 +22,10 @@ class ConfigTest extends TestCase
                 'c' => 'd',
             ],
         ];
+        
+        $container = new Container;
 
-        $this->config = Config::instance();
+        $this->config = $container->get('config');
 
         $this->config->set($configData);
     }
@@ -32,8 +35,8 @@ class ConfigTest extends TestCase
      */
     public function get()
     {
-        $this->assertSame('y', app('config')->foo['x']);
-        $this->assertSame('b', app('config')->bar['a']);
+        $this->assertSame('y', $this->config->foo['x']);
+        $this->assertSame('b', $this->config->bar['a']);
     }
 
     /**
@@ -41,7 +44,7 @@ class ConfigTest extends TestCase
      */
     public function has()
     {
-        $this->assertTrue(app('config')->has('foo'));
-        $this->assertTrue(app('config')->has('bar'));
+        $this->assertTrue($this->config->has('foo'));
+        $this->assertTrue($this->config->has('bar'));
     }
 }

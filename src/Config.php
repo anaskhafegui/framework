@@ -2,7 +2,7 @@
 
 namespace Core;
 
-class Config
+class Config extends ConfigContainer
 {
     /**
      * Singleton Instance.
@@ -17,13 +17,6 @@ class Config
      * @var string
      */
     private const DIR_PATH = __DIR__.'/../config/';
-
-    /**
-     * Persist config arrays.
-     *
-     * @var array
-     */
-    private $repository = [];
 
     private function __construct()
     {
@@ -59,18 +52,6 @@ class Config
     }
 
     /**
-     * Bind config path to the repository.
-     *
-     * @param array $items
-     *
-     * @return void
-     */
-    public function set($items = [])
-    {
-        $this->repository = $items;
-    }
-
-    /**
      * Get file name without extension.
      *
      * @return string
@@ -80,25 +61,5 @@ class Config
         return pathinfo($file, PATHINFO_FILENAME);
     }
 
-    /**
-     * Get key from Config Repo Magically.
-     *
-     * @param string $key
-     *
-     * @return void
-     */
-    public function __get($key): array
-    {
-        return $this->repository[$key];
-    }
 
-    public function get()
-    {
-        return $this->repository;
-    }
-
-    public function has($key)
-    {
-        return isset($this->repository[$key]);
-    }
 }

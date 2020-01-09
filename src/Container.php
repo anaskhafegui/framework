@@ -35,7 +35,6 @@ class Container implements ContainerInterface
     {
         return isset($this->instances[$abstract]);
     }
-
     
     /**
      * @param      $abstract
