@@ -21,7 +21,7 @@ class ConfigTest extends TestCase
                 'c' => 'd',
             ],
         ];
-        
+
         $container = new Container();
 
         $this->config = $container->get('config');
