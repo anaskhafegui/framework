@@ -34,9 +34,9 @@ final class ApplicationTest extends TestCase
      */
     public function instantiate()
     {
-        $this->assertInstanceOf(FileSystem::class, $this->app->instantiate('file'));
-        $this->assertInstanceOf(Hash::class, $this->app->instantiate('hash'));
-        $this->assertInstanceOf(Request::class, $this->app->instantiate('request'));
-        $this->assertInstanceOf(Response::class, $this->app->instantiate('response'));
+        $this->assertInstanceOf(FileSystem::class, $this->app->get('file'));
+        $this->assertInstanceOf(Hash::class, $this->app->get('hash'));
+        $this->assertInstanceOf(Request::class, $this->app->get('request'));
+        $this->assertInstanceOf(Response::class, $this->app->get('response'));
     }
 }

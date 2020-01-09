@@ -2,54 +2,109 @@
 
 namespace Core;
 
+use Closure;
+use Exception;
 use Psr\Container\ContainerInterface;
+use ReflectionClass;
 
 class Container implements ContainerInterface
 {
-    protected $container = [];
+    /**
+     * @var array
+     */
+    protected $instances = [];
 
-    public function get($key)
+    /**
+     * @param       $abstract
+     * @param array $parameters
+     *
+     * @return mixed|null|object
+     * @throws Exception
+     */
+    public function get($abstract, $parameters = [])
     {
-        if (!$this->has($key)) {
-            $this->set($key, $this->instantiate($key));
+        // if we don't have it, just register it
+        if (!$this->has($abstract)) {
+            $this->set($abstract);
         }
 
-        return $this->container[$key];
+        return $this->resolve($this->instances[$abstract], $parameters);
     }
 
-    public function has($key)
+    public function has($abstract)
     {
-        return isset($this->container[$key]);
+        return isset($this->instances[$abstract]);
     }
 
-    public function set($key, $value)
+    
+    /**
+     * @param      $abstract
+     * @param null $concrete
+     */
+    public function set($abstract, $concrete = null)
     {
-        $this->container[$key] = $value;
+        if ($concrete === null) {
+            $concrete = Application::CORE_CLASSES[$abstract] ?? null;
+        }
+        $this->instances[$abstract] = $concrete;
     }
 
     /**
-     * If key not found, the magic method will be called.
+     * resolve single
      *
-     * @param string $key
+     * @param $concrete
+     * @param $parameters
      *
-     * @return mixed
+     * @return mixed|object
+     * @throws Exception
      */
-    public function __get($key)
+    public function resolve($concrete, $parameters)
     {
-        return $this->get($key);
+        if ($concrete instanceof Closure) {
+            return $concrete($this, $parameters);
+        }
+        
+        $reflector = new ReflectionClass($concrete);
+        
+        // get class constructor
+        $constructor = $reflector->getConstructor();
+
+        // get constructor params
+        $parameters   = $constructor->getParameters();
+        $dependencies = $this->getDependencies($parameters);
+
+        return $reflector->newInstanceWithoutConstructor($dependencies);
     }
-
+    
     /**
-     * Instantiate a class (Lazy Loading) from core classes.
+     * get all dependencies resolved
      *
-     * @param string $key
+     * @param $parameters
      *
-     * @return mixed
+     * @return array
+     * @throws Exception
      */
-    public function instantiate($key)
+    public function getDependencies($parameters)
     {
-        $class = Application::CORE_CLASSES[$key] ?? null;
+        $dependencies = [];
+        foreach ($parameters as $parameter) {
+            // get the type hinted class
+            $dependency = $parameter->getClass();
+            
+            if ($dependency === null) {
+                // check if default value for a parameter is available
+                if ($parameter->isDefaultValueAvailable()) {
+                    // get default value of parameter
+                    $dependencies[] = $parameter->getDefaultValue();
+                } else {
+                    throw new Exception("Can not resolve class dependency {$parameter->name}");
+                }
+            } else {
+                // get dependency resolved
+                $dependencies[] = $this->get($dependency->name);
+            }
+        }
 
-        return $class::instance();
+        return $dependencies;
     }
 }
