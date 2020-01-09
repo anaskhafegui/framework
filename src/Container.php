@@ -35,7 +35,7 @@ class Container implements ContainerInterface
     {
         return isset($this->instances[$abstract]);
     }
-    
+
     /**
      * @param      $abstract
      * @param null $concrete
@@ -59,22 +59,32 @@ class Container implements ContainerInterface
      */
     public function resolve($concrete, $parameters)
     {
-        if ($concrete instanceof Closure) {
-            return $concrete($this, $parameters);
-        }
-        
-        $reflector = new ReflectionClass($concrete);
-        
-        // get class constructor
-        $constructor = $reflector->getConstructor();
+        $this->isConcreteCallable($concrete, $parameters);
 
-        // get constructor params
-        $parameters   = $constructor->getParameters();
+        list($reflector, $parameters) = $this->getReflectorWithParameters($concrete);
+
         $dependencies = $this->getDependencies($parameters);
 
         return $reflector->newInstanceWithoutConstructor($dependencies);
     }
-    
+
+    public function isConcreteCallable($concrete, $parameters)
+    {
+        if ($concrete instanceof Closure) {
+            return $concrete($this, $parameters);
+        }
+    }
+
+    public function getReflectorWithParameters($concrete)
+    {
+        $reflector = new ReflectionClass($concrete);
+
+        // get class constructor
+        $parameters = $reflector->getConstructor()->getParameters();
+
+        return [$reflector, $parameters];
+    }
+
     /**
      * get all dependencies resolved
      *
@@ -89,21 +99,26 @@ class Container implements ContainerInterface
         foreach ($parameters as $parameter) {
             // get the type hinted class
             $dependency = $parameter->getClass();
-            
-            if ($dependency === null) {
-                // check if default value for a parameter is available
-                if ($parameter->isDefaultValueAvailable()) {
-                    // get default value of parameter
-                    $dependencies[] = $parameter->getDefaultValue();
-                } else {
-                    throw new Exception("Can not resolve class dependency {$parameter->name}");
-                }
+
+            if (is_null($dependency)) {
+                $dependencies[] = $this->getDependencyDefaultValue($parameter);
             } else {
-                // get dependency resolved
+                // get dependency resolved recursively
                 $dependencies[] = $this->get($dependency->name);
             }
         }
 
         return $dependencies;
+    }
+
+    public function getDependencyDefaultValue($parameter)
+    {
+        // check if default value for a parameter is available
+        if ($parameter->isDefaultValueAvailable()) {
+            // get default value of parameter
+            return $parameter->getDefaultValue();
+        } else {
+            throw new Exception("Can not resolve class dependency {$parameter->name}");
+        }
     }
 }
