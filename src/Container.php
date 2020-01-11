@@ -43,9 +43,7 @@ class Container implements ContainerInterface
      */
     public function set($abstract, $concrete = null)
     {
-        if ($concrete === null) {
-            $concrete = Application::CORE_CLASSES[$abstract] ?? null;
-        }
+        $concrete = Application::CORE_CLASSES[$abstract] ?? $abstract;
         $this->instances[$abstract] = $concrete;
     }
 
@@ -61,30 +59,15 @@ class Container implements ContainerInterface
      */
     public function resolve($concrete, $parameters)
     {
-        $this->isConcreteCallable($concrete, $parameters);
+        $reflector = new ReflectionClass($concrete);
 
-        list($reflector, $parameters) = $this->getReflectorWithParameters($concrete);
+        if ($constructor = $reflector->getConstructor()) {
+            $parameters = $constructor->getParameters();
+        }
 
         $dependencies = $this->getDependencies($parameters);
 
         return $reflector->newInstanceWithoutConstructor($dependencies);
-    }
-
-    public function isConcreteCallable($concrete, $parameters)
-    {
-        if ($concrete instanceof Closure) {
-            return $concrete($this, $parameters);
-        }
-    }
-
-    public function getReflectorWithParameters($concrete)
-    {
-        $reflector = new ReflectionClass($concrete);
-
-        // get class constructor
-        $parameters = $reflector->getConstructor()->getParameters();
-
-        return [$reflector, $parameters];
     }
 
     /**
@@ -123,5 +106,10 @@ class Container implements ContainerInterface
         } else {
             throw new Exception("Can not resolve class dependency {$parameter->name}");
         }
+    }
+
+    public function getInstances()
+    {
+        return $this->instances;
     }
 }

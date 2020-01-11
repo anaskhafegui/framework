@@ -38,5 +38,7 @@ final class ApplicationTest extends TestCase
         $this->assertInstanceOf(Hash::class, $this->app->get('hash'));
         $this->assertInstanceOf(Request::class, $this->app->get('request'));
         $this->assertInstanceOf(Response::class, $this->app->get('response'));
+
+        pre($this->app->getInstances());
     }
 }
