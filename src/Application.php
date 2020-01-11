@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Config\Config;
 use Core\Database\Connection;
 use Core\Database\QueryBuilder;
 use Core\FileSystem\FileSystem;
