@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use Closure;
 use Exception;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
