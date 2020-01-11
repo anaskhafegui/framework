@@ -149,7 +149,7 @@ class Router
             }
         }
 
-        return 404;
+        echo 'not found route';
     }
 
     /**
@@ -202,10 +202,5 @@ class Router
         $path = preg_replace('/([^:])(\/{2,})/', '$1/', $path);
         header('Location: '.$path);
         exit;
-    }
-
-    public function removeLast()
-    {
-        array_pop($this->routes);
     }
 }
