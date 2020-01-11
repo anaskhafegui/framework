@@ -186,7 +186,6 @@ class Router
             app('response')->setContent($content);
 
             app('response')->send();
-            
         }
     }
 
