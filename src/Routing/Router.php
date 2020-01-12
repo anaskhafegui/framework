@@ -57,14 +57,13 @@ class Router
      */
     public function add($method, $uri, $action)
     {
-        $route = [
-            'method' => $method,
-            'uri'    => $uri,
-            'action' => $action,
-            'name'   => '',
-        ];
-
-        $this->container->set($route);
+        $this->container->set(
+            [
+                'method' => $method,
+                'uri'    => $uri,
+                'action' => $action,
+            ]
+        );
     }
 
     /**
@@ -105,6 +104,11 @@ class Router
     {
         $this->add('POST', $uri, $action);
         $this->add('GET', $uri, $action);
+    }
+
+    public function name()
+    {
+        # code...
     }
 
     /**

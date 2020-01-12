@@ -5,7 +5,7 @@ namespace tests;
 use Core\Container;
 use PHPUnit\Framework\TestCase;
 
-final class RouterTest extends TestCase
+final class RoutingTest extends TestCase
 {
     private $router;
 
@@ -21,9 +21,11 @@ final class RouterTest extends TestCase
      */
     public function routes()
     {
+        $this->router->post('users/login', 'UserController@login');
         $this->router->get('users/list', 'UserController@index');
         $this->router->get('users/profile', 'UserController@profile');
+        
 
-        pre($this->router->list(), 1);
+        pre($this->router->handle(), 1);
     }
 }
