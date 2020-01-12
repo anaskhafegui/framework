@@ -16,7 +16,7 @@ class Config extends ConfigContainer
      *
      * @var string
      */
-    private const DIR_PATH = __DIR__.'/../config/';
+    private const DIR_PATH = __DIR__.'/../../config/';
 
     private function __construct()
     {
