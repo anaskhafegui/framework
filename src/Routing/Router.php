@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Router;
+namespace Core\Routing;
 
 class Router
 {
@@ -12,14 +12,13 @@ class Router
     private static $instance;
 
     /**
-     * Routes List.
-     *
-     * @var array
+     * Routes Container.
      */
-    private $routes = [];
+    private $container;
 
-    private function __construct()
+    private function __construct(RouteContainer $container)
     {
+        $this->container = $container;
     }
 
     /**
@@ -30,24 +29,25 @@ class Router
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new static(new RouteContainer);
         }
 
         return static::$instance;
     }
 
     /**
+     *
      * Get Routes List.
      *
      * @return void
      */
     public function list()
     {
-        return $this->routes;
+        return $this->container;
     }
 
     /**
-     * Add a new route.
+     * Add a new route to container.
      *
      * @param string $method
      * @param string $uri
@@ -57,12 +57,14 @@ class Router
      */
     public function add($method, $uri, $action)
     {
-        $this->routes[] = [
+        $route = [
             'method' => $method,
             'uri'    => $uri,
             'action' => $action,
             'name'   => '',
         ];
+
+        $this->container->set($route);
     }
 
     /**

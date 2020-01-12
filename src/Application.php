@@ -9,7 +9,7 @@ use Core\FileSystem\FileSystem;
 use Core\Hash\Hash;
 use Core\Http\Request;
 use Core\Http\Response;
-use Core\Router\Router;
+use Core\Routing\Router;
 use Core\Session\Session;
 
 class Application extends Container
