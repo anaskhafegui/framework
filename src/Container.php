@@ -56,17 +56,16 @@ class Container implements ContainerInterface
      *
      * @return mixed|object
      */
-    public function resolve($concrete, $parameters)
+    public function resolve($concrete)
     {
         $reflector = new ReflectionClass($concrete);
 
-        if ($constructor = $reflector->getConstructor()) {
-            $parameters = $constructor->getParameters();
+        if ($reflector->getConstructor()) {
+            return $concrete::instance();
         }
 
-        $dependencies = $this->getDependencies($parameters);
-
-        return $reflector->newInstanceWithoutConstructor($dependencies);
+        return $reflector->newInstance();
+        
     }
 
     /**
