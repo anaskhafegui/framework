@@ -33,6 +33,7 @@ final class RoutingTest extends TestCase
 
         $this->assertEquals('all users', $content);
     }
+    
 
     /**
      * @test
@@ -51,5 +52,16 @@ final class RoutingTest extends TestCase
         ob_end_clean();
 
         $this->assertEquals('profile', $content);
+    }
+}
+
+
+namespace App\Http\Controllers;
+
+class UserController
+{
+    public function index()
+    {
+        return 'all users';
     }
 }
