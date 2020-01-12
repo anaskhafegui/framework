@@ -43,7 +43,7 @@ class Router
      */
     public function list()
     {
-        return $this->container;
+        return $this->container->list();
     }
 
     /**
@@ -126,7 +126,7 @@ class Router
         // build regex with current uri
         $currentURIRegex = preg_replace('#^'.$scriptName.'#', '', $uri);
 
-        foreach ($this->list() as $route) {
+        foreach ((array) $this->list() as $route) {
             $matched = true;
 
             // detect route parameter
@@ -150,6 +150,7 @@ class Router
 
                 // if match invoke the action
                 if ($matched) {
+                    
                     return $this->invoke($route, $params);
                 }
             }
@@ -172,7 +173,7 @@ class Router
 
         if (is_callable($action)) {
             // call a callback method
-            return call_user_func_array($action, $params);
+            $content = call_user_func_array($action, $params);
         } elseif (strpos($action, '@')) {
 
             // extract controller and method from action
@@ -182,17 +183,11 @@ class Router
 
             // call method from controller method
             $content = call_user_func_array([new $controller(), $method], $params);
-
-            $headers = [
-                'name' => 'Mohamed',
-            ];
-
-            app('response')->setHeaders($headers);
-
-            app('response')->setContent($content);
-
-            app('response')->send();
         }
+
+        app('response')->setContent($content);
+
+        app('response')->send();
     }
 
     /**

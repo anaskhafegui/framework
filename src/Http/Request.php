@@ -40,6 +40,22 @@ class Request implements RequestInterface
         return static::$instance;
     }
 
+    public static function create($uri = '/', $method = 'GET')
+    {
+        
+        $components = parse_url($uri);
+
+        if (isset($components['path'])) {
+            $path = $components['path'];
+        }
+
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = 80;
+        $_SERVER['REQUEST_URI'] = $path;
+        $_SERVER['REQUEST_METHOD'] = strtoupper($method);
+        $_SERVER['SCRIPT_NAME'] = '';
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -11,7 +11,7 @@ class RouteContainer implements ContainerInterface
      *
      * @var array
      */
-    private $container = [];
+    private $container;
 
     public function get($key)
     {
@@ -33,5 +33,10 @@ class RouteContainer implements ContainerInterface
     public function has($key)
     {
         return isset($this->container[$key]);
+    }
+
+    public function list()
+    {
+        return $this->container;
     }
 }
