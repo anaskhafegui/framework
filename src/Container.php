@@ -65,7 +65,6 @@ class Container implements ContainerInterface
         }
 
         return $reflector->newInstance();
-        
     }
 
     /**

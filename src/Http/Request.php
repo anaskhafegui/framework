@@ -42,7 +42,6 @@ class Request implements RequestInterface
 
     public static function create($uri = '/', $method = 'GET')
     {
-        
         $components = parse_url($uri);
 
         if (isset($components['path'])) {
