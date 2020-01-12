@@ -16,9 +16,12 @@ class Router
      */
     private $container;
 
-    private function __construct(RouteContainer $container)
+    private $handler;
+
+    private function __construct(RouteContainer $container, RouteHandler $handler)
     {
         $this->container = $container;
+        $this->handler = $handler;
     }
 
     /**
@@ -29,7 +32,7 @@ class Router
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static(new RouteContainer());
+            static::$instance = new static(new RouteContainer(), new RouteHandler(new RouteDispatcher()));
         }
 
         return static::$instance;
@@ -105,11 +108,6 @@ class Router
         $this->add('GET', $uri, $action);
     }
 
-    public function name()
-    {
-        // code...
-    }
-
     /**
      * Handle matched routes with current URI.
      *
@@ -119,74 +117,10 @@ class Router
      */
     public function handle()
     {
-        $uri = app('request')->server('REQUEST_URI');
-        $scriptName = dirname(app('request')->server('SCRIPT_NAME'));
-
-        // build regex with current uri
-        $currentURIRegex = preg_replace('#^'.$scriptName.'#', '', $uri);
-
-        foreach ((array) $this->list() as $route) {
-            $matched = true;
-
-            // detect route parameter
-            $uriRouteRegex = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['uri']);
-
-            // build regex to match current url with route
-            $uriRouteRegex = $currentURIRegex != '/' ? '#^/'.$uriRouteRegex.'$#' : '#^'.$route['uri'].'$#';
-
-            if (preg_match($uriRouteRegex, $currentURIRegex, $matches)) {
-
-                // extract the matched route
-                array_shift($matches);
-
-                // extract params
-                $params = array_values($matches);
-
-                // check the current request method with route method
-                if ($route['method'] != app('request')->server('REQUEST_METHOD')) {
-                    $matched = false;
-                }
-
-                // if match invoke the action
-                if ($matched) {
-                    return $this->invoke($route, $params);
-                }
-            }
-        }
-
-        echo 'not found route';
+        $this->handler->handle($this->list());
     }
 
-    /**
-     * Call the route action.
-     *
-     * @param string $route
-     * @param array  $params
-     *
-     * @return void
-     */
-    public function invoke($route, $params)
-    {
-        $action = $route['action'];
-
-        if (is_callable($action)) {
-            // call a callback method
-            $content = call_user_func_array($action, $params);
-        } elseif (strpos($action, '@')) {
-
-            // extract controller and method from action
-            list($controller, $method) = explode('@', $action);
-
-            $controller = 'App\Http\Controllers\\'.$controller;
-
-            // call method from controller method
-            $content = call_user_func_array([new $controller(), $method], $params);
-        }
-
-        app('response')->setContent($content);
-
-        app('response')->send();
-    }
+    
 
     /**
      * Redirect the request to the path.
