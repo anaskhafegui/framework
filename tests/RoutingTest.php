@@ -33,7 +33,6 @@ final class RoutingTest extends TestCase
 
         $this->assertEquals('all users', $content);
     }
-    
 
     /**
      * @test
@@ -54,7 +53,6 @@ final class RoutingTest extends TestCase
         $this->assertEquals('profile', $content);
     }
 }
-
 
 namespace App\Http\Controllers;
 
