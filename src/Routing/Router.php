@@ -29,14 +29,13 @@ class Router
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static(new RouteContainer);
+            static::$instance = new static(new RouteContainer());
         }
 
         return static::$instance;
     }
 
     /**
-     *
      * Get Routes List.
      *
      * @return void
@@ -108,7 +107,7 @@ class Router
 
     public function name()
     {
-        # code...
+        // code...
     }
 
     /**
@@ -150,7 +149,6 @@ class Router
 
                 // if match invoke the action
                 if ($matched) {
-                    
                     return $this->invoke($route, $params);
                 }
             }

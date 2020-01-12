@@ -26,13 +26,12 @@ final class RoutingTest extends TestCase
 
         $this->router->get('users/list', 'UserController@index');
 
-
         ob_start();
         $this->router->handle();
         $content = ob_get_contents();
         ob_end_clean();
-        
-        $this->assertEquals('all users', $content); 
+
+        $this->assertEquals('all users', $content);
     }
 
     /**
@@ -42,16 +41,15 @@ final class RoutingTest extends TestCase
     {
         Request::create('/users/profile');
 
-        $this->router->get('users/profile', function(){
+        $this->router->get('users/profile', function () {
             return 'profile';
         });
-
 
         ob_start();
         $this->router->handle();
         $content = ob_get_contents();
         ob_end_clean();
-        
-        $this->assertEquals('profile', $content); 
+
+        $this->assertEquals('profile', $content);
     }
 }
