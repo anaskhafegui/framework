@@ -11,6 +11,11 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix="Test.php">tests/</directory>
+        </whitelist>
+    </filter>
 
     <php>
         <const name="PHPUNIT_TESTSUITE" value="true"/>
