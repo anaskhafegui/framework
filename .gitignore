@@ -5,3 +5,5 @@
 /vendor
 /TODO
 /doc.md
+.vscode
+code_coverage_reports
