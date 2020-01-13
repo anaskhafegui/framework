@@ -75,6 +75,6 @@ class Application extends Container
     {
         // Load Routes
         $this->loadWebRoutes();
-        $this->router->handle();
+        app('router')->handle();
     }
 }
