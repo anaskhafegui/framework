@@ -119,7 +119,7 @@ class Router
     {
         $this->handler->handle($this->list());
     }
-    
+
     /**
      * Redirect the request to the path.
      *
