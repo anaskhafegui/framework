@@ -14,7 +14,7 @@ class Route
 
     private $middleware = [];
 
-    public function __construct($method = 'GET', $uri, $action)
+    public function __construct($method, $uri, $action)
     {
         $this->method = $method;
         $this->uri = $uri;
@@ -24,7 +24,6 @@ class Route
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
-
     }
 
     public function setMiddleware($middleware)
@@ -35,14 +34,14 @@ class Route
     public function format()
     {
         $formattedRoute = [
-            'method' => $this->method,
-            'uri' => $this->uri,
-            'action' => $this->action,
+            'method'    => $this->method,
+            'uri'       => $this->uri,
+            'action'    => $this->action,
         ];
 
         if ($this->prefix) {
             $formattedRoute['uri'] = $this->prefix.$formattedRoute['uri'];
-            $formattedRoute['prefix'] =  $this->prefix;
+            $formattedRoute['prefix'] = $this->prefix;
         }
 
         if ($this->middleware) {

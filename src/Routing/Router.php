@@ -66,9 +66,9 @@ class Router
         $route = new Route($method, $uri, $action);
 
         $route->setPrefix(static::$prefix);
-        
+
         $route->setMiddleware(static::$middleware);
-        
+
         $this->container->set($route->format());
     }
 

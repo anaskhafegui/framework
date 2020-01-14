@@ -65,7 +65,6 @@ final class RoutingTest extends TestCase
             Router::get('users/new', 'HomeController@new');
         });
 
-
         ob_start();
         $this->router->handle();
         $content = ob_get_contents();
@@ -84,7 +83,6 @@ class UserController
         return 'all users';
     }
 }
-
 
 class HomeController
 {
