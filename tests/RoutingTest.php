@@ -59,7 +59,7 @@ final class RoutingTest extends TestCase
      */
     public function options()
     {
-        Router::group(['prefix' => 'admin/', 'middleware' => ['auth', 'locale']], function (){
+        Router::group(['prefix' => 'admin/', 'middleware' => ['auth', 'locale']], function () {
             Router::get('new', 'HomeController@new');
         });
 
