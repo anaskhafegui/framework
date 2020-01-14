@@ -2,8 +2,6 @@
 
 namespace Core\Routing;
 
-use ReflectionClass;
-
 class RouteDispatcher
 {
     public function dispatch($route, $params)
@@ -44,7 +42,7 @@ class RouteDispatcher
                     }
                 } else {
                     throw new \ReflectionException('class '.$singleMiddleware.' is not found');
-                } 
+                }
             }
         }
     }
