@@ -24,30 +24,34 @@ class Route
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
+
+        return $this;
     }
 
     public function setMiddleware($middleware)
     {
         $this->middleware = $middleware;
+        
+        return $this;
     }
 
-    public function format()
+    public function asArray()
     {
-        $formattedRoute = [
+        $route = [
             'method'    => $this->method,
             'uri'       => $this->uri,
             'action'    => $this->action,
         ];
 
         if ($this->prefix) {
-            $formattedRoute['uri'] = $this->prefix.$formattedRoute['uri'];
-            $formattedRoute['prefix'] = $this->prefix;
+            $route['uri'] = $this->prefix.$route['uri'];
+            $route['prefix'] = $this->prefix;
         }
 
         if ($this->middleware) {
-            $formattedRoute['middleware'] = $this->middleware;
+            $route['middleware'] = $this->middleware;
         }
 
-        return $formattedRoute;
+        return $route;
     }
 }

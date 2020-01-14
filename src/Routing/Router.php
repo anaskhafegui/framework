@@ -18,9 +18,9 @@ class Router
 
     private $handler;
 
-    private static $prefix;
+    private $prefix;
 
-    private static $middleware = [];
+    private $middleware = [];
 
     private function __construct(RouteContainer $container, RouteHandler $handler)
     {
@@ -65,11 +65,10 @@ class Router
     {
         $route = new Route($method, $uri, $action);
 
-        $route->setPrefix(static::$prefix);
+        $route->setPrefix($this->prefix)
+              ->setMiddleware($this->middleware);
 
-        $route->setMiddleware(static::$middleware);
-
-        $this->container->set($route->format());
+        $this->container->set($route->asArray());
     }
 
     /**
@@ -124,29 +123,14 @@ class Router
         $this->handler->handle($this->list());
     }
 
-    /**
-     * Redirect the request to the path.
-     *
-     * @param $path
-     *
-     * @return void
-     */
-    public function redirect($path)
-    {
-        // remove useless slashes from url
-        $path = preg_replace('/([^:])(\/{2,})/', '$1/', $path);
-        header('Location: '.$path);
-        exit;
-    }
-
-    public static function group($options, $routes)
+    public function group($options, $routes)
     {
         if (isset($options['prefix'])) {
-            static::$prefix = $options['prefix'];
+            $this->prefix = $options['prefix'];
         }
 
         if (isset($options['middleware'])) {
-            static::$middleware = $options['middleware'];
+            $this->middleware = $options['middleware'];
         }
 
         call_user_func($routes);
