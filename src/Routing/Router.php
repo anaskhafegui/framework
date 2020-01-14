@@ -69,7 +69,6 @@ class Router
             'action' => $action,
         ];
 
-
         if ($prefix = static::$prefix) {
             $route['prefix'] = $prefix;
         }

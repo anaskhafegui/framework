@@ -63,9 +63,7 @@ final class RoutingTest extends TestCase
             Router::get('new', 'HomeController@new');
         });
 
-
         pre($this->router->list(), 1);
-
     }
 }
 
