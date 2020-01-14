@@ -31,7 +31,7 @@ class Route
     public function setMiddleware($middleware)
     {
         $this->middleware = $middleware;
-        
+
         return $this;
     }
 

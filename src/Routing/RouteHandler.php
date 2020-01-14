@@ -13,28 +13,18 @@ class RouteHandler
 
     public function handle($routesList)
     {
-        $uri = app('request')->server('REQUEST_URI');
-        $scriptName = dirname(app('request')->server('SCRIPT_NAME'));
+        $uri = app('request')->uri();
 
-        // build regex with current uri
-        $currentURIRegex = preg_replace('#^'.$scriptName.'#', '', $uri);
-
-        foreach ((array) $routesList as $route) {
+        foreach ($routesList as $route) {
             $matched = true;
 
-            // detect route parameter
-            $uriRouteRegex = preg_replace('/\/{(.*?)}/', '/(.*?)', $route['uri']);
+            // if (preg_match($uriRouteRegex, $uri, $matches)) {
+            $uriRouteRegex = $this->generateURIRegex($route['uri']);
 
-            // build regex to match current url with route
-            $uriRouteRegex = $currentURIRegex != '/' ? '#^/'.$uriRouteRegex.'$#' : '#^'.$route['uri'].'$#';
+            // if (preg_match($uriRouteRegex, $uri, $matches)) {
+            if ($matches = $this->getMatchedRoute($uriRouteRegex, $uri)) {
 
-            if (preg_match($uriRouteRegex, $currentURIRegex, $matches)) {
-
-                // extract the matched route
-                array_shift($matches);
-
-                // extract params
-                $params = array_values($matches);
+                $params = $this->getRouteParameters($matches);
 
                 // check the current request method with route method
                 if ($route['method'] != app('request')->server('REQUEST_METHOD')) {
@@ -49,5 +39,32 @@ class RouteHandler
         }
 
         echo 'not found route';
+    }
+
+    public function generateURIRegex($uri)
+    {
+        // detect route parameter
+        $uriRouteRegex = preg_replace('/\/{(.*?)}/', '/(.*?)', $uri);
+
+        // build regex to match current url with route
+        $uriRouteRegex = $uri != '/' ? '#^/'.$uriRouteRegex.'$#' : '#^'.$uri.'$#';
+
+        return $uriRouteRegex;
+    }
+
+    public function getMatchedRoute($uriRouteRegex, $uri)
+    {
+        preg_match($uriRouteRegex, $uri, $matches);
+
+        return $matches;
+    }
+
+    public function getRouteParameters($matches)
+    {
+        if(!is_null($matches) && is_array($matches)) {
+            return array_values($matches);
+        }
+
+        return [];   
     }
 }
