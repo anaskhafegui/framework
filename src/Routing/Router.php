@@ -70,11 +70,11 @@ class Router
         ];
 
 
-        if($prefix = static::$prefix) {
+        if ($prefix = static::$prefix) {
             $route['prefix'] = $prefix;
         }
 
-        if($middleware = static::$middleware) {
+        if ($middleware = static::$middleware) {
             $route['middleware'] = $middleware;
         }
 
@@ -150,11 +150,11 @@ class Router
 
     public static function group($options, $routes)
     {
-        if(isset($options['prefix'])) {
+        if (isset($options['prefix'])) {
             static::$prefix = $options['prefix'];
         }
 
-        if(isset($options['middleware'])) {
+        if (isset($options['middleware'])) {
             static::$middleware = $options['middleware'];
         }
 
