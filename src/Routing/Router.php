@@ -18,6 +18,10 @@ class Router
 
     private $handler;
 
+    private static $prefix;
+
+    private static $middleware = [];
+
     private function __construct(RouteContainer $container, RouteHandler $handler)
     {
         $this->container = $container;
@@ -59,13 +63,22 @@ class Router
      */
     public function add($method, $uri, $action)
     {
-        $this->container->set(
-            [
-                'method' => $method,
-                'uri'    => $uri,
-                'action' => $action,
-            ]
-        );
+        $route = [
+            'method' => $method,
+            'uri'    => $uri,
+            'action' => $action,
+        ];
+
+
+        if($prefix = static::$prefix) {
+            $route['prefix'] = $prefix;
+        }
+
+        if($middleware = static::$middleware) {
+            $route['middleware'] = $middleware;
+        }
+
+        $this->container->set($route);
     }
 
     /**
@@ -133,5 +146,18 @@ class Router
         $path = preg_replace('/([^:])(\/{2,})/', '$1/', $path);
         header('Location: '.$path);
         exit;
+    }
+
+    public static function group($options, $routes)
+    {
+        if(isset($options['prefix'])) {
+            static::$prefix = $options['prefix'];
+        }
+
+        if(isset($options['middleware'])) {
+            static::$middleware = $options['middleware'];
+        }
+
+        call_user_func($routes);
     }
 }

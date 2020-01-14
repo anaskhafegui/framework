@@ -3,6 +3,7 @@
 namespace tests;
 
 use Core\Container;
+use Core\Facade\Router;
 use Core\Http\Request;
 use PHPUnit\Framework\TestCase;
 
@@ -41,9 +42,9 @@ final class RoutingTest extends TestCase
     {
         Request::create('/users/profile');
 
-        $this->router->get('users/profile', function () {
-            return 'profile';
-        });
+        // $this->router->get('users/profile', function () {
+        //     return 'profile';
+        // });
 
         ob_start();
         $this->router->handle();
@@ -51,6 +52,20 @@ final class RoutingTest extends TestCase
         ob_end_clean();
 
         $this->assertEquals('profile', $content);
+    }
+
+    /**
+     * @test
+     */
+    public function options()
+    {
+        Router::group(['prefix' => 'admin/', 'middleware' => ['auth','locale']], function (){
+            Router::get('new', 'HomeController@new');
+        });
+
+
+        pre($this->router->list(), 1);
+
     }
 }
 
