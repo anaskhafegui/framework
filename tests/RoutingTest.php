@@ -2,6 +2,7 @@
 
 namespace tests;
 
+use App\Middleware\AuthMiddleware;
 use Core\Container;
 use Core\Facade\Router;
 use Core\Http\Request;
@@ -57,11 +58,11 @@ final class RoutingTest extends TestCase
     /**
      * @test
      */
-    public function prefix()
+    public function options()
     {
         Request::create('/admin/users/new');
 
-        Router::group(['prefix' => 'admin/'], function () {
+        Router::group(['prefix' => 'admin/', 'middleware' => [AuthMiddleware::class]], function () {
             Router::get('users/new', 'HomeController@new');
         });
 
@@ -89,5 +90,16 @@ class HomeController
     public function new()
     {
         return 'new user';
+    }
+}
+
+
+namespace App\Middleware;
+
+class AuthMiddleware
+{
+    public function handle(): bool
+    {
+        return true;
     }
 }
