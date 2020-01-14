@@ -42,9 +42,9 @@ final class RoutingTest extends TestCase
     {
         Request::create('/users/profile');
 
-        // $this->router->get('users/profile', function () {
-        //     return 'profile';
-        // });
+        $this->router->get('users/profile', function () {
+            return 'profile';
+        });
 
         ob_start();
         $this->router->handle();
@@ -57,13 +57,21 @@ final class RoutingTest extends TestCase
     /**
      * @test
      */
-    public function options()
+    public function prefix()
     {
-        Router::group(['prefix' => 'admin/', 'middleware' => ['auth', 'locale']], function () {
-            Router::get('new', 'HomeController@new');
+        Request::create('/admin/users/new');
+
+        Router::group(['prefix' => 'admin/'], function () {
+            Router::get('users/new', 'HomeController@new');
         });
 
-        pre($this->router->list(), 1);
+
+        ob_start();
+        $this->router->handle();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals('new user', $content);
     }
 }
 
@@ -74,5 +82,14 @@ class UserController
     public function index()
     {
         return 'all users';
+    }
+}
+
+
+class HomeController
+{
+    public function new()
+    {
+        return 'new user';
     }
 }

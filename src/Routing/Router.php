@@ -63,21 +63,13 @@ class Router
      */
     public function add($method, $uri, $action)
     {
-        $route = [
-            'method' => $method,
-            'uri'    => $uri,
-            'action' => $action,
-        ];
+        $route = new Route($method, $uri, $action);
 
-        if ($prefix = static::$prefix) {
-            $route['prefix'] = $prefix;
-        }
-
-        if ($middleware = static::$middleware) {
-            $route['middleware'] = $middleware;
-        }
-
-        $this->container->set($route);
+        $route->setPrefix(static::$prefix);
+        
+        $route->setMiddleware(static::$middleware);
+        
+        $this->container->set($route->format());
     }
 
     /**
