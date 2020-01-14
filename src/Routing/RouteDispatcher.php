@@ -34,19 +34,17 @@ class RouteDispatcher
     public function executeMiddleware($route)
     {
         if (isset($route['middleware'])) {
-            
             $middleware = $route['middleware'];
 
-            foreach($middleware as $singleMiddleware) {
+            foreach ($middleware as $singleMiddleware) {
                 if (class_exists($singleMiddleware)) {
                     // call handle() from middleware
-                    if (! call_user_func_array([new $singleMiddleware(), 'handle'], [])) {
+                    if (!call_user_func_array([new $singleMiddleware(), 'handle'], [])) {
                         exit();
                     }
                 } else {
-                    throw new \ReflectionException("class " . $singleMiddleware . " is not found");
-                }
-                
+                    throw new \ReflectionException('class '.$singleMiddleware.' is not found');
+                } 
             }
         }
     }
