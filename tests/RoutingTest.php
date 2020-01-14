@@ -93,7 +93,6 @@ class HomeController
     }
 }
 
-
 namespace App\Middleware;
 
 class AuthMiddleware
