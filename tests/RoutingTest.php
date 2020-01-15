@@ -105,7 +105,7 @@ class UserController
 
     public function show($id)
     {
-        return 'profile for user with id '. $id;
+        return 'profile for user with id '.$id;
     }
 }
 

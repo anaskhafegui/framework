@@ -51,7 +51,7 @@ class RouteHandler
     public function getRouteParameters($matches)
     {
         array_shift($matches);
-        
+
         return array_values($matches);
     }
 
