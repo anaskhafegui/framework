@@ -75,8 +75,8 @@ final class RoutingTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function routeWithParameter()
     {
         Request::create('/admin/users/10');
