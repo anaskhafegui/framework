@@ -74,9 +74,9 @@ final class RoutingTest extends TestCase
         $this->assertEquals('new user', $content);
     }
 
-     /**
-     * @test
-     */
+    /**
+    * @test
+    */
     public function routeWithParameter()
     {
         Request::create('/admin/users/10');

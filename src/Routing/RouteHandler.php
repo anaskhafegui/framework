@@ -16,16 +16,11 @@ class RouteHandler
         $uri = app('request')->uri();
 
         foreach ($routesList as $route) {
-            $matched = true ;
-
-            // if (preg_match($uriRouteRegex, $uri, $matches)) {
             $uriRouteRegex = $this->generateURIRegex($route['uri']);
 
-            // if (preg_match($uriRouteRegex, $uri, $matches)) {
             if ($matches = $this->getMatchedRoute($uriRouteRegex, $uri)) {
                 $params = $this->getRouteParameters($matches);
 
-                // check the current request method with route method
                 if ($this->isRouteMethodEqualsRequestMethod($route['method'])) {
                     return $this->dispatcher->dispatch($route, $params);
                 }
