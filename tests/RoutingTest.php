@@ -73,6 +73,25 @@ final class RoutingTest extends TestCase
 
         $this->assertEquals('new user', $content);
     }
+
+     /**
+     * @test
+     */
+    public function routeWithParameter()
+    {
+        Request::create('/admin/users/10');
+
+        Router::group(['prefix' => 'admin/', 'middleware' => [AuthMiddleware::class]], function () {
+            Router::get('users/{id}', 'UserController@show');
+        });
+
+        ob_start();
+        $this->router->handle();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals('profile for user with id 10', $content);
+    }
 }
 
 namespace App\Http\Controllers;
@@ -82,6 +101,11 @@ class UserController
     public function index()
     {
         return 'all users';
+    }
+
+    public function show($id)
+    {
+        return 'profile for user with id '. $id;
     }
 }
 

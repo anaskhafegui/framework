@@ -16,6 +16,8 @@ class RouteHandler
         $uri = app('request')->uri();
 
         foreach ($routesList as $route) {
+            $matched = true ;
+
             // if (preg_match($uriRouteRegex, $uri, $matches)) {
             $uriRouteRegex = $this->generateURIRegex($route['uri']);
 
@@ -29,7 +31,7 @@ class RouteHandler
                 }
             }
         }
-        
+
         echo 'not found route';
     }
 
@@ -53,9 +55,8 @@ class RouteHandler
 
     public function getRouteParameters($matches)
     {
-        if (!is_null($matches) && is_array($matches)) {
-            return array_values($matches);
-        }
+        array_shift($matches);
+        return array_values($matches);
     }
 
     public function isRouteMethodEqualsRequestMethod($routeMethod)
