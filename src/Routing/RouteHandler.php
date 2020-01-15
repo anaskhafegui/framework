@@ -16,28 +16,20 @@ class RouteHandler
         $uri = app('request')->uri();
 
         foreach ($routesList as $route) {
-            $matched = true;
-
             // if (preg_match($uriRouteRegex, $uri, $matches)) {
             $uriRouteRegex = $this->generateURIRegex($route['uri']);
 
             // if (preg_match($uriRouteRegex, $uri, $matches)) {
             if ($matches = $this->getMatchedRoute($uriRouteRegex, $uri)) {
-
                 $params = $this->getRouteParameters($matches);
 
                 // check the current request method with route method
-                if ($route['method'] != app('request')->server('REQUEST_METHOD')) {
-                    $matched = false;
-                }
-
-                // if match invoke the action
-                if ($matched) {
+                if ($this->isRouteMethodEqualsRequestMethod($route['method'])) {
                     return $this->dispatcher->dispatch($route, $params);
                 }
             }
         }
-
+        
         echo 'not found route';
     }
 
@@ -61,10 +53,13 @@ class RouteHandler
 
     public function getRouteParameters($matches)
     {
-        if(!is_null($matches) && is_array($matches)) {
+        if (!is_null($matches) && is_array($matches)) {
             return array_values($matches);
         }
+    }
 
-        return [];   
+    public function isRouteMethodEqualsRequestMethod($routeMethod)
+    {
+        return $routeMethod == app('request')->server('REQUEST_METHOD');
     }
 }
