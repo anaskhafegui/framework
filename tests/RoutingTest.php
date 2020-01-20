@@ -125,6 +125,22 @@ final class RoutingTest extends TestCase
 
         $this->assertEmpty($this->router->handle());
     }
+
+    /**
+     * @test
+     */
+    public function notFormattedRouteAction()
+    {
+        $this->expectException(RoutingException::class);
+
+        Request::create('/admin/not/formatted/route/users');
+
+        Router::group(['prefix' => 'admin/not/formatted/route/', 'middleware' => [AuthMiddleware::class]], function () {
+            Router::get('users', 'UserController');
+        });
+
+        $this->assertEmpty($this->router->handle());
+    }
 }
 
 namespace App\Http\Controllers;

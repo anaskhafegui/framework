@@ -42,6 +42,8 @@ class RouteDispatcher
 
     public function invokeFunction($action, $params)
     {
+        if (strpos($action, '@') === false) throw RoutingException::notFormattedAction();
+         
         // extract controller and method from action
         list($controller, $method) = explode('@', $action);
 
