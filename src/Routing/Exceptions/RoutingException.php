@@ -10,4 +10,9 @@ class RoutingException extends Exception
     {
         return new static('This method ' .$method. ' is not found');
     }
+
+    public static function notFoundRoute($uri)
+    {
+        return new static('This route ' .$uri. ' is not found');
+    }
 }

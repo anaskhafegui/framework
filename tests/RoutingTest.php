@@ -109,6 +109,22 @@ final class RoutingTest extends TestCase
 
         $this->assertEmpty($this->router->handle());
     }
+
+    /**
+     * @test
+     */
+    public function notFoundRoute()
+    {
+        $this->expectException(RoutingException::class);
+
+        Request::create('/admin/not/found/route/users');
+
+        Router::group(['prefix' => 'admin/not/found/route/', 'middleware' => [AuthMiddleware::class]], function () {
+            Router::get('not/found/users', 'UserController@index');
+        });
+
+        $this->assertEmpty($this->router->handle());
+    }
 }
 
 namespace App\Http\Controllers;

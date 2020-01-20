@@ -2,6 +2,8 @@
 
 namespace Core\Routing;
 
+use Core\Routing\Exceptions\RoutingException;
+
 class RouteHandler
 {
     private $dispatcher;
@@ -27,7 +29,7 @@ class RouteHandler
             }
         }
 
-        echo 'not found route';
+        throw RoutingException::notFoundRoute($route['uri']);
     }
 
     public function generateURIRegex($uri)
