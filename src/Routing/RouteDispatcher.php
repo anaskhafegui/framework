@@ -16,7 +16,7 @@ class RouteDispatcher
 
         $this->echoContent($content);
     }
-    
+
     public function executeMiddleware($route)
     {
         if (isset($route['middleware'])) {
@@ -42,7 +42,9 @@ class RouteDispatcher
 
     public function invokeFunction($action, $params)
     {
-        if (strpos($action, '@') === false) throw RoutingException::notFormattedAction();
+        if (strpos($action, '@') === false) {
+            throw RoutingException::notFormattedAction();
+        }
          
         // extract controller and method from action
         list($controller, $method) = explode('@', $action);
@@ -52,7 +54,7 @@ class RouteDispatcher
         // call method from controller method
         $controllerObject = new $controller();
 
-        if(!method_exists($controllerObject, $method)) {
+        if (!method_exists($controllerObject, $method)) {
             throw RoutingException::notFoundMethod($method);
         }
 
