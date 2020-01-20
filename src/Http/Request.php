@@ -109,20 +109,9 @@ class Request implements RequestInterface
      */
     public function ip(): string
     {
-
-        // needs refactoring!
-
-        if (!empty($this->server('HTTP_CLIENT_IP'))) {
-            //ip from share internet
-            $ip = $this->server('HTTP_CLIENT_IP');
-        } elseif (!empty($this->server('HTTP_X_FORWARDED_FOR'))) {
-            //ip pass from proxy
-            $ip = $this->server('HTTP_X_FORWARDED_FOR');
-        } else {
-            $ip = $this->server('REMOTE_ADDR');
-        }
-
-        return $ip;
+        return  $this->server('HTTP_CLIENT_IP') ?? 
+                $this->server('HTTP_X_FORWARDED_FOR') ?? 
+                $this->server('REMOTE_ADDR');
     }
 
     /**
@@ -175,8 +164,6 @@ class Request implements RequestInterface
         if ($this->post($key)) {
             return $this->post($key);
         }
-
-        // use file() method
     }
 
     /**
