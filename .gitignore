@@ -8,3 +8,4 @@
 .vscode
 code_coverage_reports
 /.idea
+/src/*/TODO

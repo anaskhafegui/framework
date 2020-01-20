@@ -19,22 +19,22 @@ final class RoutingTest extends TestCase
         $this->router = $container->get('router');
     }
 
-    /**
-     * @test
-     */
-    public function routes()
-    {
-        Request::create('/users/list');
+    // /**
+    //  * @test
+    //  */
+    // public function routes()
+    // {
+    //     Request::create('/users/list');
 
-        $this->router->get('users/list', 'UserController@index');
+    //     $this->router->get('users/list', 'UserController@index');
 
-        ob_start();
-        $this->router->handle();
-        $content = ob_get_contents();
-        ob_end_clean();
+    //     ob_start();
+    //     $this->router->handle();
+    //     $content = ob_get_contents();
+    //     ob_end_clean();
 
-        $this->assertEquals('all users', $content);
-    }
+    //     $this->assertEquals('all users', $content);
+    // }
 
     /**
      * @test
@@ -55,43 +55,43 @@ final class RoutingTest extends TestCase
         $this->assertEquals('profile', $content);
     }
 
-    /**
-     * @test
-     */
-    public function options()
-    {
-        Request::create('/admin/users/new');
+    // /**
+    //  * @test
+    //  */
+    // public function options()
+    // {
+    //     Request::create('/admin/users/new');
 
-        Router::group(['prefix' => 'admin/', 'middleware' => [AuthMiddleware::class]], function () {
-            Router::get('users/new', 'HomeController@new');
-        });
+    //     Router::group(['prefix' => 'admin/', 'middleware' => [AuthMiddleware::class]], function () {
+    //         Router::get('users/new', 'HomeController@new');
+    //     });
 
-        ob_start();
-        $this->router->handle();
-        $content = ob_get_contents();
-        ob_end_clean();
+    //     ob_start();
+    //     $this->router->handle();
+    //     $content = ob_get_contents();
+    //     ob_end_clean();
 
-        $this->assertEquals('new user', $content);
-    }
+    //     $this->assertEquals('new user', $content);
+    // }
 
-    /**
-     * @test
-     */
-    public function routeWithParameter()
-    {
-        Request::create('/admin/users/10');
+    // /**
+    //  * @test
+    //  */
+    // public function routeWithParameter()
+    // {
+    //     Request::create('/admin/users/10');
 
-        Router::group(['prefix' => 'admin/', 'middleware' => [AuthMiddleware::class]], function () {
-            Router::get('users/{id}', 'UserController@show');
-        });
+    //     Router::group(['prefix' => 'admin/', 'middleware' => [AuthMiddleware::class]], function () {
+    //         Router::get('users/{id}', 'UserController@show');
+    //     });
 
-        ob_start();
-        $this->router->handle();
-        $content = ob_get_contents();
-        ob_end_clean();
+    //     ob_start();
+    //     $this->router->handle();
+    //     $content = ob_get_contents();
+    //     ob_end_clean();
 
-        $this->assertEquals('profile for user with id 10', $content);
-    }
+    //     $this->assertEquals('profile for user with id 10', $content);
+    // }
 }
 
 namespace App\Http\Controllers;

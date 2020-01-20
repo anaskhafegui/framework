@@ -10,25 +10,12 @@ class RouteDispatcher
 
         $action = $route['action'];
 
-        if (is_callable($action)) {
-            // call a callback method
-            $content = call_user_func_array($action, $params);
-        } elseif (strpos($action, '@')) {
+        $content = is_callable($action) ? $this->invokeCallbackFunction($action, $params) : $this->invokeFunction($action, $params);
 
-            // extract controller and method from action
-            list($controller, $method) = explode('@', $action);
-
-            $controller = 'App\Http\Controllers\\'.$controller;
-
-            // call method from controller method
-            $content = call_user_func_array([new $controller(), $method], $params);
-        }
-
-        app('response')->setContent($content);
-
-        app('response')->send();
+        $this->echoContent($content);
     }
 
+    
     public function executeMiddleware($route)
     {
         if (isset($route['middleware'])) {
@@ -45,5 +32,28 @@ class RouteDispatcher
                 }
             }
         }
+    }
+
+    public function invokeCallbackFunction($action, $params)
+    {
+        return call_user_func_array($action, $params);
+    }
+
+    public function invokeFunction($action, $params)
+    {
+        // extract controller and method from action
+        list($controller, $method) = explode('@', $action);
+
+        $controller = 'App\Http\Controllers\\'.$controller;
+
+        // call method from controller method
+        return call_user_func_array([new $controller(), $method], $params);
+    }
+
+    public function echoContent($content)
+    {
+        app('response')->setContent($content);
+
+        app('response')->send();
     }
 }
