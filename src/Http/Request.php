@@ -3,7 +3,6 @@
 namespace Core\Http;
 
 use Core\Interfaces\RequestInterface;
-use Core\Validator\Validator;
 
 class Request implements RequestInterface
 {
@@ -16,7 +15,6 @@ class Request implements RequestInterface
 
     private function __construct()
     {
-        
     }
 
     /**
