@@ -69,18 +69,6 @@ interface RequestInterface extends ArrayAccess
     public function isFile(string $input): bool;
 
     /**
-     * Validate the given inputs by the given rules
-     * Rules are listed in array
-     * Returns array contains the input name and the value is the error message
-     * If all rules are valid, return true.
-     *
-     * @param array $rules
-     *
-     * @return array|true
-     */
-    public function validate(array $rules);
-
-    /**
      * Determine if current request is served by https request.
      *
      * @return bool

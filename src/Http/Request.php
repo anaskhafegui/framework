@@ -14,16 +14,9 @@ class Request implements RequestInterface
      */
     private static $instance;
 
-    /**
-     * validator object.
-     *
-     * @var mixed
-     */
-    private $validator;
-
     private function __construct()
     {
-        $this->validator = new Validator();
+        
     }
 
     /**
@@ -103,16 +96,6 @@ class Request implements RequestInterface
     public function isFile(string $input): bool
     {
         return $_FILES[$input] ?? null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validate(array $rules)
-    {
-        $errors = $this->validator->validate($rules);
-
-        return $errors ?? true;
     }
 
     /**
@@ -201,6 +184,14 @@ class Request implements RequestInterface
     /**
      * {@inheritdoc}
      */
+    public function all(): iterable
+    {
+        return $_REQUEST;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->$offset);
@@ -228,13 +219,5 @@ class Request implements RequestInterface
     public function offsetUnset($offset): void
     {
         $this->$offset = null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function all(): iterable
-    {
-        return $_REQUEST;
     }
 }
