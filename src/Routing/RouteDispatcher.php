@@ -2,6 +2,8 @@
 
 namespace Core\Routing;
 
+use Core\Routing\Exceptions\RoutingException;
+
 class RouteDispatcher
 {
     public function dispatch($route, $params)
@@ -46,7 +48,13 @@ class RouteDispatcher
         $controller = 'App\Http\Controllers\\'.$controller;
 
         // call method from controller method
-        return call_user_func_array([new $controller(), $method], $params);
+        $controllerObject = new $controller();
+
+        if(!method_exists($controllerObject, $method)) {
+            throw RoutingException::notFoundMethod($method);
+        }
+
+        return call_user_func_array([$controllerObject, $method], $params);
     }
 
     public function echoContent($content)

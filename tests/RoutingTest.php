@@ -6,6 +6,7 @@ use App\Middleware\AuthMiddleware;
 use Core\Container;
 use Core\Facade\Router;
 use Core\Http\Request;
+use Core\Routing\Exceptions\RoutingException;
 use PHPUnit\Framework\TestCase;
 
 final class RoutingTest extends TestCase
@@ -91,6 +92,22 @@ final class RoutingTest extends TestCase
         ob_end_clean();
 
         $this->assertEquals('profile for user with id 10', $content);
+    }
+
+    /**
+     * @test
+     */
+    public function notFoundMethod()
+    {
+        $this->expectException(RoutingException::class);
+
+        Request::create('/admin/not/found/users/10');
+
+        Router::group(['prefix' => 'admin/not/found/', 'middleware' => [AuthMiddleware::class]], function () {
+            Router::get('users/{id}', 'UserController@notFoundMethod');
+        });
+
+        $this->assertEmpty($this->router->handle());
     }
 }
 
