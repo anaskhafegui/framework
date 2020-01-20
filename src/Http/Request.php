@@ -109,8 +109,8 @@ class Request implements RequestInterface
      */
     public function ip(): string
     {
-        return  $this->server('HTTP_CLIENT_IP') ?? 
-                $this->server('HTTP_X_FORWARDED_FOR') ?? 
+        return  $this->server('HTTP_CLIENT_IP') ??
+                $this->server('HTTP_X_FORWARDED_FOR') ??
                 $this->server('REMOTE_ADDR');
     }
 

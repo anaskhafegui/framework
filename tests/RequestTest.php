@@ -45,5 +45,5 @@ class RequestTest extends TestCase
     {
         Request::create('/users', 'GET');
         $this->assertSame('http://localhost/users', $this->request->url());
-    }    
+    }
 }
