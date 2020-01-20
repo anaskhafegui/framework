@@ -14,7 +14,6 @@ class RouteDispatcher
 
         $this->echoContent($content);
     }
-
     
     public function executeMiddleware($route)
     {
