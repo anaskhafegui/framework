@@ -8,6 +8,11 @@ Welcome to your lightweight and simple framework to create your awesome apps or 
 - run ```composer require espressophp/framework```
 - It's done and create make your great app :)
 
+## TODO
+
+- Increase code coverage percentage
+- Framework Documentation
+
 ## Documentation
 
 See the [Wiki](https://github.com/espressoPHP/framework/wiki) for more details and explanation for the framework
