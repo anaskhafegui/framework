@@ -14,7 +14,7 @@ use Core\Database\Statements\Select;
 use Core\Database\Statements\Update;
 use Core\Database\Statements\Where;
 
-class QueryBuilder
+final class QueryBuilder
 {
     /**
      * Final Query.
@@ -121,7 +121,7 @@ class QueryBuilder
      */
     public static function instance()
     {
-        return new static();
+        return new self();
     }
 
     /**

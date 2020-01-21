@@ -4,7 +4,7 @@ namespace Core\FileSystem;
 
 use Core\Interfaces\FileSystemInterface;
 
-class FileSystem implements FileSystemInterface
+final class FileSystem implements FileSystemInterface
 {
     /**
      * Singleton Instance.
@@ -25,7 +25,7 @@ class FileSystem implements FileSystemInterface
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;
@@ -247,6 +247,8 @@ class FileSystem implements FileSystemInterface
 
             return true;
         }
+
+        return false;
     }
 
     /**tst

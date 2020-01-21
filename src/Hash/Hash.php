@@ -2,7 +2,7 @@
 
 namespace Core\Hash;
 
-class Hash
+final class Hash
 {
     /**
      * Singleton Instance.
@@ -30,7 +30,7 @@ class Hash
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;

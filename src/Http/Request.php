@@ -4,7 +4,7 @@ namespace Core\Http;
 
 use Core\Interfaces\RequestInterface;
 
-class Request implements RequestInterface
+final class Request implements RequestInterface
 {
     /**
      * Singleton Instance.
@@ -25,7 +25,7 @@ class Request implements RequestInterface
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;

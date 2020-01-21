@@ -2,7 +2,7 @@
 
 namespace Core\Routing;
 
-class Router
+final class Router
 {
     /**
      * Singleton Instance.
@@ -36,7 +36,7 @@ class Router
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static(new RouteContainer(), new RouteHandler(new RouteDispatcher()));
+            static::$instance = new self(new RouteContainer(), new RouteHandler(new RouteDispatcher()));
         }
 
         return static::$instance;

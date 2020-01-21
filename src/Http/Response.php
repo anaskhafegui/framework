@@ -4,7 +4,7 @@ namespace Core\Http;
 
 use Core\Interfaces\ResponseInterface;
 
-class Response implements ResponseInterface
+final class Response implements ResponseInterface
 {
     /**
      * Response Headers.
@@ -39,7 +39,7 @@ class Response implements ResponseInterface
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;

@@ -2,7 +2,7 @@
 
 namespace Core\Config;
 
-class Config extends ConfigContainer
+final class Config extends ConfigContainer
 {
     /**
      * Singleton Instance.
@@ -31,7 +31,7 @@ class Config extends ConfigContainer
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;

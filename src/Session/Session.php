@@ -4,7 +4,7 @@ namespace Core\Session;
 
 use Core\Interfaces\SessionInterface;
 
-class Session implements SessionInterface
+final class Session implements SessionInterface
 {
     /**
      * Singleton Instance.
@@ -26,7 +26,7 @@ class Session implements SessionInterface
     public static function instance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = new static();
+            static::$instance = new self();
         }
 
         return static::$instance;

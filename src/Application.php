@@ -12,7 +12,7 @@ use Core\Http\Response;
 use Core\Routing\Router;
 use Core\Session\Session;
 
-class Application extends Container
+final class Application extends Container
 {
     /**
      * Singleton Instance.
