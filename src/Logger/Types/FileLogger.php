@@ -25,4 +25,5 @@ class FileLogger extends Logger
     {
         File::append(__DIR__.'/../../../tmp/log_'.date('d-m-Y').'.txt', $this->formatMessage($level, $message));
     }
+    
 }
