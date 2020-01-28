@@ -9,3 +9,4 @@
 code_coverage_reports
 /.idea
 /src/*/TODO
+composer.lock
