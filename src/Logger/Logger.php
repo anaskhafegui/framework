@@ -6,19 +6,12 @@ use Psr\Log\LoggerInterface;
 
 abstract class Logger implements LoggerInterface
 {
-    protected $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    abstract public function write($level, $message, $context = array());
+    abstract public function write($level, $message, $context = []);
 
     /**
      * @inheritDoc
      */
-    public function emergency($message, array $context = array()) 
+    public function emergency($message, array $context = []) 
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -26,7 +19,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function alert($message, array $context = array())
+    public function alert($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -34,7 +27,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function critical($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -42,7 +35,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function error($message, array $context = array())
+    public function error($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -50,7 +43,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function warning($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -58,7 +51,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function notice($message, array $context = array())
+    public function notice($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -66,7 +59,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function info($message, array $context = array())
+    public function info($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -74,7 +67,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function debug($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         $this->write(__FUNCTION__, $message, $context);
     }
@@ -82,7 +75,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         $this->write($level, $message, $context);
     }
