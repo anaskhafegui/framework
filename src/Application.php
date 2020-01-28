@@ -9,6 +9,7 @@ use Core\FileSystem\FileSystem;
 use Core\Hash\Hash;
 use Core\Http\Request;
 use Core\Http\Response;
+use Core\Logger\Logger;
 use Core\Routing\Router;
 use Core\Session\Session;
 
@@ -36,6 +37,7 @@ final class Application extends Container
         'db_connection'     => Connection::class,
         'hash'              => Hash::class,
         'config'            => Config::class,
+        'logger'            => Logger::class,
     ];
 
     /**
