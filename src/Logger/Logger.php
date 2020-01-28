@@ -79,6 +79,4 @@ abstract class Logger implements LoggerInterface
     {
         $this->write($level, $message, $context);
     }
-
-
 }

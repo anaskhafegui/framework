@@ -16,7 +16,7 @@ class FileLogger extends Logger
     {
         $time = date('d-m-Y H:i:s');
         $message = "[$time][$level] : ".$message.PHP_EOL;
-        $message .= "-------------------------------------------".PHP_EOL;
+        $message .= '-------------------------------------------'.PHP_EOL;
 
         return $message;
     }
