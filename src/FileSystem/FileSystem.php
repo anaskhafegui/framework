@@ -201,10 +201,10 @@ final class FileSystem implements FileSystemInterface
      */
     public function prepend(string $path, string $content)
     {
-        if (! $this->exists($path)) {
+        if (!$this->exists($path)) {
             $this->put($path, $content, 0);
         }
-        
+
         $prependContent = $content;
         $prependContent .= $this->get($path, false);
 
@@ -221,7 +221,7 @@ final class FileSystem implements FileSystemInterface
      */
     public function append(string $path, string $content)
     {
-        if (! $this->exists($path)) {
+        if (!$this->exists($path)) {
             $this->put($path, $content, 0);
         }
 
