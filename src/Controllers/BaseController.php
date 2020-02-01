@@ -4,7 +4,7 @@ namespace Core\Controllers;
 
 use Core\Application;
 
-abstract class Controller
+abstract class BaseController
 {
     public function __get($key)
     {
