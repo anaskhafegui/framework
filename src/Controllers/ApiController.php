@@ -12,7 +12,7 @@ abstract class ApiController extends BaseController
     {
         return [
             'status_code'   => $this->getStatusCode(),
-            'data'          => $resource
+            'data'          => $resource,
         ];
     }
 
@@ -46,14 +46,14 @@ abstract class ApiController extends BaseController
         $this->error(400, $message);
     }
 
-    private function setStatusCode($code):self
+    private function setStatusCode($code): self
     {
         $this->statusCode = $code;
-        
+
         return $this;
     }
 
-    private function setMessage($message)
+    private function setMessage($message): self
     {
         $this->message = $message;
 
