@@ -5,6 +5,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Core\CLI\CommandHandler;
 use Core\CLI\Printer;
+use Core\CLI\Exceptions\CLIException;
 
 $printer = new Printer();
 $handler = new CommandHandler($printer);
@@ -15,7 +16,7 @@ $handler->register('help', function (array $argv) use ($printer) {
 
 $handler->register('hello', function (array $argv) use ($printer) {
 
-    if (is_null($argv[2])) throw new Exception("The argument is required!");
+    if (is_null($argv[2])) throw CLIException::argumentNotFound();
 
     $printer->display("Hello, $argv[2]");
 });

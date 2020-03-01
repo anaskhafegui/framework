@@ -2,6 +2,7 @@
 
 namespace Core\CLI;
 
+use Core\CLI\Exceptions\CLIException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -38,10 +39,7 @@ class CommandHandler implements ContainerInterface
         $commandName = $argv[1] ?? "help";
         $command = $this->get($commandName);
 
-        if (is_null($command)) {
-            echo "Not Found";
-            exit;
-        }
+        if (is_null($command)) throw CLIException::notFoundCommand();
 
         call_user_func($command, $argv);
     }
