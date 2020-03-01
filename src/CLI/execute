@@ -6,5 +6,18 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Core\CLI\CommandHandler;
 use Core\CLI\Printer;
 
-$handler = new CommandHandler(new Printer());
+$printer = new Printer();
+$handler = new CommandHandler($printer);
+
+$handler->register('help', function (array $argv) use ($printer) {
+    $printer->display('We will help you!');
+});
+
+$handler->register('hello', function (array $argv) use ($printer) {
+
+    if (is_null($argv[2])) throw new Exception("The argument is required!");
+
+    $printer->display("Hello, $argv[2]");
+});
+
 $handler->run($argv);
