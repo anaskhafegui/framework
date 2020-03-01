@@ -24,7 +24,7 @@ class RouteHandler
                 $params = $this->getRouteParameters($matches);
 
                 if ($this->isRouteMethodEqualsRequestMethod($route['method'])) {
-                    return $this->dispatcher->dispatch($route, $params);
+                    $this->dispatcher->dispatch($route, $params);
                 }
             }
         }
