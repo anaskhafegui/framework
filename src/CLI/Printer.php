@@ -6,7 +6,7 @@ class Printer
 {
     public function out($message)
     {
-        echo $message;
+        echo is_array($message) ? json_encode($message) : $message;
     }
 
     public function newLine()
