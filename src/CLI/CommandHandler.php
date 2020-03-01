@@ -16,7 +16,6 @@ class CommandHandler implements ContainerInterface
         $this->printer = $printer;
     }
 
-
     public function register($command, $callable)
     {
         $this->container[$command] = $callable;
@@ -40,5 +39,10 @@ class CommandHandler implements ContainerInterface
         if (is_null($command)) throw CLIException::notFoundCommand();
 
         call_user_func($command, $argv);
+    }
+
+    public function getCommandsList()
+    {
+        return array_keys($this->container);
     }
 }
