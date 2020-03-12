@@ -45,7 +45,7 @@ final class Router
     /**
      * Get Routes List.
      *
-     * @return void
+     * @return array
      */
     public function list()
     {
