@@ -20,3 +20,6 @@ jobs:
       - name: Validate composer.json and composer.lock
         if: github.event_name == 'pull_request'
         run: composer validate
+
+      - name: Run Tests
+        run: vendor/bin/phpunit
