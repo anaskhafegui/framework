@@ -85,6 +85,8 @@ class Validator
      */
     public function applyOneRuleForInput($ruleString, $input): array
     {
+        $ruleString =  $this->prepareRuleFormBeforeApply($ruleString);
+
         list($ruleString, $parameter) = $this->parseRule($ruleString);
 
         $value = $this->extractValueFromInputRequest($input);
@@ -94,6 +96,17 @@ class Validator
         $errors[$input][$ruleString] = $this->detectErrors($ruleObject, $value, $parameter);
 
         return $errors;
+    }
+     /**
+     * Prepare Rule Form before Applied.
+     *
+     * @param string $ruleString
+     *
+     * @return string
+     */
+    public function prepareRuleFormBeforeApply($ruleString): string
+    {
+        return trim($ruleString);
     }
 
     /**
